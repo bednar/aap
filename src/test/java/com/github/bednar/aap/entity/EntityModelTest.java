@@ -1,5 +1,6 @@
-package com.github.bednar.aap;
+package com.github.bednar.aap.entity;
 
+import com.github.bednar.aap.AbstractApiTest;
 import com.github.bednar.aap.example.PubApi;
 import com.github.bednar.aap.model.entity.EntityModel;
 import org.junit.Assert;

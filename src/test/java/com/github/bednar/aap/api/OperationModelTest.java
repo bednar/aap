@@ -1,7 +1,8 @@
-package com.github.bednar.aap;
+package com.github.bednar.aap.api;
 
 import java.util.List;
 
+import com.github.bednar.aap.AbstractApiTest;
 import com.github.bednar.aap.example.PubApi;
 import com.github.bednar.aap.model.api.ApiModel;
 import com.github.bednar.aap.model.api.OperationModel;
