@@ -2,7 +2,7 @@ package com.github.bednar.aap;
 
 import java.util.List;
 
-import com.github.bednar.aap.api.PubApi;
+import com.github.bednar.aap.example.PubApi;
 import com.github.bednar.aap.model.ApiModel;
 import com.github.bednar.aap.model.OperationModel;
 import org.junit.Assert;

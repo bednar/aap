@@ -1,4 +1,4 @@
-package com.github.bednar.aap.api;
+package com.github.bednar.aap.example;
 
 import javax.annotation.Nonnull;
 import javax.ws.rs.Consumes;
