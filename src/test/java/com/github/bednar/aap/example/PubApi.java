@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.wordnik.swagger.annotations.Api;
@@ -68,11 +69,11 @@ public interface PubApi
     public class Meal
     {
         @Column(length = 100, nullable = false)
-        @ApiModelProperty(value = "Name")
+        @ApiModelProperty(value = "Name", position = 2)
         private String name;
 
-        @Column(scale = 10, precision = 2)
-        @ApiModelProperty(value = "Price")
-        private Integer price;
+        @Column(precision = 10, scale = 2)
+        @ApiModelProperty(value = "Price", position = 1)
+        private BigDecimal price;
     }
 }

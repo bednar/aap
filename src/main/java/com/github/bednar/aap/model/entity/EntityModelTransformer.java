@@ -54,16 +54,7 @@ public class EntityModelTransformer implements Function<Class, EntityModel>
                                 return field != null && field.getAnnotation(ApiModelProperty.class) != null;
                             }
                         })
-                .transform(
-                        new Function<Field, PropertyModel>()
-                        {
-                            @Nonnull
-                            @Override
-                            public PropertyModel apply(final @Nonnull @SuppressWarnings("NullableProblems") Field field)
-                            {
-                                return new PropertyModel();
-                            }
-                        })
+                .transform(new PropertyModelTransformer())
                 .toSortedList(
                         new Comparator<PropertyModel>()
                         {
