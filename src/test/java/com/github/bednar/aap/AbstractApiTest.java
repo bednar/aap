@@ -7,11 +7,11 @@ import org.junit.Before;
  */
 public abstract class AbstractApiTest
 {
-    protected ApiBuilder builder;
+    protected ModelBuilder builder;
 
     @Before
     public void before()
     {
-        builder = ApiBuilder.getInstance();
+        builder = ModelBuilder.getInstance();
     }
 }

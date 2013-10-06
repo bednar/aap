@@ -34,23 +34,21 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 /**
- * //TODO jb prejmenovat na ModelBuilder
- *
  * @author Jakub Bednář (06/10/2013 10:42 AM)
  */
-public final class ApiBuilder
+public final class ModelBuilder
 {
     private final Map<Class, ApiModel> apiCache = Maps.newConcurrentMap();
     private final Map<Class, EntityModel> entityCache = Maps.newConcurrentMap();
 
-    private ApiBuilder()
+    private ModelBuilder()
     {
     }
 
-    private final static ApiBuilder intance = new ApiBuilder();
+    private final static ModelBuilder intance = new ModelBuilder();
 
     @Nonnull
-    public static ApiBuilder getInstance()
+    public static ModelBuilder getInstance()
     {
         return intance;
     }
