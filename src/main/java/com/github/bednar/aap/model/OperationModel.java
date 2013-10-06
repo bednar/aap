@@ -1,4 +1,4 @@
-package com.github.bednar.aap;
+package com.github.bednar.aap.model;
 
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,7 @@ import com.google.common.collect.Maps;
 /**
  * @author Jakub Bednář (06/10/2013 11:10 AM)
  */
-public class OperationModel
+public final class OperationModel
 {
     public int position = 0;
 

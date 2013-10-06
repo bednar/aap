@@ -1,4 +1,4 @@
-package com.github.bednar.aap;
+package com.github.bednar.aap.model;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 /**
  * @author Jakub Bednář (06/10/2013 10:35 AM)
  */
-public class ApiModel
+public final class ApiModel
 {
     public String path = "";
 

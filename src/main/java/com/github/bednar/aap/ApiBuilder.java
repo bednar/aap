@@ -14,6 +14,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import com.github.bednar.aap.model.ApiModel;
+import com.github.bednar.aap.model.OperationModel;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ComparisonChain;
