@@ -1,6 +1,7 @@
 package com.github.bednar.aap.example;
 
 import javax.annotation.Nonnull;
+import javax.persistence.Column;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -66,9 +67,11 @@ public interface PubApi
     @ApiModel("Meal for order in pub.")
     public class Meal
     {
+        @Column(length = 100, nullable = false)
         @ApiModelProperty(value = "Name")
         private String name;
 
+        @Column(scale = 10, precision = 2)
         @ApiModelProperty(value = "Price")
         private Integer price;
     }

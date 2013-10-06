@@ -9,14 +9,17 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 import com.github.bednar.aap.model.ApiModel;
+import com.github.bednar.aap.model.EntityModel;
 import com.github.bednar.aap.model.OperationModel;
 import com.github.bednar.aap.model.ParameterModel;
+import com.github.bednar.aap.model.PropertyModel;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ComparisonChain;
@@ -24,17 +27,21 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 /**
+ * //TODO jb prejmenovat na ModelBuilder
+ *
  * @author Jakub Bednář (06/10/2013 10:42 AM)
  */
 public final class ApiBuilder
 {
-    private final Map<Class, ApiModel> cache = Maps.newConcurrentMap();
+    private final Map<Class, ApiModel> apiCache = Maps.newConcurrentMap();
+    private final Map<Class, EntityModel> entityCache = Maps.newConcurrentMap();
 
     private ApiBuilder()
     {
@@ -51,7 +58,7 @@ public final class ApiBuilder
     @Nonnull
     public ApiModel getApiModel(final @Nonnull Class klass)
     {
-        ApiModel model = cache.get(klass);
+        ApiModel model = apiCache.get(klass);
         if (model == null)
         {
             return buildApiModel(klass);
@@ -61,14 +68,41 @@ public final class ApiBuilder
     }
 
     @Nonnull
+    public EntityModel getEntityModel(final @Nonnull Class klass)
+    {
+        EntityModel model = entityCache.get(klass);
+        if (model == null)
+        {
+            return buildEntityModel(klass);
+        }
+
+        return model;
+    }
+
+    @Nonnull
     private synchronized ApiModel buildApiModel(final @Nonnull Class<?> klass)
     {
-        ApiModel model = cache.get(klass);
+        ApiModel model = apiCache.get(klass);
         if (model == null)
         {
             model = new ApiModelTransform().apply(klass);
 
-            cache.put(klass, model);
+            apiCache.put(klass, model);
+        }
+
+        return model;
+    }
+
+    //TODO jb buildery do samostatnych trid
+    @Nonnull
+    private synchronized EntityModel buildEntityModel(final @Nonnull Class klass)
+    {
+        EntityModel model = entityCache.get(klass);
+        if (model == null)
+        {
+            model = new EntityModelTransformer().apply(klass);
+
+            entityCache.put(klass, model);
         }
 
         return model;
@@ -144,6 +178,66 @@ public final class ApiBuilder
             model.type = processType(methodParameter);
 
             return model;
+        }
+    }
+
+    private class EntityModelTransformer implements Function<Class, EntityModel>
+    {
+        @Nonnull
+        @Override
+        public EntityModel apply(final @Nonnull @SuppressWarnings("NullableProblems") Class klass)
+        {
+            EntityModel model = new EntityModel();
+
+            model.shortDescription  = processShortDescription(klass);
+            model.properties        = processProperties(klass);
+
+            return model;
+        }
+
+        @Nonnull
+        private String processShortDescription(final @Nonnull Class<?> klass)
+        {
+            com.wordnik.swagger.annotations.ApiModel model =
+                    klass.getAnnotation(com.wordnik.swagger.annotations.ApiModel.class);
+
+            return model != null ? model.value() : "";
+        }
+
+        @Nonnull
+        private List<PropertyModel> processProperties(final @Nonnull Class klass)
+        {
+            List<Field> declaredFields = Lists.newArrayList(klass.getDeclaredFields());
+
+            return FluentIterable
+                    .from(declaredFields).filter(
+                            new Predicate<Field>()
+                            {
+                                @Override
+                                public boolean apply(@Nullable final Field field)
+                                {
+                                    return field != null && field.getAnnotation(ApiModelProperty.class) != null;
+                                }
+                            })
+                    .transform(
+                            new Function<Field, PropertyModel>()
+                            {
+                                @Nonnull
+                                @Override
+                                public PropertyModel apply(final @Nonnull @SuppressWarnings("NullableProblems") Field field)
+                                {
+                                    return new PropertyModel();
+                                }
+                            })
+                    .toSortedList(
+                            new Comparator<PropertyModel>()
+                            {
+                                @Override
+                                public int compare(final PropertyModel property1, final PropertyModel property2)
+                                {
+                                    return ComparisonChain.start().compare(property1.position, property2.position).result();
+                                }
+                            });
         }
     }
 
