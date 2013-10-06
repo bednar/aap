@@ -23,5 +23,5 @@ public final class OperationModel
     public Class responseWrapper = Void.class;
     public Map<Integer, String> responses = Maps.newHashMap();
 
-    public List<Object> parameters = Lists.newArrayList();
+    public List<ParameterModel> parameters = Lists.newArrayList();
 }

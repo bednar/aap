@@ -16,6 +16,7 @@ import java.util.Map;
 
 import com.github.bednar.aap.model.ApiModel;
 import com.github.bednar.aap.model.OperationModel;
+import com.github.bednar.aap.model.ParameterModel;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ComparisonChain;
@@ -127,13 +128,22 @@ public final class ApiBuilder
         }
     }
 
-    private class ApiParamTransform implements Function<ApiParam, Object>
+    private class ApiParamTransform implements Function<MethodParameter, ParameterModel>
     {
         @Nullable
         @Override
-        public Object apply(@Nullable final ApiParam input)
+        public ParameterModel apply(final @Nonnull @SuppressWarnings("NullableProblems") MethodParameter methodParameter)
         {
-            return new Object();
+            ParameterModel model = new ParameterModel();
+
+            model.name = processName(methodParameter);
+            model.shortDescription = processShortDescription(methodParameter);
+
+            model.required = processRequired(methodParameter);
+
+            model.type = processType(methodParameter);
+
+            return model;
         }
     }
 
@@ -282,6 +292,30 @@ public final class ApiBuilder
     }
 
     @Nonnull
+    private String processName(final @Nonnull MethodParameter methodParameter)
+    {
+        return methodParameter.param != null ? methodParameter.param.name() : "";
+    }
+
+    @Nonnull
+    private String processShortDescription(final @Nonnull MethodParameter methodParameter)
+    {
+        return methodParameter.param != null ? methodParameter.param.value() : "";
+    }
+
+    @Nonnull
+    private Boolean processRequired(final @Nonnull MethodParameter methodParameter)
+    {
+        return methodParameter.param != null && methodParameter.param.required();
+    }
+
+    @Nonnull
+    private Class processType(final @Nonnull MethodParameter methodParameter)
+    {
+        return methodParameter.type != null ? methodParameter.type : Void.class;
+    }
+
+    @Nonnull
     private List<OperationModel> processOperations(final @Nonnull Class<?> klass, final ApiModel model)
     {
         List<Method> methods = Lists.newArrayList(klass.getDeclaredMethods());
@@ -312,19 +346,25 @@ public final class ApiBuilder
     }
 
     @Nonnull
-    private List<Object> processParameters(final @Nonnull Method method)
+    private List<ParameterModel> processParameters(final @Nonnull Method method)
     {
-        List<Object> results = Lists.newArrayList();
+        List<ParameterModel> results = Lists.newArrayList();
 
-        for (Annotation[] parameter : method.getParameterAnnotations())
+        Class<?>[] types = method.getParameterTypes();
+        Annotation[][] annotations = method.getParameterAnnotations();
+
+        for (int i = 0; i < types.length; i++)
         {
-            for (Annotation annotation : parameter)
+            for (Annotation annotation : annotations[i])
             {
                 if (annotation instanceof ApiParam)
                 {
-                    ApiParam apiParam = (ApiParam) annotation;
+                    MethodParameter methodParameter = new MethodParameter();
 
-                    results.add(new ApiParamTransform().apply(apiParam));
+                    methodParameter.type = types[i];
+                    methodParameter.param = (ApiParam) annotation;
+
+                    results.add(new ApiParamTransform().apply(methodParameter));
                 }
             }
         }
@@ -332,9 +372,15 @@ public final class ApiBuilder
         return results;
     }
 
-    public class ApiBuilderException extends RuntimeException
+    private class MethodParameter
     {
-        public ApiBuilderException(final Throwable cause)
+        private Class type;
+        private ApiParam param;
+    }
+
+    private class ApiBuilderException extends RuntimeException
+    {
+        private ApiBuilderException(final Throwable cause)
         {
             super(cause);
         }
