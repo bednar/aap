@@ -356,7 +356,7 @@ public final class ModelBuilder
         }
         catch (ClassNotFoundException e)
         {
-            throw new ApiBuilderException(e);
+            throw new ModelBuilderException(e);
         }
     }
 
@@ -470,9 +470,9 @@ public final class ModelBuilder
         private ApiParam param;
     }
 
-    private class ApiBuilderException extends RuntimeException
+    private class ModelBuilderException extends RuntimeException
     {
-        private ApiBuilderException(final Throwable cause)
+        private ModelBuilderException(final Throwable cause)
         {
             super(cause);
         }
