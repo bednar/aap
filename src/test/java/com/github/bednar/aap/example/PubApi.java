@@ -29,31 +29,47 @@ public interface PubApi
 {
     @GET
     @Path("mealByName")
-    @ApiOperation(value = "Find meal by name.", response = Meal.class, position = 1)
-    @ApiResponse(code = 400, message = "Cannot find meal by name.")
+    @ApiOperation(
+            position = 1,
+            value = "Find meal by name.",
+            response = Meal.class)
+    @ApiResponse(
+            code = 400,
+            message = "Cannot find meal by name.")
     Meal mealByName(final @Nonnull @ApiParam(name="name", value = "Name of Meal", required = true) String name);
 
     @GET
     @Path("allMeals")
-    @ApiOperation(value = "Find all meals.", response = Meal.class, responseContainer = "java.util.List", position = 3)
+    @ApiOperation(
+            position = 3,
+            value = "Find all meals.",
+            response = Meal.class,
+            responseContainer = "java.util.List")
     List<Meal> allMeals();
 
     @POST
     @Path("updateMeal")
-    @ApiOperation(value = "Update Meal in pub.", authorizations = "Owner of Pub", position = 2)
+    @ApiOperation(
+            position = 2,
+            value = "Update Meal in pub.",
+            authorizations = "Owner of Pub")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success update."),
-            @ApiResponse(code = 401, message = "Authorization violation.")
+            @ApiResponse(
+                    code = 200,
+                    message = "Success update."),
+            @ApiResponse(
+                    code = 401,
+                    message = "Authorization violation.")
     })
     void updateMeal(final @Nonnull @ApiParam(name="meal", value = "Meal for update", required = true) Meal meal);
 
     @ApiModel("Meal for order in pub.")
     public class Meal
     {
-        @ApiModelProperty(value = "Name", required = true, allowableValues = "max:10")
+        @ApiModelProperty(value = "Name")
         private String name;
 
-        @ApiModelProperty(value = "Price", required = true, allowableValues = "min:0")
+        @ApiModelProperty(value = "Price")
         private Integer price;
     }
 }
