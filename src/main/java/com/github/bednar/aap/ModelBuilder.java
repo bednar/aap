@@ -9,7 +9,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.List;
@@ -19,8 +18,8 @@ import com.github.bednar.aap.model.api.ApiModel;
 import com.github.bednar.aap.model.api.OperationModel;
 import com.github.bednar.aap.model.api.ParameterModel;
 import com.github.bednar.aap.model.entity.EntityModel;
-import com.github.bednar.aap.model.entity.PropertyModel;
 import com.github.bednar.aap.transform.ApiParamTransform;
+import com.github.bednar.aap.transform.EntityModelTransformer;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ComparisonChain;
@@ -28,7 +27,6 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
@@ -158,66 +156,6 @@ public final class ModelBuilder
             model.parameters = processParameters(method);
 
             return model;
-        }
-    }
-
-    private class EntityModelTransformer implements Function<Class, EntityModel>
-    {
-        @Nonnull
-        @Override
-        public EntityModel apply(final @Nonnull @SuppressWarnings("NullableProblems") Class klass)
-        {
-            EntityModel model = new EntityModel();
-
-            model.shortDescription  = processShortDescription(klass);
-            model.properties        = processProperties(klass);
-
-            return model;
-        }
-
-        @Nonnull
-        private String processShortDescription(final @Nonnull Class<?> klass)
-        {
-            com.wordnik.swagger.annotations.ApiModel model =
-                    klass.getAnnotation(com.wordnik.swagger.annotations.ApiModel.class);
-
-            return model != null ? model.value() : "";
-        }
-
-        @Nonnull
-        private List<PropertyModel> processProperties(final @Nonnull Class klass)
-        {
-            List<Field> declaredFields = Lists.newArrayList(klass.getDeclaredFields());
-
-            return FluentIterable
-                    .from(declaredFields).filter(
-                            new Predicate<Field>()
-                            {
-                                @Override
-                                public boolean apply(@Nullable final Field field)
-                                {
-                                    return field != null && field.getAnnotation(ApiModelProperty.class) != null;
-                                }
-                            })
-                    .transform(
-                            new Function<Field, PropertyModel>()
-                            {
-                                @Nonnull
-                                @Override
-                                public PropertyModel apply(final @Nonnull @SuppressWarnings("NullableProblems") Field field)
-                                {
-                                    return new PropertyModel();
-                                }
-                            })
-                    .toSortedList(
-                            new Comparator<PropertyModel>()
-                            {
-                                @Override
-                                public int compare(final PropertyModel property1, final PropertyModel property2)
-                                {
-                                    return ComparisonChain.start().compare(property1.position, property2.position).result();
-                                }
-                            });
         }
     }
 
