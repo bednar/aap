@@ -1,5 +1,6 @@
 package com.github.bednar.aap;
 
+import com.github.bednar.aap.model.ModelBuilder;
 import org.junit.Before;
 
 /**
