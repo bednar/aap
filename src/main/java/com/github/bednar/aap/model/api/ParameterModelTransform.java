@@ -1,16 +1,15 @@
-package com.github.bednar.aap.transform;
+package com.github.bednar.aap.model.api;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.github.bednar.aap.model.api.ParameterModel;
 import com.google.common.base.Function;
 import com.wordnik.swagger.annotations.ApiParam;
 
 /**
  * @author Jakub Bednář (06/10/2013 2:45 PM)
  */
-public class ApiParamTransform implements Function<ApiParamTransform.MethodParameter, ParameterModel>
+public class ParameterModelTransform implements Function<ParameterModelTransform.MethodParameter, ParameterModel>
 {
     @Nullable
     @Override

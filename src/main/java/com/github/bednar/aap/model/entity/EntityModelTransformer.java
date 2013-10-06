@@ -1,4 +1,4 @@
-package com.github.bednar.aap.transform;
+package com.github.bednar.aap.model.entity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

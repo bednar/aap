@@ -17,9 +17,9 @@ import java.util.Map;
 import com.github.bednar.aap.model.api.ApiModel;
 import com.github.bednar.aap.model.api.OperationModel;
 import com.github.bednar.aap.model.api.ParameterModel;
+import com.github.bednar.aap.model.api.ParameterModelTransform;
 import com.github.bednar.aap.model.entity.EntityModel;
-import com.github.bednar.aap.transform.ApiParamTransform;
-import com.github.bednar.aap.transform.EntityModelTransformer;
+import com.github.bednar.aap.model.entity.EntityModelTransformer;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ComparisonChain;
@@ -347,12 +347,12 @@ public final class ModelBuilder
             {
                 if (annotation instanceof ApiParam)
                 {
-                    ApiParamTransform.MethodParameter methodParameter = new ApiParamTransform.MethodParameter();
+                    ParameterModelTransform.MethodParameter methodParameter = new ParameterModelTransform.MethodParameter();
 
                     methodParameter.type = types[i];
                     methodParameter.param = (ApiParam) annotation;
 
-                    results.add(new ApiParamTransform().apply(methodParameter));
+                    results.add(new ParameterModelTransform().apply(methodParameter));
                 }
             }
         }
