@@ -12,14 +12,9 @@ public final class PropertyModel
 
     public Boolean required = false;
 
-    /**
-     * String
-     */
+    //For String
     public int maxLength = 0;
-
-    /**
-     * Number
-     */
+    //For Number
     public int precision = 0;
     public int scale = 0;
 }
