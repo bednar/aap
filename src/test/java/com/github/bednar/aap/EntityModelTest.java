@@ -1,7 +1,7 @@
 package com.github.bednar.aap;
 
 import com.github.bednar.aap.example.PubApi;
-import com.github.bednar.aap.model.EntityModel;
+import com.github.bednar.aap.model.entity.EntityModel;
 import org.junit.Assert;
 import org.junit.Test;
 

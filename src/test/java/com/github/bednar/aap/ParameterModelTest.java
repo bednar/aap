@@ -1,7 +1,7 @@
 package com.github.bednar.aap;
 
 import com.github.bednar.aap.example.PubApi;
-import com.github.bednar.aap.model.ParameterModel;
+import com.github.bednar.aap.model.api.ParameterModel;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -15,11 +15,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import com.github.bednar.aap.model.ApiModel;
-import com.github.bednar.aap.model.EntityModel;
-import com.github.bednar.aap.model.OperationModel;
-import com.github.bednar.aap.model.ParameterModel;
-import com.github.bednar.aap.model.PropertyModel;
+import com.github.bednar.aap.model.api.ApiModel;
+import com.github.bednar.aap.model.entity.EntityModel;
+import com.github.bednar.aap.model.api.OperationModel;
+import com.github.bednar.aap.model.api.ParameterModel;
+import com.github.bednar.aap.model.entity.PropertyModel;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ComparisonChain;

@@ -3,8 +3,8 @@ package com.github.bednar.aap;
 import java.util.List;
 
 import com.github.bednar.aap.example.PubApi;
-import com.github.bednar.aap.model.ApiModel;
-import com.github.bednar.aap.model.OperationModel;
+import com.github.bednar.aap.model.api.ApiModel;
+import com.github.bednar.aap.model.api.OperationModel;
 import org.junit.Assert;
 import org.junit.Test;
 

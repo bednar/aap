@@ -1,4 +1,4 @@
-package com.github.bednar.aap.model;
+package com.github.bednar.aap.model.api;
 
 import java.util.List;
 

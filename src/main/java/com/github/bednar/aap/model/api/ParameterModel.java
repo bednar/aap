@@ -1,4 +1,4 @@
-package com.github.bednar.aap.model;
+package com.github.bednar.aap.model.api;
 
 /**
  * @author Jakub Bednář (06/10/2013 1:23 PM)
