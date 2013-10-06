@@ -6,13 +6,12 @@ import java.lang.reflect.Field;
 import java.util.Comparator;
 import java.util.List;
 
-import com.github.bednar.aap.model.entity.EntityModel;
-import com.github.bednar.aap.model.entity.PropertyModel;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
+import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
@@ -35,8 +34,7 @@ public class EntityModelTransformer implements Function<Class, EntityModel>
     @Nonnull
     private String processShortDescription(final @Nonnull Class<?> klass)
     {
-        com.wordnik.swagger.annotations.ApiModel model =
-                klass.getAnnotation(com.wordnik.swagger.annotations.ApiModel.class);
+        ApiModel model = klass.getAnnotation(ApiModel.class);
 
         return model != null ? model.value() : "";
     }
