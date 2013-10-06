@@ -16,10 +16,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.bednar.aap.model.api.ApiModel;
-import com.github.bednar.aap.model.entity.EntityModel;
 import com.github.bednar.aap.model.api.OperationModel;
 import com.github.bednar.aap.model.api.ParameterModel;
+import com.github.bednar.aap.model.entity.EntityModel;
 import com.github.bednar.aap.model.entity.PropertyModel;
+import com.github.bednar.aap.transform.ApiParamTransform;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ComparisonChain;
@@ -155,25 +156,6 @@ public final class ModelBuilder
             model.responses = processResponses(method);
 
             model.parameters = processParameters(method);
-
-            return model;
-        }
-    }
-
-    private class ApiParamTransform implements Function<MethodParameter, ParameterModel>
-    {
-        @Nullable
-        @Override
-        public ParameterModel apply(final @Nonnull @SuppressWarnings("NullableProblems") MethodParameter methodParameter)
-        {
-            ParameterModel model = new ParameterModel();
-
-            model.name = processName(methodParameter);
-            model.shortDescription = processShortDescription(methodParameter);
-
-            model.required = processRequired(methodParameter);
-
-            model.type = processType(methodParameter);
 
             return model;
         }
@@ -384,30 +366,6 @@ public final class ModelBuilder
     }
 
     @Nonnull
-    private String processName(final @Nonnull MethodParameter methodParameter)
-    {
-        return methodParameter.param != null ? methodParameter.param.name() : "";
-    }
-
-    @Nonnull
-    private String processShortDescription(final @Nonnull MethodParameter methodParameter)
-    {
-        return methodParameter.param != null ? methodParameter.param.value() : "";
-    }
-
-    @Nonnull
-    private Boolean processRequired(final @Nonnull MethodParameter methodParameter)
-    {
-        return methodParameter.param != null && methodParameter.param.required();
-    }
-
-    @Nonnull
-    private Class processType(final @Nonnull MethodParameter methodParameter)
-    {
-        return methodParameter.type != null ? methodParameter.type : Void.class;
-    }
-
-    @Nonnull
     private List<OperationModel> processOperations(final @Nonnull Class<?> klass, final ApiModel model)
     {
         List<Method> methods = Lists.newArrayList(klass.getDeclaredMethods());
@@ -451,7 +409,7 @@ public final class ModelBuilder
             {
                 if (annotation instanceof ApiParam)
                 {
-                    MethodParameter methodParameter = new MethodParameter();
+                    ApiParamTransform.MethodParameter methodParameter = new ApiParamTransform.MethodParameter();
 
                     methodParameter.type = types[i];
                     methodParameter.param = (ApiParam) annotation;
@@ -462,12 +420,6 @@ public final class ModelBuilder
         }
 
         return results;
-    }
-
-    private class MethodParameter
-    {
-        private Class type;
-        private ApiParam param;
     }
 
     private class ModelBuilderException extends RuntimeException
