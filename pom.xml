@@ -15,7 +15,7 @@
         <version>1-SNAPSHOT</version>
     </parent>
 
-    <name>Api Annotation Processor</name>
+    <name>Api Annotation Processor - Maven Plugin</name>
 
     <url>https://github.com/bednar/aap</url>
 
