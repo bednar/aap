@@ -1,10 +1,16 @@
 package com.github.bednar.aap.processor.doc;
 
 import javax.annotation.Nonnull;
+import java.io.StringWriter;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 /**
  * Create Apiary Documentation.
@@ -15,12 +21,16 @@ import com.google.common.collect.Lists;
  */
 public final class Apiary
 {
+    private Configuration cfg;
+
+    private Template fileNameTemplate;
+
+    private List<Class> apiClasses = Lists.newArrayList();
+    private List<Class> entityClasses = Lists.newArrayList();
+
     private Apiary()
     {
     }
-
-    private List<Class> apiClasses      = Lists.newArrayList();
-    private List<Class> entityClasses   = Lists.newArrayList();
 
     /**
      * @return new instance
@@ -77,5 +87,66 @@ public final class Apiary
      */
     public void generate()
     {
+        initFreeMarker();
+
+        for (Class klass : apiClasses)
+        {
+            System.out.println("fileName(klass) = " + fileName(klass));
+        }
+
+        for (Class klass : entityClasses)
+        {
+            System.out.println("fileName(klass) = " + fileName(klass));
+        }
+    }
+
+    private void initFreeMarker()
+    {
+        cfg = new Configuration();
+        cfg.setTemplateLoader(new ClassTemplateLoader(this.getClass(), "/"));
+
+        try
+        {
+            fileNameTemplate = cfg.getTemplate("/doc/filename.ftl");
+        }
+        catch (Exception e)
+        {
+            throw new ApiaryException(e);
+        }
+    }
+
+    @Nonnull
+    private String fileName(final @Nonnull Class klass)
+    {
+        ImmutableMap<String, Object> data = ImmutableMap
+                .<String, Object>builder()
+                .put("class", klass)
+                .build();
+
+        return process(data, fileNameTemplate);
+    }
+
+    @Nonnull
+    private String process(final @Nonnull Map<String, Object> data, final @Nonnull Template template)
+    {
+        StringWriter output = new StringWriter();
+        try
+        {
+            template.process(data, output);
+        }
+        catch (Exception e)
+        {
+            throw new ApiaryException(e);
+        }
+
+        return output.toString();
+    }
+
+    private class ApiaryException extends RuntimeException
+    {
+        private ApiaryException(final Throwable cause)
+        {
+            super(cause);
+        }
     }
 }
