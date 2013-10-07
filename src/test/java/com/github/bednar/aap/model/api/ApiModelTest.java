@@ -1,8 +1,7 @@
-package com.github.bednar.aap.api;
+package com.github.bednar.aap.model.api;
 
 import com.github.bednar.aap.AbstractApiTest;
 import com.github.bednar.aap.example.PubApi;
-import com.github.bednar.aap.model.api.ApiModel;
 import org.junit.Assert;
 import org.junit.Test;
 
