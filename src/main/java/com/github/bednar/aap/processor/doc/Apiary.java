@@ -42,7 +42,7 @@ public final class Apiary
     }
 
     /**
-     * Add classes which are JAX-RS Resource with documentation annotations.
+     * Add classes which are JAX-RS Resource documented by annotations.
      * <p/>
      * Example com.github.bednar.aap.example.PubApi in test sources.
      *
@@ -64,7 +64,7 @@ public final class Apiary
     }
 
     /**
-     * Add classes which are domain object classes (with documentation annotations) of JAX-RS resource .
+     * Add classes which are domain object classes (documented by annotations) of JAX-RS resource .
      * <p/>
      * Example: com.github.bednar.aap.example.PubApi.Meal in test sources.
      *
