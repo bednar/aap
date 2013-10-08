@@ -17,7 +17,7 @@
 
     <name>Api Annotation Processor - Maven Plugin</name>
 
-    <url>https://github.com/bednar/aap</url>
+    <url>https://bednar.github.io/aap/</url>
 
     <licenses>
         <license>
@@ -40,6 +40,54 @@
             <email>jakub.bednar@gmail.com</email>
         </developer>
     </developers>
+
+    <properties>
+        <github.global.server>github</github.global.server>
+    </properties>
+
+    <build>
+
+        <plugins>
+
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo
+                    </altDeploymentRepository>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.github.github</groupId>
+                <artifactId>site-maven-plugin</artifactId>
+                <configuration>
+                    <message>Maven artifacts for ${project.version}</message>
+                    <noJekyll>true</noJekyll>
+                    <merge>false</merge>
+                    <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+                    <branch>refs/heads/mvn-repo</branch>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                    <repositoryName>aap</repositoryName>
+                    <repositoryOwner>bednar</repositoryOwner>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>site</goal>
+                        </goals>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+    </build>
 
     <dependencies>
 
@@ -92,5 +140,15 @@
         </dependency>
 
     </dependencies>
+
+    <distributionManagement>
+
+        <repository>
+            <id>github</id>
+            <name>GitHub Repository</name>
+            <url>https://raw.github.com/bednar/${project.artifactId}/mvn-repo</url>
+        </repository>
+
+    </distributionManagement>
 
 </project>
