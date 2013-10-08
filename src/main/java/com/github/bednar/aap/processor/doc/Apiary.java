@@ -1,7 +1,13 @@
 package com.github.bednar.aap.processor.doc;
 
 import javax.annotation.Nonnull;
+import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +17,8 @@ import com.google.common.collect.Lists;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Create Apiary Documentation.
@@ -21,24 +29,29 @@ import freemarker.template.Template;
  */
 public final class Apiary
 {
-    private Configuration cfg;
+    private static final Logger LOG = LoggerFactory.getLogger(Apiary.class);
+
+    private final File outputDirectory;
 
     private Template fileNameTemplate;
 
     private List<Class> apiClasses = Lists.newArrayList();
     private List<Class> entityClasses = Lists.newArrayList();
 
-    private Apiary()
+    private Apiary(final @Nonnull File outputDirectory)
     {
+        LOG.info("[output-directory][{}]", outputDirectory.getAbsolutePath());
+
+        this.outputDirectory = outputDirectory;
     }
 
     /**
      * @return new instance
      */
     @Nonnull
-    public static Apiary create()
+    public static Apiary create(final @Nonnull File outputDirectory)
     {
-        return new Apiary();
+        return new Apiary(outputDirectory);
     }
 
     /**
@@ -91,18 +104,20 @@ public final class Apiary
 
         for (Class klass : apiClasses)
         {
-            System.out.println("fileName(klass) = " + fileName(klass));
+            newFile(newFilePath(klass));
         }
 
         for (Class klass : entityClasses)
         {
-            System.out.println("fileName(klass) = " + fileName(klass));
+            newFile(newFilePath(klass));
         }
+
+        newFile(newFilePath(Apiary.class));
     }
 
     private void initFreeMarker()
     {
-        cfg = new Configuration();
+        Configuration cfg = new Configuration();
         cfg.setTemplateLoader(new ClassTemplateLoader(this.getClass(), "/"));
 
         try
@@ -116,14 +131,31 @@ public final class Apiary
     }
 
     @Nonnull
-    private String fileName(final @Nonnull Class klass)
+    private Path newFilePath(final @Nonnull Class klass)
     {
         ImmutableMap<String, Object> data = ImmutableMap
                 .<String, Object>builder()
                 .put("class", klass)
                 .build();
 
-        return process(data, fileNameTemplate);
+        String fileName = process(data, fileNameTemplate);
+
+        return Paths.get(outputDirectory.getAbsolutePath(), fileName);
+    }
+
+    @Nonnull
+    private Path newFile(final @Nonnull Path fileToCreate)
+    {
+        try
+        {
+            Files.deleteIfExists(fileToCreate);
+
+            return Files.createFile(fileToCreate);
+        }
+        catch (IOException e)
+        {
+            throw new ApiaryException(e);
+        }
     }
 
     @Nonnull
