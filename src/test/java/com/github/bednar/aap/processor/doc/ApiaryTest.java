@@ -1,11 +1,12 @@
 package com.github.bednar.aap.processor.doc;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 import com.github.bednar.aap.AbstractApiTest;
 import com.github.bednar.aap.example.PubApi;
-import com.google.common.io.Files;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +26,7 @@ public class ApiaryTest extends AbstractApiTest
     @Before
     public void before()
     {
-        outputDirectory = Files.createTempDir();
+        outputDirectory = com.google.common.io.Files.createTempDir();
 
         apiary = Apiary.create(outputDirectory);
     }
@@ -57,5 +58,18 @@ public class ApiaryTest extends AbstractApiTest
 
         //doc for PubApi + doc for Meal + join doc
         Assert.assertEquals(3, outputDirectory.list().length);
+    }
+
+    @Test
+    public void createdFilesName()
+    {
+        apiary
+                .addApis(PubApi.class)
+                .addEntities(PubApi.Meal.class)
+                .generate();
+
+        Assert.assertTrue(Files.exists(Paths.get(outputDirectory.getAbsolutePath(), "PubApi.md")));
+        Assert.assertTrue(Files.exists(Paths.get(outputDirectory.getAbsolutePath(), "Meal.md")));
+        Assert.assertTrue(Files.exists(Paths.get(outputDirectory.getAbsolutePath(), "Apiary.md")));
     }
 }
