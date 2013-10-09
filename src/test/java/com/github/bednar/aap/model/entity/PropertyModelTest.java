@@ -15,7 +15,7 @@ public class PropertyModelTest extends AbstractApiTest
     @Test
     public void nameValue()
     {
-        PropertyModel model = builder.getEntityModel(PubApi.Meal.class).properties.get(1);
+        PropertyModel model = builder.getEntityModel(PubApi.Meal.class).getProperties().get(1);
 
         Assert.assertEquals(2, model.position);
 
@@ -32,7 +32,7 @@ public class PropertyModelTest extends AbstractApiTest
     @Test
     public void priceValue()
     {
-        PropertyModel model = builder.getEntityModel(PubApi.Meal.class).properties.get(0);
+        PropertyModel model = builder.getEntityModel(PubApi.Meal.class).getProperties().get(0);
 
         Assert.assertEquals(1, model.position);
 

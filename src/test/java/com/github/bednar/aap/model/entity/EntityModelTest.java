@@ -23,7 +23,7 @@ public class EntityModelTest extends AbstractApiTest
     {
         EntityModel model = builder.getEntityModel(PubApi.Meal.class);
 
-        Assert.assertEquals(PubApi.Meal.class, model.type);
+        Assert.assertEquals(PubApi.Meal.class, model.getType());
     }
 
     @Test
@@ -31,7 +31,7 @@ public class EntityModelTest extends AbstractApiTest
     {
         EntityModel model = builder.getEntityModel(PubApi.Meal.class);
 
-        Assert.assertEquals("Meal for order in pub.", model.shortDescription);
+        Assert.assertEquals("Meal for order in pub.", model.getShortDescription());
     }
 
     @Test
@@ -39,6 +39,6 @@ public class EntityModelTest extends AbstractApiTest
     {
         EntityModel model = builder.getEntityModel(PubApi.Meal.class);
 
-        Assert.assertEquals(2, model.properties.size());
+        Assert.assertEquals(2, model.getProperties().size());
     }
 }

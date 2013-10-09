@@ -23,12 +23,14 @@ public class EntityModelTransformer implements Function<Class, EntityModel>
     @Override
     public EntityModel apply(final @Nonnull @SuppressWarnings("NullableProblems") Class klass)
     {
+        String shorDescription          = processShortDescription(klass);
+        List<PropertyModel> properties  = processProperties(klass);
+
         EntityModel model = new EntityModel();
-
-        model.type = klass;
-
-        model.shortDescription  = processShortDescription(klass);
-        model.properties        = processProperties(klass);
+        model
+                .setType(klass)
+                .setShortDescription(shorDescription)
+                .setProperties(properties);
 
         return model;
     }
