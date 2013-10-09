@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,6 +40,7 @@ public final class Apiary
     private final File outputDirectory;
 
     private Template fileNameTemplate;
+    private Template entityTemplate;
 
     private List<Class> apiClasses = Lists.newArrayList();
     private List<Class> entityClasses = Lists.newArrayList();
@@ -114,7 +116,16 @@ public final class Apiary
 
         for (EntityModel model : entityModels())
         {
-            newFile(newFilePath(model.type));
+            Path newFile = newFile(newFilePath(model.getType()));
+
+            ImmutableMap<String, Object> data = ImmutableMap
+                    .<String, Object>builder()
+                    .put("model", model)
+                    .build();
+
+            String evaluateTemplate = evaluate(data, entityTemplate);
+
+            writeFile(newFile, evaluateTemplate);
         }
 
         newFile(newFilePath(Apiary.class));
@@ -127,7 +138,8 @@ public final class Apiary
 
         try
         {
-            fileNameTemplate = cfg.getTemplate("/doc/filename.ftl");
+            fileNameTemplate    = cfg.getTemplate("/doc/filename.ftl");
+            entityTemplate      = cfg.getTemplate("/doc/entity.ftl");
         }
         catch (Exception e)
         {
@@ -143,7 +155,7 @@ public final class Apiary
                 .put("class", klass)
                 .build();
 
-        String fileName = process(data, fileNameTemplate);
+        String fileName = evaluate(data, fileNameTemplate);
 
         return Paths.get(outputDirectory.getAbsolutePath(), fileName);
     }
@@ -164,7 +176,7 @@ public final class Apiary
     }
 
     @Nonnull
-    private String process(final @Nonnull Map<String, Object> data, final @Nonnull Template template)
+    private String evaluate(final @Nonnull Map<String, Object> data, final @Nonnull Template template)
     {
         StringWriter output = new StringWriter();
         try
@@ -177,6 +189,18 @@ public final class Apiary
         }
 
         return output.toString();
+    }
+
+    private void writeFile(final @Nonnull Path newFile, final @Nonnull String evaluatedTemplate)
+    {
+        try
+        {
+            Files.write(newFile, evaluatedTemplate.getBytes(StandardCharsets.UTF_8));
+        }
+        catch (IOException e)
+        {
+            throw new ApiaryException(e);
+        }
     }
 
     @Nonnull

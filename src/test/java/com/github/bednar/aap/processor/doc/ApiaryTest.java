@@ -1,9 +1,11 @@
 package com.github.bednar.aap.processor.doc;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 
 import com.github.bednar.aap.AbstractApiTest;
 import com.github.bednar.aap.example.PubApi;
@@ -12,6 +14,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * @author Jakub Bednář (07/10/2013 7:51 PM)
@@ -71,5 +75,22 @@ public class ApiaryTest extends AbstractApiTest
         Assert.assertTrue(Files.exists(Paths.get(outputDirectory.getAbsolutePath(), "PubApi.md")));
         Assert.assertTrue(Files.exists(Paths.get(outputDirectory.getAbsolutePath(), "Meal.md")));
         Assert.assertTrue(Files.exists(Paths.get(outputDirectory.getAbsolutePath(), "Apiary.md")));
+    }
+
+    @Test
+    public void mealDocValue() throws IOException
+    {
+        apiary
+                .addApis(PubApi.class)
+                .addEntities(PubApi.Meal.class)
+                .generate();
+
+        List<String> lines = Files.readAllLines(Paths.get(outputDirectory.getAbsolutePath(), "Meal.md"), UTF_8);
+
+        Assert.assertFalse(lines.isEmpty());
+        Assert.assertEquals("---", lines.get(0));
+        Assert.assertEquals("Resource: Tasty Meal", lines.get(1));
+        Assert.assertEquals("### Properties", lines.get(2));
+        Assert.assertEquals("---", lines.get(3));
     }
 }
