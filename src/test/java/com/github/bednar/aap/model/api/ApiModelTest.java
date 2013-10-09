@@ -25,6 +25,14 @@ public class ApiModelTest extends AbstractApiTest
     }
 
     @Test
+    public void typeValue()
+    {
+        ApiModel model = builder.getApiModel(PubApi.class);
+
+        Assert.assertEquals(PubApi.class, model.type);
+    }
+
+    @Test
     public void pathValue()
     {
         ApiModel model = builder.getApiModel(PubApi.class);

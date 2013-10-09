@@ -5,14 +5,10 @@ import javax.annotation.Nullable;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-
 import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.List;
 
-import com.github.bednar.aap.model.api.ApiModel;
-import com.github.bednar.aap.model.api.OperationModel;
-import com.github.bednar.aap.model.api.OperationModelTransform;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ComparisonChain;
@@ -31,6 +27,8 @@ public class ApiModelTransform implements Function<Class, ApiModel>
     public ApiModel apply(final @Nonnull @SuppressWarnings("NullableProblems") Class klass)
     {
         ApiModel model = new ApiModel();
+
+        model.type = klass;
 
         model.path = processPath(klass);
 

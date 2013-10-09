@@ -9,6 +9,8 @@ import com.google.common.collect.Lists;
  */
 public final class ApiModel
 {
+    public Class type = Void.class;
+
     public String path = "";
 
     public String[] consumes = new String[]{};
