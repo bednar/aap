@@ -1,17 +1,22 @@
 package com.github.bednar.aap.processor.doc;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
+import com.github.bednar.aap.model.ModelBuilder;
+import com.github.bednar.aap.model.api.ApiModel;
+import com.github.bednar.aap.model.entity.EntityModel;
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import freemarker.cache.ClassTemplateLoader;
@@ -102,14 +107,14 @@ public final class Apiary
     {
         initFreeMarker();
 
-        for (Class klass : apiClasses)
+        for (ApiModel model : apiModels())
         {
-            newFile(newFilePath(klass));
+            newFile(newFilePath(model.type));
         }
 
-        for (Class klass : entityClasses)
+        for (EntityModel model : entityModels())
         {
-            newFile(newFilePath(klass));
+            newFile(newFilePath(model.type));
         }
 
         newFile(newFilePath(Apiary.class));
@@ -172,6 +177,36 @@ public final class Apiary
         }
 
         return output.toString();
+    }
+
+    @Nonnull
+    private List<ApiModel> apiModels()
+    {
+        return FluentIterable.from(apiClasses).transform(
+                new Function<Class, ApiModel>()
+                {
+                    @Nullable
+                    @Override
+                    public ApiModel apply(final @SuppressWarnings("NullableProblems") @Nonnull Class klass)
+                    {
+                        return ModelBuilder.getInstance().getApiModel(klass);
+                    }
+                }).toList();
+    }
+
+    @Nonnull
+    private List<EntityModel> entityModels()
+    {
+       return FluentIterable.from(entityClasses).transform(
+               new Function<Class, EntityModel>()
+               {
+                   @Nullable
+                   @Override
+                   public EntityModel apply(final @SuppressWarnings("NullableProblems") @Nonnull Class klass)
+                   {
+                       return ModelBuilder.getInstance().getEntityModel(klass);
+                   }
+               }).toList();
     }
 
     private class ApiaryException extends RuntimeException
