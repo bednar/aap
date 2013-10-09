@@ -63,6 +63,6 @@ public class ApiModelTest extends AbstractApiTest
     {
         ApiModel model = builder.getApiModel(PubApi.class);
 
-        Assert.assertEquals("Api for my small pub.", model.shortDescription);
+        Assert.assertEquals("Public Pub", model.shortDescription);
     }
 }

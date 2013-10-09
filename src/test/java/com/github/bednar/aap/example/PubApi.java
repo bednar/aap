@@ -24,7 +24,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
  * @author Jakub Bednář (05/10/2013 3:05 PM)
  */
 @Path("pub")
-@Api(value = "Api for my small pub.")
+@Api(value = "Public Pub")
 @Consumes("application/json")
 @Produces("application/json")
 public interface PubApi
