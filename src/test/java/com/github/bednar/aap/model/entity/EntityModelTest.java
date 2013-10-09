@@ -31,7 +31,7 @@ public class EntityModelTest extends AbstractApiTest
     {
         EntityModel model = builder.getEntityModel(PubApi.Meal.class);
 
-        Assert.assertEquals("Meal for order in pub.", model.getShortDescription());
+        Assert.assertEquals("Tasty Meal", model.getShortDescription());
     }
 
     @Test

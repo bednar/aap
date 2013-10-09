@@ -65,7 +65,7 @@ public interface PubApi
     })
     void updateMeal(final @Nonnull @ApiParam(name="meal", value = "Meal for update", required = true) Meal meal);
 
-    @ApiModel("Meal for order in pub.")
+    @ApiModel("Tasty Meal")
     public class Meal
     {
         @Column(length = 100, nullable = false)
