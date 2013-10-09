@@ -25,6 +25,8 @@ public class EntityModelTransformer implements Function<Class, EntityModel>
     {
         EntityModel model = new EntityModel();
 
+        model.type = klass;
+
         model.shortDescription  = processShortDescription(klass);
         model.properties        = processProperties(klass);
 

@@ -9,6 +9,8 @@ import com.google.common.collect.Lists;
  */
 public final class EntityModel
 {
+    public Class type = Void.class;
+
     public String shortDescription = "";
 
     public List<PropertyModel> properties = Lists.newArrayList();

@@ -19,6 +19,14 @@ public class EntityModelTest extends AbstractApiTest
     }
 
     @Test
+    public void typeValue()
+    {
+        EntityModel model = builder.getEntityModel(PubApi.Meal.class);
+
+        Assert.assertEquals(PubApi.Meal.class, model.type);
+    }
+
+    @Test
     public void shortDescriptionValue()
     {
         EntityModel model = builder.getEntityModel(PubApi.Meal.class);
