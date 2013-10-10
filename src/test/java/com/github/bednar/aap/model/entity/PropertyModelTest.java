@@ -28,6 +28,9 @@ public class PropertyModelTest extends AbstractApiTest
 
         Assert.assertEquals(0, model.getPrecision().intValue());
         Assert.assertEquals(0, model.getScale().intValue());
+
+        Assert.assertEquals("length:100", model.getRestrictions().get(0));
+        Assert.assertEquals("required", model.getRestrictions().get(1));
     }
 
     @Test
@@ -46,5 +49,8 @@ public class PropertyModelTest extends AbstractApiTest
 
         Assert.assertEquals(10, model.getPrecision().intValue());
         Assert.assertEquals(2, model.getScale().intValue());
+
+        Assert.assertEquals("precision:10", model.getRestrictions().get(0));
+        Assert.assertEquals("scale:2", model.getRestrictions().get(1));
     }
 }
