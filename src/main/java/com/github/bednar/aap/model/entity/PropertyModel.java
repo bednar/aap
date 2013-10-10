@@ -9,7 +9,7 @@ public final class PropertyModel
 {
     private Integer position = 0;
 
-    private String name  = "";
+    private String shortDescription = "";
     private Class type   = Void.class;
 
     private Boolean required = false;
@@ -35,15 +35,15 @@ public final class PropertyModel
     }
 
     @Nonnull
-    public String getName()
+    public String getShortDescription()
     {
-        return name;
+        return shortDescription;
     }
 
     @Nonnull
-    public PropertyModel setName(final @Nonnull String name)
+    public PropertyModel setShortDescription(final @Nonnull String shortDescription)
     {
-        this.name = name;
+        this.shortDescription = shortDescription;
 
         return this;
     }

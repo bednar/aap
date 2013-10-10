@@ -91,6 +91,8 @@ public class ApiaryTest extends AbstractApiTest
         Assert.assertEquals("---", lines.get(0));
         Assert.assertEquals("Resource: Tasty Meal", lines.get(1));
         Assert.assertEquals("### Properties", lines.get(2));
+        Assert.assertEquals("    - `price [bigdecimal precision:10, scale:2]` - Price", lines.get(3));
+        Assert.assertEquals("    - `name [string length:length, required]` - Name", lines.get(3));
         Assert.assertEquals("---", lines.get(3));
     }
 }

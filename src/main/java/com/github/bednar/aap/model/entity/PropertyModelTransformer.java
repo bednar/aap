@@ -18,9 +18,9 @@ public class PropertyModelTransformer implements Function<Field, PropertyModel>
     {
         PropertyModel model = new PropertyModel();
 
-        Integer position    = processPosition(field);
-        String name         = processName(field);
-        Class type          = processType(field);
+        Integer position        = processPosition(field);
+        String shortDescription = processName(field);
+        Class type              = processType(field);
 
         Boolean required  = processRequired(field);
         Integer maxLength = processMaxLength(field);
@@ -29,7 +29,7 @@ public class PropertyModelTransformer implements Function<Field, PropertyModel>
 
         model
                 .setPosition(position)
-                .setName(name)
+                .setShortDescription(shortDescription)
                 .setType(type)
                 .setRequired(required)
                 .setMaxLength(maxLength)

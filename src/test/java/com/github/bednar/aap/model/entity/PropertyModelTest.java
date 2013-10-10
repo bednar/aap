@@ -19,7 +19,7 @@ public class PropertyModelTest extends AbstractApiTest
 
         Assert.assertEquals(2, model.getPosition().intValue());
 
-        Assert.assertEquals("Name", model.getName());
+        Assert.assertEquals("Name", model.getShortDescription());
         Assert.assertEquals(String.class, model.getType());
 
         Assert.assertTrue(model.getRequired());
@@ -36,7 +36,7 @@ public class PropertyModelTest extends AbstractApiTest
 
         Assert.assertEquals(1, model.getPosition().intValue());
 
-        Assert.assertEquals("Price", model.getName());
+        Assert.assertEquals("Price", model.getShortDescription());
         Assert.assertEquals(BigDecimal.class, model.getType());
 
         Assert.assertFalse(model.getRequired());
