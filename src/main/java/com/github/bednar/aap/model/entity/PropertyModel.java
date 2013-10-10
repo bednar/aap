@@ -1,6 +1,9 @@
 package com.github.bednar.aap.model.entity;
 
 import javax.annotation.Nonnull;
+import java.util.List;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author Jakub Bednář (06/10/2013 2:22 PM)
@@ -9,9 +12,9 @@ public final class PropertyModel
 {
     private Integer position = 0;
 
-    private String name             = "";
+    private String name = "";
     private String shortDescription = "";
-    private Class type              = Void.class;
+    private Class type = Void.class;
 
     private Boolean required = false;
 
@@ -131,5 +134,28 @@ public final class PropertyModel
         this.scale = scale;
 
         return this;
+    }
+
+    @Nonnull
+    public List<String> getRestrictions()
+    {
+        List<String> restrictions = Lists.newArrayList();
+
+        if (Number.class.isAssignableFrom(type))
+        {
+            restrictions.add("precision:" + precision);
+            restrictions.add("scale:" + scale);
+        }
+        else
+        {
+            restrictions.add("length:" + maxLength);
+        }
+
+        if (required)
+        {
+            restrictions.add("required");
+        }
+
+        return restrictions;
     }
 }
