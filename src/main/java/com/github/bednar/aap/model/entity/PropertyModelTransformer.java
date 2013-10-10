@@ -19,6 +19,7 @@ public class PropertyModelTransformer implements Function<Field, PropertyModel>
         PropertyModel model = new PropertyModel();
 
         Integer position        = processPosition(field);
+        String name             = field.getName();
         String shortDescription = processName(field);
         Class type              = processType(field);
 
@@ -29,6 +30,7 @@ public class PropertyModelTransformer implements Function<Field, PropertyModel>
 
         model
                 .setPosition(position)
+                .setName(name)
                 .setShortDescription(shortDescription)
                 .setType(type)
                 .setRequired(required)

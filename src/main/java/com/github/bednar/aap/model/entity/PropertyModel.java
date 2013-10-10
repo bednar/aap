@@ -9,8 +9,9 @@ public final class PropertyModel
 {
     private Integer position = 0;
 
+    private String name             = "";
     private String shortDescription = "";
-    private Class type   = Void.class;
+    private Class type              = Void.class;
 
     private Boolean required = false;
 
@@ -30,6 +31,20 @@ public final class PropertyModel
     public PropertyModel setPosition(final @Nonnull Integer position)
     {
         this.position = position;
+
+        return this;
+    }
+
+    @Nonnull
+    public String getName()
+    {
+        return name;
+    }
+
+    @Nonnull
+    public PropertyModel setName(final @Nonnull String name)
+    {
+        this.name = name;
 
         return this;
     }
