@@ -65,7 +65,7 @@ public class EntityModelTransformer implements Function<Class, EntityModel>
                             @Override
                             public int compare(final PropertyModel property1, final PropertyModel property2)
                             {
-                                return ComparisonChain.start().compare(property1.position, property2.position).result();
+                                return ComparisonChain.start().compare(property1.getPosition(), property2.getPosition()).result();
                             }
                         });
     }

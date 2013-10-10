@@ -1,20 +1,120 @@
 package com.github.bednar.aap.model.entity;
 
+import javax.annotation.Nonnull;
+
 /**
  * @author Jakub Bednář (06/10/2013 2:22 PM)
  */
 public final class PropertyModel
 {
-    public int position = 0;
+    private Integer position = 0;
 
-    public String name  = "";
-    public Class type   = Void.class;
+    private String name  = "";
+    private Class type   = Void.class;
 
-    public Boolean required = false;
+    private Boolean required = false;
 
     //For String
-    public int maxLength = 0;
+    private Integer maxLength = 0;
     //For Number
-    public int precision = 0;
-    public int scale = 0;
+    private Integer precision = 0;
+    private Integer scale = 0;
+
+    @Nonnull
+    public Integer getPosition()
+    {
+        return position;
+    }
+
+    @Nonnull
+    public PropertyModel setPosition(final @Nonnull Integer position)
+    {
+        this.position = position;
+
+        return this;
+    }
+
+    @Nonnull
+    public String getName()
+    {
+        return name;
+    }
+
+    @Nonnull
+    public PropertyModel setName(final @Nonnull String name)
+    {
+        this.name = name;
+
+        return this;
+    }
+
+    @Nonnull
+    public Class getType()
+    {
+        return type;
+    }
+
+    @Nonnull
+    public PropertyModel setType(final @Nonnull Class type)
+    {
+        this.type = type;
+
+        return this;
+    }
+
+    @Nonnull
+    public Boolean getRequired()
+    {
+        return required;
+    }
+
+    @Nonnull
+    public PropertyModel setRequired(final @Nonnull Boolean required)
+    {
+        this.required = required;
+
+        return this;
+    }
+
+    @Nonnull
+    public Integer getMaxLength()
+    {
+        return maxLength;
+    }
+
+    @Nonnull
+    public PropertyModel setMaxLength(final @Nonnull Integer maxLength)
+    {
+        this.maxLength = maxLength;
+
+        return this;
+    }
+
+    @Nonnull
+    public Integer getPrecision()
+    {
+        return precision;
+    }
+
+    @Nonnull
+    public PropertyModel setPrecision(final @Nonnull Integer precision)
+    {
+        this.precision = precision;
+
+        return this;
+    }
+
+    @Nonnull
+    public Integer getScale()
+    {
+        return scale;
+    }
+
+    @Nonnull
+    public PropertyModel setScale(final @Nonnull Integer scale)
+    {
+        this.scale = scale;
+
+        return this;
+    }
 }

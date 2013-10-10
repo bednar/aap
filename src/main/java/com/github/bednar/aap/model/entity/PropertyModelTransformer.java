@@ -18,14 +18,23 @@ public class PropertyModelTransformer implements Function<Field, PropertyModel>
     {
         PropertyModel model = new PropertyModel();
 
-        model.position  = processPosition(field);
-        model.name      = processName(field);
-        model.type      = processType(field);
+        Integer position    = processPosition(field);
+        String name         = processName(field);
+        Class type          = processType(field);
 
-        model.required  = processRequired(field);
-        model.maxLength = processMaxLength(field);
-        model.precision = processPrecision(field);
-        model.scale     = processScale(field);
+        Boolean required  = processRequired(field);
+        Integer maxLength = processMaxLength(field);
+        Integer precision = processPrecision(field);
+        Integer scale     = processScale(field);
+
+        model
+                .setPosition(position)
+                .setName(name)
+                .setType(type)
+                .setRequired(required)
+                .setMaxLength(maxLength)
+                .setPrecision(precision)
+                .setScale(scale);
 
         return model;
     }

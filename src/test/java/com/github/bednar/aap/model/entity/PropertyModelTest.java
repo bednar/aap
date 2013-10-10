@@ -17,16 +17,16 @@ public class PropertyModelTest extends AbstractApiTest
     {
         PropertyModel model = builder.getEntityModel(PubApi.Meal.class).getProperties().get(1);
 
-        Assert.assertEquals(2, model.position);
+        Assert.assertEquals(2, model.getPosition().intValue());
 
-        Assert.assertEquals("Name", model.name);
-        Assert.assertEquals(String.class, model.type);
+        Assert.assertEquals("Name", model.getName());
+        Assert.assertEquals(String.class, model.getType());
 
-        Assert.assertTrue(model.required);
-        Assert.assertEquals(100, model.maxLength);
+        Assert.assertTrue(model.getRequired());
+        Assert.assertEquals(100, model.getMaxLength().intValue());
 
-        Assert.assertEquals(0, model.precision);
-        Assert.assertEquals(0, model.scale);
+        Assert.assertEquals(0, model.getPrecision().intValue());
+        Assert.assertEquals(0, model.getScale().intValue());
     }
 
     @Test
@@ -34,15 +34,15 @@ public class PropertyModelTest extends AbstractApiTest
     {
         PropertyModel model = builder.getEntityModel(PubApi.Meal.class).getProperties().get(0);
 
-        Assert.assertEquals(1, model.position);
+        Assert.assertEquals(1, model.getPosition().intValue());
 
-        Assert.assertEquals("Price", model.name);
-        Assert.assertEquals(BigDecimal.class, model.type);
+        Assert.assertEquals("Price", model.getName());
+        Assert.assertEquals(BigDecimal.class, model.getType());
 
-        Assert.assertFalse(model.required);
-        Assert.assertEquals(255, model.maxLength);
+        Assert.assertFalse(model.getRequired());
+        Assert.assertEquals(255, model.getMaxLength().intValue());
 
-        Assert.assertEquals(10, model.precision);
-        Assert.assertEquals(2, model.scale);
+        Assert.assertEquals(10, model.getPrecision().intValue());
+        Assert.assertEquals(2, model.getScale().intValue());
     }
 }
