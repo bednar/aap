@@ -88,11 +88,11 @@ public class ApiaryTest extends AbstractApiTest
         List<String> lines = Files.readAllLines(Paths.get(outputDirectory.getAbsolutePath(), "Meal.md"), UTF_8);
 
         Assert.assertFalse(lines.isEmpty());
-        Assert.assertEquals("---", lines.get(0));
+        Assert.assertEquals("--", lines.get(0));
         Assert.assertEquals("Resource: Tasty Meal", lines.get(1));
         Assert.assertEquals("### Properties", lines.get(2));
-        Assert.assertEquals("    - `price [bigdecimal precision:10, scale:2]` - Price", lines.get(3));
-        Assert.assertEquals("    - `name [string length:100, required]` - Name", lines.get(4));
-        Assert.assertEquals("---", lines.get(5));
+        Assert.assertEquals("- `price[bigdecimal precision:10, scale:2]` - _Price_", lines.get(3));
+        Assert.assertEquals("- `name[string length:100, required]` - _Name_", lines.get(4));
+        Assert.assertEquals("--", lines.get(5));
     }
 }
