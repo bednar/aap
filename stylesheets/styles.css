@@ -828,6 +828,11 @@ section #title .credits.right {
     padding-right : 0;
 }
 
+.license
+{
+    font-size: 12px;
+}
+
 @media print, screen and (max-width: 720px) {
   #title .credits {
     display: block;
