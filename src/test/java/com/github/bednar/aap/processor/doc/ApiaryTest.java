@@ -47,7 +47,7 @@ public class ApiaryTest extends AbstractApiTest
         apiary
                 .addApis(PubApi.class)
                 .addEntities(PubApi.Meal.class)
-                .generate();
+                .generate("Demo Application", "http://www.example.com");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class ApiaryTest extends AbstractApiTest
         apiary
                 .addApis(PubApi.class)
                 .addEntities(PubApi.Meal.class)
-                .generate();
+                .generate("Demo Application", "http://www.example.com");
 
         LOG.info("[file-list][{}]", Arrays.toString(outputDirectory.list()));
 
@@ -70,7 +70,7 @@ public class ApiaryTest extends AbstractApiTest
         apiary
                 .addApis(PubApi.class)
                 .addEntities(PubApi.Meal.class)
-                .generate();
+                .generate("Demo Application", "http://www.example.com");
 
         Assert.assertTrue(Files.exists(Paths.get(outputDirectory.getAbsolutePath(), "PubApi.md")));
         Assert.assertTrue(Files.exists(Paths.get(outputDirectory.getAbsolutePath(), "Meal.md")));
@@ -83,7 +83,7 @@ public class ApiaryTest extends AbstractApiTest
         apiary
                 .addApis(PubApi.class)
                 .addEntities(PubApi.Meal.class)
-                .generate();
+                .generate("Demo Application", "http://www.example.com");
 
         List<String> lines = Files.readAllLines(Paths.get(outputDirectory.getAbsolutePath(), "Meal.md"), UTF_8);
 
@@ -94,5 +94,41 @@ public class ApiaryTest extends AbstractApiTest
         Assert.assertEquals("- `price[bigdecimal precision:10, scale:2]` - _Price_", lines.get(3));
         Assert.assertEquals("- `name[string length:100, required]` - _Name_", lines.get(4));
         Assert.assertEquals("--", lines.get(5));
+    }
+
+    @Test
+    public void pubApiValue() throws IOException
+
+    {
+        apiary
+                .addApis(PubApi.class)
+                .addEntities(PubApi.Meal.class)
+                .generate("Demo Application", "http://www.example.com");
+
+        List<String> lines = Files.readAllLines(Paths.get(outputDirectory.getAbsolutePath(), "PubApi.md"), UTF_8);
+
+        Assert.assertFalse(lines.isEmpty());
+        Assert.assertEquals("--", lines.get(0));
+        Assert.assertEquals("Public Pub", lines.get(1));
+        Assert.assertEquals("Long description of Public Pub!", lines.get(2));
+        Assert.assertEquals("--", lines.get(3));
+    }
+
+    @Test
+    public void apiaryValue() throws IOException
+    {
+        apiary
+                .addApis(PubApi.class)
+                .addEntities(PubApi.Meal.class)
+                .generate("Demo Application", "http://www.example.com");
+
+        apiary
+                .addApis(PubApi.class)
+                .addEntities(PubApi.Meal.class)
+                .generate("Demo Application", "http://www.example.com");
+
+        List<String> lines = Files.readAllLines(Paths.get(outputDirectory.getAbsolutePath(), "Apiary.md"), UTF_8);
+
+        Assert.assertFalse(lines.isEmpty());
     }
 }

@@ -11,10 +11,6 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 
-import com.github.bednar.aap.model.api.ApiModel;
-import com.github.bednar.aap.model.api.OperationModel;
-import com.github.bednar.aap.model.api.ParameterModel;
-import com.github.bednar.aap.model.api.ParameterModelTransform;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -28,32 +24,43 @@ import com.wordnik.swagger.annotations.ApiResponses;
 */
 public class OperationModelTransform implements Function<Method, OperationModel>
 {
-    private final ApiModel model;
+    private final String parentPath;
 
-    public OperationModelTransform(final ApiModel model)
+    public OperationModelTransform(final @Nonnull String parentPath)
     {
-        this.model = model;
+        this.parentPath = parentPath;
     }
 
     @Nullable
     @Override
     public OperationModel apply(final @Nonnull @SuppressWarnings("NullableProblems") Method method)
     {
+        Integer position = processPosition(method);
+
+        String path          = processPath(parentPath, method);
+        String httpMethod    = processHttpMethod(method);
+
+        String shortDescription  = processShortDescription(method);
+        String authorizations    = processAuthorizations(method);
+
+        Class responseEntity            = processResponseEntity(method);
+        Class responseWrapper           = processResponseWrapper(method);
+        Map<String, String> responses   = processResponses(method);
+
+        List<ParameterModel> parameters = processParameters(method);
+
         OperationModel model = new OperationModel();
 
-        model.position = processPosition(method);
-
-        model.path          = processPath(this.model.path, method);
-        model.httpMethod    = processHttpMethod(method);
-
-        model.shortDescription  = processShortDescription(method);
-        model.authorizations    = processAuthorizations(method);
-
-        model.responseEntity    = processResponseEntity(method);
-        model.responseWrapper   = processResponseWrapper(method);
-        model.responses         = processResponses(method);
-
-        model.parameters = processParameters(method);
+        model
+                .setPosition(position)
+                .setPath(path)
+                .setHttpMethod(httpMethod)
+                .setShortDescription(shortDescription)
+                .setAuthorizations(authorizations)
+                .setResponseEntity(responseEntity)
+                .setResponseWrapper(responseWrapper)
+                .setResponses(responses)
+                .setParameters(parameters);
 
         return model;
     }
@@ -148,14 +155,14 @@ public class OperationModelTransform implements Function<Method, OperationModel>
     }
 
     @Nonnull
-    private Map<Integer, String> processResponses(final @Nonnull Method method)
+    private Map<String, String> processResponses(final @Nonnull Method method)
     {
-        Map<Integer, String> results = Maps.newHashMap();
+        Map<String, String> results = Maps.newHashMap();
 
         ApiResponse response = method.getAnnotation(ApiResponse.class);
         if (response != null)
         {
-            results.put(response.code(), response.message());
+            results.put(String.valueOf(response.code()), response.message());
         }
 
         ApiResponses responses = method.getAnnotation(ApiResponses.class);
@@ -163,7 +170,7 @@ public class OperationModelTransform implements Function<Method, OperationModel>
         {
             for (ApiResponse resp : responses.value())
             {
-                results.put(resp.code(), resp.message());
+                results.put(String.valueOf(resp.code()), resp.message());
             }
         }
 

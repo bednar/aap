@@ -41,6 +41,8 @@ public final class Apiary
 
     private Template fileNameTemplate;
     private Template entityTemplate;
+    private Template apiTemplate;
+    private Template apiaryTemplate;
 
     private List<Class> apiClasses = Lists.newArrayList();
     private List<Class> entityClasses = Lists.newArrayList();
@@ -104,15 +106,15 @@ public final class Apiary
 
     /**
      * Generate Apiary Blueprints documentation.
+     *
+     * @param appName name of app
+     * @param baseURL base API url
      */
-    public void generate()
+    public void generate(final @Nonnull String appName, final @Nonnull String baseURL)
     {
         initFreeMarker();
 
-        for (ApiModel model : apiModels())
-        {
-            newFile(newFilePath(model.type));
-        }
+        List<String> evaluatedTemplates = Lists.newArrayList();
 
         for (EntityModel model : entityModels())
         {
@@ -126,9 +128,38 @@ public final class Apiary
             String evaluateTemplate = evaluate(data, entityTemplate);
 
             writeFile(newFile, evaluateTemplate);
+
+            evaluatedTemplates.add(evaluateTemplate);
         }
 
-        newFile(newFilePath(Apiary.class));
+        for (ApiModel model : apiModels())
+        {
+            Path newFile = newFile(newFilePath(model.getType()));
+
+            ImmutableMap<String, Object> data = ImmutableMap
+                    .<String, Object>builder()
+                    .put("model", model)
+                    .build();
+
+            String evaluateTemplate = evaluate(data, apiTemplate);
+
+            writeFile(newFile, evaluateTemplate);
+
+            evaluatedTemplates.add(evaluateTemplate);
+        }
+
+        Path newFile = newFile(newFilePath(Apiary.class));
+
+        ImmutableMap<String, Object> data = ImmutableMap
+                .<String, Object>builder()
+                .put("templates", evaluatedTemplates)
+                .put("appName", appName)
+                .put("baseURL", baseURL)
+                .build();
+
+        String evaluateTemplate = evaluate(data, apiaryTemplate);
+
+        writeFile(newFile, evaluateTemplate);
     }
 
     private void initFreeMarker()
@@ -138,8 +169,10 @@ public final class Apiary
 
         try
         {
-            fileNameTemplate    = cfg.getTemplate("/doc/filename.ftl");
-            entityTemplate      = cfg.getTemplate("/doc/entity.ftl");
+            fileNameTemplate = cfg.getTemplate("/doc/filename.ftl");
+            entityTemplate = cfg.getTemplate("/doc/entity.ftl");
+            apiTemplate = cfg.getTemplate("/doc/api.ftl");
+            apiaryTemplate = cfg.getTemplate("/doc/apiary.ftl");
         }
         catch (Exception e)
         {
@@ -221,16 +254,16 @@ public final class Apiary
     @Nonnull
     private List<EntityModel> entityModels()
     {
-       return FluentIterable.from(entityClasses).transform(
-               new Function<Class, EntityModel>()
-               {
-                   @Nullable
-                   @Override
-                   public EntityModel apply(final @SuppressWarnings("NullableProblems") @Nonnull Class klass)
-                   {
-                       return ModelBuilder.getInstance().getEntityModel(klass);
-                   }
-               }).toList();
+        return FluentIterable.from(entityClasses).transform(
+                new Function<Class, EntityModel>()
+                {
+                    @Nullable
+                    @Override
+                    public EntityModel apply(final @SuppressWarnings("NullableProblems") @Nonnull Class klass)
+                    {
+                        return ModelBuilder.getInstance().getEntityModel(klass);
+                    }
+                }).toList();
     }
 
     private class ApiaryException extends RuntimeException

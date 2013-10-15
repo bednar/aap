@@ -15,14 +15,20 @@ public class ParameterModelTransform implements Function<ParameterModelTransform
     @Override
     public ParameterModel apply(final @Nonnull @SuppressWarnings("NullableProblems") MethodParameter methodParameter)
     {
+        String name              = processName(methodParameter);
+        String shortDescription  = processShortDescription(methodParameter);
+
+        Boolean required = processRequired(methodParameter);
+
+        Class type = processType(methodParameter);
+
         ParameterModel model = new ParameterModel();
 
-        model.name              = processName(methodParameter);
-        model.shortDescription  = processShortDescription(methodParameter);
-
-        model.required = processRequired(methodParameter);
-
-        model.type = processType(methodParameter);
+        model
+                .setName(name)
+                .setShortDescription(shortDescription)
+                .setRequired(required)
+                .setType(type);
 
         return model;
     }

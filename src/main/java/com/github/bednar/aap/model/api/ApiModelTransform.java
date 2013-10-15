@@ -26,18 +26,26 @@ public class ApiModelTransform implements Function<Class, ApiModel>
     @Override
     public ApiModel apply(final @Nonnull @SuppressWarnings("NullableProblems") Class klass)
     {
+        String path = processPath(klass);
+
+        String[] consumes = processConsumes(klass);
+        String[] produces = processProduces(klass);
+
+        String shortDescription  = processShortDescription(klass);
+        String description       = processDescription(klass);
+
+        List<OperationModel> operations = processOperations(klass, path);
+
         ApiModel model = new ApiModel();
 
-        model.type = klass;
-
-        model.path = processPath(klass);
-
-        model.consumes = processConsumes(klass);
-        model.produces = processProduces(klass);
-
-        model.shortDescription = processShortDescription(klass);
-
-        model.operations = processOperations(klass, model);
+        model
+                .setType(klass)
+                .setPath(path)
+                .setConsumes(consumes)
+                .setProduces(produces)
+                .setShortDescription(shortDescription)
+                .setDescription(description)
+                .setOperations(operations);
 
         return model;
     }
@@ -75,7 +83,15 @@ public class ApiModelTransform implements Function<Class, ApiModel>
     }
 
     @Nonnull
-    private List<OperationModel> processOperations(final @Nonnull Class<?> klass, final ApiModel model)
+    private String processDescription(final @Nonnull Class<?> klass)
+    {
+        Api api = klass.getAnnotation(Api.class);
+
+        return api != null ? api.description() : "";
+    }
+
+    @Nonnull
+    private List<OperationModel> processOperations(final @Nonnull Class<?> klass, final @Nonnull String parentPath)
     {
         List<Method> methods = Lists.newArrayList(klass.getDeclaredMethods());
 
@@ -91,14 +107,14 @@ public class ApiModelTransform implements Function<Class, ApiModel>
                             }
 
                         })
-                .transform(new OperationModelTransform(model))
+                .transform(new OperationModelTransform(parentPath))
                 .toSortedList(
                         new Comparator<OperationModel>()
                         {
                             @Override
                             public int compare(final OperationModel operation1, final OperationModel operation2)
                             {
-                                return ComparisonChain.start().compare(operation1.position, operation2.position).result();
+                                return ComparisonChain.start().compare(operation1.getPosition(), operation2.getPosition()).result();
                             }
 
                         });

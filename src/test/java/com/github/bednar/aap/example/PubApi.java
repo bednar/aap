@@ -24,7 +24,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
  * @author Jakub Bednář (05/10/2013 3:05 PM)
  */
 @Path("pub")
-@Api(value = "Public Pub")
+@Api(value = "Public Pub", description = "Long description of Public Pub!")
 @Consumes("application/json")
 @Produces("application/json")
 public interface PubApi
@@ -47,6 +47,12 @@ public interface PubApi
             value = "Find all meals.",
             response = Meal.class,
             responseContainer = "java.util.List")
+    @ApiResponse(
+            code = 200,
+            message = "[" +
+                        "{\"name\": \"Hamburger\", \"price\": 1000}," +
+                        "{\"name\": \"Chocolate\", \"price\": 500}" +
+                       "]")
     List<Meal> allMeals();
 
     @POST

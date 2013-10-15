@@ -29,7 +29,7 @@ public class ApiModelTest extends AbstractApiTest
     {
         ApiModel model = builder.getApiModel(PubApi.class);
 
-        Assert.assertEquals(PubApi.class, model.type);
+        Assert.assertEquals(PubApi.class, model.getType());
     }
 
     @Test
@@ -37,7 +37,7 @@ public class ApiModelTest extends AbstractApiTest
     {
         ApiModel model = builder.getApiModel(PubApi.class);
 
-        Assert.assertEquals("pub", model.path);
+        Assert.assertEquals("pub", model.getPath());
     }
 
     @Test
@@ -45,8 +45,8 @@ public class ApiModelTest extends AbstractApiTest
     {
         ApiModel model = builder.getApiModel(PubApi.class);
 
-        Assert.assertEquals(1, model.consumes.length);
-        Assert.assertEquals("application/json", model.consumes[0]);
+        Assert.assertEquals(1, model.getConsumes().length);
+        Assert.assertEquals("application/json", model.getConsumes()[0]);
     }
 
     @Test
@@ -54,8 +54,8 @@ public class ApiModelTest extends AbstractApiTest
     {
         ApiModel model = builder.getApiModel(PubApi.class);
 
-        Assert.assertEquals(1, model.produces.length);
-        Assert.assertEquals("application/json", model.produces[0]);
+        Assert.assertEquals(1, model.getProduces().length);
+        Assert.assertEquals("application/json", model.getProduces()[0]);
     }
 
     @Test
@@ -63,6 +63,14 @@ public class ApiModelTest extends AbstractApiTest
     {
         ApiModel model = builder.getApiModel(PubApi.class);
 
-        Assert.assertEquals("Public Pub", model.shortDescription);
+        Assert.assertEquals("Public Pub", model.getShortDescription());
+    }
+
+    @Test
+    public void descriptionValue()
+    {
+        ApiModel model = builder.getApiModel(PubApi.class);
+
+        Assert.assertEquals("Long description of Public Pub!", model.getDescription());
     }
 }

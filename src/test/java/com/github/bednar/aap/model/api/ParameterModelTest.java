@@ -13,26 +13,26 @@ public class ParameterModelTest extends AbstractApiTest
     @Test
     public void mealByNameNameValue()
     {
-        ParameterModel model = builder.getApiModel(PubApi.class).operations.get(0).parameters.get(0);
+        ParameterModel model = builder.getApiModel(PubApi.class).getOperations().get(0).getParameters().get(0);
 
-        Assert.assertEquals("name", model.name);
-        Assert.assertEquals("Name of Meal", model.shortDescription);
+        Assert.assertEquals("name", model.getName());
+        Assert.assertEquals("Name of Meal", model.getShortDescription());
 
-        Assert.assertTrue(model.required);
+        Assert.assertTrue(model.getRequired());
 
-        Assert.assertEquals(String.class, model.type);
+        Assert.assertEquals(String.class, model.getType());
     }
 
     @Test
     public void updateMealMeal()
     {
-        ParameterModel model = builder.getApiModel(PubApi.class).operations.get(1).parameters.get(0);
+        ParameterModel model = builder.getApiModel(PubApi.class).getOperations().get(1).getParameters().get(0);
 
-        Assert.assertEquals("meal", model.name);
-        Assert.assertEquals("Meal for update", model.shortDescription);
+        Assert.assertEquals("meal", model.getName());
+        Assert.assertEquals("Meal for update", model.getShortDescription());
 
-        Assert.assertTrue(model.required);
+        Assert.assertTrue(model.getRequired());
 
-        Assert.assertEquals(PubApi.Meal.class, model.type);
+        Assert.assertEquals(PubApi.Meal.class, model.getType());
     }
 }
