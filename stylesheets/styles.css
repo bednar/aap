@@ -820,6 +820,14 @@ section #title .credits.right {
   float: right;
 }
 
+.inline-code
+{
+    margin-left   : 0;
+    margin-right  : 0;
+    padding-left  : 0;
+    padding-right : 0;
+}
+
 @media print, screen and (max-width: 720px) {
   #title .credits {
     display: block;
