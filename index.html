@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Api Annotation Processor@bednar</title>
@@ -9,40 +9,56 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
     <!--[if lt IE 8]>
     <link rel="stylesheet" href="stylesheets/ie.css">
     <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-  </head>
-  <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/bednar/aap">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/bednar/aap/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/bednar/aap/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+</head>
+<body>
+<div id="header">
+    <nav>
+        <li class="fork"><a href="https://github.com/bednar/aap">View On GitHub</a></li>
+        <li class="downloads"><a href="https://github.com/bednar/aap/zipball/master">ZIP</a></li>
+        <li class="downloads"><a href="https://github.com/bednar/aap/tarball/master">TAR</a></li>
+        <li class="title">DOWNLOADS</li>
+    </nav>
+</div>
+<!-- end header -->
 
-    <div class="wrapper">
+<div class="wrapper">
 
-      <section>
+    <section>
         <div id="title">
-          <h1>Api Annotation Processor</h1>
-          <p>Documentation, JavaScript library and JAX-RS library by Maven</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/bednar">bednar</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+            <h1>Api Annotation Processor</h1>
+
+            <p>Documentation, JavaScript library and JAX-RS library by Maven</p>
+            <hr>
+            <span class="credits left">Project maintained by <a href="https://github.com/bednar">bednar</a></span>
+            <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a
+                    href="https://twitter.com/michigangraham">mattgraham</a></span>
         </div>
 
         <h3>
-          <a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages">
-            <span class="octicon octicon-link"></span>
-          </a>
-          Maven Repository
+            <a name="maven-plugin" class="anchor" href="#maven-plugin">
+                <span class="octicon octicon-link"></span>
+            </a>
+            Maven Plugin
+        </h3>
+
+<pre><code>&lt;plugin&gt;
+    &lt;groupId&gt;com.github.bednar&lt;/groupId&gt;
+    &lt;artefactId&gt;aap&lt;/artefactId&gt;
+    &lt;version&gt;0.1-SNAPSHOT&lt;/version&gt;
+&lt;/plugin&gt;</code></pre>
+
+        <h3>
+            <a name="maven-repository" class="anchor" href="#maven-repository">
+                <span class="octicon octicon-link"></span>
+            </a>
+            Maven Repository
         </h3>
 
 <pre><code>&lt;repository&gt;
@@ -51,10 +67,11 @@
   &lt;url&gt;https://raw.github.com/bednar/aap/mvn-repo&lt;/url&gt;
 &lt;/repository&gt;</code></pre>
 
-     </section>
+    </section>
 
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
-  </body>
+</div>
+<!--[if !IE]>
+<script>fixScale(document);</script><![endif]-->
+
+</body>
 </html>

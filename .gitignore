@@ -1,0 +1,5 @@
+# Idea Files #
+.idea/
+*.iml
+*.ipr
+atlassian-ide-plugin.xml
