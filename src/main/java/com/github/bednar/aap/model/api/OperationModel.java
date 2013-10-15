@@ -14,15 +14,15 @@ public final class OperationModel
 {
     private Integer position = 0;
 
-    private String path = "";
-    private String httpMethod = "";
+    private String path         = "";
+    private String httpMethod   = "";
 
     private String shortDescription = "";
-    private String authorizations = "";
+    private String authorizations   = "";
 
-    private Class responseEntity = Void.class;
-    private Class responseWrapper = Void.class;
-    private Map<String, String> responses = Maps.newHashMap();
+    private Class responseEntity            = Void.class;
+    private Class responseWrapper           = Void.class;
+    private Map<String, String> responses   = Maps.newHashMap();
 
     private List<ParameterModel> parameters = Lists.newArrayList();
 

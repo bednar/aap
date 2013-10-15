@@ -7,7 +7,7 @@ import javax.annotation.Nonnull;
  */
 public final class ParameterModel
 {
-    private String name = "";
+    private String name             = "";
     private String shortDescription = "";
 
     private Boolean required = false;

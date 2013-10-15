@@ -101,22 +101,22 @@ public class ApiModelTransform implements Function<Class, ApiModel>
                         new Predicate<Method>()
                         {
                             @Override
-                            public boolean apply(@Nullable final Method method)
+                            public boolean apply(final @Nullable Method method)
                             {
                                 return method != null && method.getAnnotation(ApiOperation.class) != null;
                             }
-
                         })
                 .transform(new OperationModelTransform(parentPath))
                 .toSortedList(
                         new Comparator<OperationModel>()
                         {
                             @Override
-                            public int compare(final OperationModel operation1, final OperationModel operation2)
+                            public int compare(final OperationModel model1, final OperationModel model2)
                             {
-                                return ComparisonChain.start().compare(operation1.getPosition(), operation2.getPosition()).result();
+                                return ComparisonChain.start()
+                                        .compare(model1.getPosition(), model2.getPosition())
+                                        .result();
                             }
-
                         });
     }
 }

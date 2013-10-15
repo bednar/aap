@@ -12,17 +12,17 @@ public final class PropertyModel
 {
     private Integer position = 0;
 
-    private String name = "";
+    private String name             = "";
     private String shortDescription = "";
-    private Class type = Void.class;
+    private Class type              = Void.class;
 
     private Boolean required = false;
 
     //For String
     private Integer maxLength = 0;
     //For Number
-    private Integer precision = 0;
-    private Integer scale = 0;
+    private Integer precision   = 0;
+    private Integer scale       = 0;
 
     @Nonnull
     public Integer getPosition()

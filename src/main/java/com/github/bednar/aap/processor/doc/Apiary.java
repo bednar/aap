@@ -10,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 
 import com.github.bednar.aap.model.ModelBuilder;
 import com.github.bednar.aap.model.api.ApiModel;
@@ -80,7 +79,7 @@ public final class Apiary
     {
         Preconditions.checkNotNull(apiClasses);
 
-        this.apiClasses = Lists.newArrayList(apiClasses);
+        this.apiClasses.addAll(Lists.newArrayList(apiClasses));
 
         return this;
     }
@@ -99,7 +98,7 @@ public final class Apiary
     {
         Preconditions.checkNotNull(entityClasses);
 
-        this.entityClasses = Lists.newArrayList(entityClasses);
+        this.entityClasses.addAll(Lists.newArrayList(entityClasses));
 
         return this;
     }
@@ -107,59 +106,44 @@ public final class Apiary
     /**
      * Generate Apiary Blueprints documentation.
      *
-     * @param appName name of app
-     * @param baseURL base API url
+     * @param appName     name of app [required]
+     * @param baseURL     base API url [required]
+     * @param description description of app
      */
-    public void generate(final @Nonnull String appName, final @Nonnull String baseURL)
+    public void generate(final @Nonnull String appName, final @Nonnull String baseURL, final @Nullable String description)
     {
+        Preconditions.checkNotNull(appName);
+        Preconditions.checkNotNull(baseURL);
+
         initFreeMarker();
 
         List<String> evaluatedTemplates = Lists.newArrayList();
 
         for (EntityModel model : entityModels())
         {
-            Path newFile = newFile(newFilePath(model.getType()));
+            String evaluateTemplate = evaluate(entityTemplate, "model", model);
 
-            ImmutableMap<String, Object> data = ImmutableMap
-                    .<String, Object>builder()
-                    .put("model", model)
-                    .build();
-
-            String evaluateTemplate = evaluate(data, entityTemplate);
-
-            writeFile(newFile, evaluateTemplate);
+            createFile(model.getType(), evaluateTemplate);
 
             evaluatedTemplates.add(evaluateTemplate);
         }
 
         for (ApiModel model : apiModels())
         {
-            Path newFile = newFile(newFilePath(model.getType()));
+            String evaluateTemplate = evaluate(apiTemplate, "model", model);
 
-            ImmutableMap<String, Object> data = ImmutableMap
-                    .<String, Object>builder()
-                    .put("model", model)
-                    .build();
-
-            String evaluateTemplate = evaluate(data, apiTemplate);
-
-            writeFile(newFile, evaluateTemplate);
+            createFile(model.getType(), evaluateTemplate);
 
             evaluatedTemplates.add(evaluateTemplate);
         }
 
-        Path newFile = newFile(newFilePath(Apiary.class));
+        String evaluateTemplate = evaluate(apiaryTemplate,
+                "templates",    evaluatedTemplates,
+                "appName",      appName,
+                "baseURL",      baseURL,
+                "description",  description);
 
-        ImmutableMap<String, Object> data = ImmutableMap
-                .<String, Object>builder()
-                .put("templates", evaluatedTemplates)
-                .put("appName", appName)
-                .put("baseURL", baseURL)
-                .build();
-
-        String evaluateTemplate = evaluate(data, apiaryTemplate);
-
-        writeFile(newFile, evaluateTemplate);
+        createFile(Apiary.class, evaluateTemplate);
     }
 
     private void initFreeMarker()
@@ -169,10 +153,10 @@ public final class Apiary
 
         try
         {
-            fileNameTemplate = cfg.getTemplate("/doc/filename.ftl");
-            entityTemplate = cfg.getTemplate("/doc/entity.ftl");
-            apiTemplate = cfg.getTemplate("/doc/api.ftl");
-            apiaryTemplate = cfg.getTemplate("/doc/apiary.ftl");
+            fileNameTemplate    = cfg.getTemplate("/doc/filename.ftl");
+            entityTemplate      = cfg.getTemplate("/doc/entity.ftl");
+            apiTemplate         = cfg.getTemplate("/doc/api.ftl");
+            apiaryTemplate      = cfg.getTemplate("/doc/apiary.ftl");
         }
         catch (Exception e)
         {
@@ -181,40 +165,22 @@ public final class Apiary
     }
 
     @Nonnull
-    private Path newFilePath(final @Nonnull Class klass)
+    private String evaluate(final @Nonnull Template template, final @Nonnull Object... keyValues)
     {
-        ImmutableMap<String, Object> data = ImmutableMap
-                .<String, Object>builder()
-                .put("class", klass)
-                .build();
+        ImmutableMap.Builder<String, Object> map = ImmutableMap.builder();
 
-        String fileName = evaluate(data, fileNameTemplate);
-
-        return Paths.get(outputDirectory.getAbsolutePath(), fileName);
-    }
-
-    @Nonnull
-    private Path newFile(final @Nonnull Path fileToCreate)
-    {
-        try
+        for (int i = 0; i < keyValues.length; i += 2)
         {
-            Files.deleteIfExists(fileToCreate);
+            Object key = keyValues[i];
+            Object value = keyValues[i + 1];
 
-            return Files.createFile(fileToCreate);
+            map.put(key.toString(), value);
         }
-        catch (IOException e)
-        {
-            throw new ApiaryException(e);
-        }
-    }
 
-    @Nonnull
-    private String evaluate(final @Nonnull Map<String, Object> data, final @Nonnull Template template)
-    {
         StringWriter output = new StringWriter();
         try
         {
-            template.process(data, output);
+            template.process(map.build(), output);
         }
         catch (Exception e)
         {
@@ -224,16 +190,28 @@ public final class Apiary
         return output.toString();
     }
 
-    private void writeFile(final @Nonnull Path newFile, final @Nonnull String evaluatedTemplate)
+    private void createFile(final @Nonnull Class type, final @Nonnull String evaluatedTemplate)
     {
+        Path path = newFilePath(type);
+
         try
         {
-            Files.write(newFile, evaluatedTemplate.getBytes(StandardCharsets.UTF_8));
+            Files.deleteIfExists(path);
+            Files.createFile(path);
+            Files.write(path, evaluatedTemplate.getBytes(StandardCharsets.UTF_8));
         }
         catch (IOException e)
         {
             throw new ApiaryException(e);
         }
+    }
+
+    @Nonnull
+    private Path newFilePath(final @Nonnull Class klass)
+    {
+        String fileName = evaluate(fileNameTemplate, "class", klass);
+
+        return Paths.get(outputDirectory.getAbsolutePath(), fileName);
     }
 
     @Nonnull

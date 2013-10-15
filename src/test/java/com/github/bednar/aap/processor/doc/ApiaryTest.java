@@ -47,7 +47,7 @@ public class ApiaryTest extends AbstractApiTest
         apiary
                 .addApis(PubApi.class)
                 .addEntities(PubApi.Meal.class)
-                .generate("Demo Application", "http://www.example.com");
+                .generate("Demo Application", "http://www.example.com", "This is a Demo App!");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class ApiaryTest extends AbstractApiTest
         apiary
                 .addApis(PubApi.class)
                 .addEntities(PubApi.Meal.class)
-                .generate("Demo Application", "http://www.example.com");
+                .generate("Demo Application", "http://www.example.com", "This is a Demo App!");
 
         LOG.info("[file-list][{}]", Arrays.toString(outputDirectory.list()));
 
@@ -70,7 +70,7 @@ public class ApiaryTest extends AbstractApiTest
         apiary
                 .addApis(PubApi.class)
                 .addEntities(PubApi.Meal.class)
-                .generate("Demo Application", "http://www.example.com");
+                .generate("Demo Application", "http://www.example.com", "This is a Demo App!");
 
         Assert.assertTrue(Files.exists(Paths.get(outputDirectory.getAbsolutePath(), "PubApi.md")));
         Assert.assertTrue(Files.exists(Paths.get(outputDirectory.getAbsolutePath(), "Meal.md")));
@@ -83,7 +83,7 @@ public class ApiaryTest extends AbstractApiTest
         apiary
                 .addApis(PubApi.class)
                 .addEntities(PubApi.Meal.class)
-                .generate("Demo Application", "http://www.example.com");
+                .generate("Demo Application", "http://www.example.com", "This is a Demo App!");
 
         List<String> lines = Files.readAllLines(Paths.get(outputDirectory.getAbsolutePath(), "Meal.md"), UTF_8);
 
@@ -103,7 +103,7 @@ public class ApiaryTest extends AbstractApiTest
         apiary
                 .addApis(PubApi.class)
                 .addEntities(PubApi.Meal.class)
-                .generate("Demo Application", "http://www.example.com");
+                .generate("Demo Application", "http://www.example.com", "This is a Demo App!");
 
         List<String> lines = Files.readAllLines(Paths.get(outputDirectory.getAbsolutePath(), "PubApi.md"), UTF_8);
 
@@ -120,12 +120,12 @@ public class ApiaryTest extends AbstractApiTest
         apiary
                 .addApis(PubApi.class)
                 .addEntities(PubApi.Meal.class)
-                .generate("Demo Application", "http://www.example.com");
+                .generate("Demo Application", "http://www.example.com", "This is a Demo App!");
 
         apiary
                 .addApis(PubApi.class)
                 .addEntities(PubApi.Meal.class)
-                .generate("Demo Application", "http://www.example.com");
+                .generate("Demo Application", "http://www.example.com", "This is a Demo App!");
 
         List<String> lines = Files.readAllLines(Paths.get(outputDirectory.getAbsolutePath(), "Apiary.md"), UTF_8);
 
