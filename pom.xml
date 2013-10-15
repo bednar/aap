@@ -7,7 +7,8 @@
     <!--suppress MavenRedundantGroupId -->
     <groupId>com.github.bednar</groupId>
     <artifactId>aap</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
+    <packaging>maven-plugin</packaging>
 
     <parent>
         <artifactId>maven-parent</artifactId>
@@ -85,6 +86,24 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <configuration>
+                    <goalPrefix>${project.artifactId}</goalPrefix>
+                    <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>mojo-descriptor</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>descriptor</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
 
     </build>
@@ -108,6 +127,18 @@
         <dependency>
             <groupId>com.wordnik</groupId>
             <artifactId>swagger-annotations_2.9.1</artifactId>
+        </dependency>
+
+        <!-- Maven -->
+
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
         </dependency>
 
         <!-- Utils -->
