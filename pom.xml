@@ -92,6 +92,7 @@
                 <configuration>
                     <goalPrefix>${project.artifactId}</goalPrefix>
                     <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+                    <apiary implementation="com.github.bednar.aap.mojo.GenerateMojo.ApiaryCfg"/>
                 </configuration>
                 <executions>
                     <execution>
