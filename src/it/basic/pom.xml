@@ -8,6 +8,12 @@
     <artifactId>basic</artifactId>
     <version>testing</version>
 
+    <parent>
+        <artifactId>maven-parent</artifactId>
+        <groupId>com.github.bednar</groupId>
+        <version>1-SNAPSHOT</version>
+    </parent>
+
     <build>
         <plugins>
             <plugin>
