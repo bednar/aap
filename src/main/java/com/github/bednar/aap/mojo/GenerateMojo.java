@@ -1,5 +1,8 @@
 package com.github.bednar.aap.mojo;
 
+import java.io.File;
+
+import com.github.bednar.aap.processor.doc.Apiary;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -15,12 +18,23 @@ public class GenerateMojo extends AbstractMojo
     @Parameter
     private ApiaryCfg apiary;
 
+    /**
+     * Project base dir
+     */
+    @Parameter(defaultValue = "${project.basedir}")
+    private File basedir;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException
     {
         if (apiary != null)
         {
             getLog().info("Apiary Configuration: " + apiary);
+            getLog().info("Apiary Output: " + basedir);
+
+            Apiary
+                    .create(basedir)
+                    .generate(apiary.appName, apiary.apiBaseURL, apiary.appDescription);
         }
     }
 

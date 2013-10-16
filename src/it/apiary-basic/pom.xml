@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.bednar.aap.it</groupId>
+    <artifactId>apiary-basic</artifactId>
+    <version>testing</version>
+
+    <parent>
+        <artifactId>maven-parent</artifactId>
+        <groupId>com.github.bednar</groupId>
+        <version>1-SNAPSHOT</version>
+    </parent>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.bednar</groupId>
+                <artifactId>aap</artifactId>
+                <version>@project.version@</version>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <apiary>
+                        <appName>Demo Application</appName>
+                        <appDescription>This is a Demo App!</appDescription>
+                        <apiBaseURL>http://demoaap.apiary.io</apiBaseURL>
+                    </apiary>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
