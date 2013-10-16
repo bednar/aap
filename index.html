@@ -6,6 +6,8 @@
     <title>Api Annotation Processor@bednar</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <link rel="stylesheet" href="highlightjs/styles/default.css">
+    <link rel="stylesheet" href="highlightjs/styles/tomorrow-night-bright.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
@@ -42,17 +44,108 @@
         </div>
 
         <h3>
-            <a name="maven-apiary-configuration" class="anchor" href="#maven-apiary-configuration">
+            <a name="api-source" class="anchor" href="#api-source">
                 <span class="octicon octicon-link"></span>
             </a>
-            Apiary Configuration
+            API Java Source
         </h3>
 
-        <p>
-            For export to <a href="http://apiary.io/">Apiary Blueprint</a> add
-            <code class="inline-code">&lt;apiary&gt;...&lt;/apiary&gt;</code> to
-            <code class="inline-code">&lt;configuration/&gt;</code>.
-        </p>
+<pre><code class="java">@Path("pub")
+@Api(value = "Public Pub", description = "Long description of Public Pub!")
+@Consumes("application/json")
+@Produces("application/json")
+public interface PubApi
+{
+    @GET
+    @Path("mealByName")
+    @ApiOperation(
+        position = 1,
+        value = "Find meal by name.",
+        response = Meal.class)
+    @ApiResponse(
+        code = 400,
+        message = "Cannot find meal by name.")
+    Meal mealByName(final @Nonnull @ApiParam(name="name", value = "Name of Meal", required = true) String name);
+
+    @GET
+    @Path("allMeals")
+    @ApiOperation(
+        position = 3,
+        value = "Find all meals.",
+        response = Meal.class,
+        responseContainer = "java.util.List")
+    @ApiResponse(
+        code = 200,
+        message = "[" +
+            "{\"name\": \"Hamburger\", \"price\": 1000}," +
+            "{\"name\": \"Chocolate\", \"price\": 500}" +
+        "]")
+    List&lt;Meal&gt; allMeals();
+
+    @POST
+    @Path("updateMeal")
+    @ApiOperation(
+        position = 2,
+        value = "Update Meal in pub.",
+        authorizations = "Owner of Pub")
+    @ApiResponses(value = {
+        @ApiResponse(
+            code = 200,
+            message = "Success update."),
+        @ApiResponse(
+            code = 401,
+            message = "Authorization violation.")
+        })
+    void updateMeal(final @Nonnull @ApiParam(name="meal", value = "Meal for update", required = true) Meal meal);
+
+    ...
+}
+
+@ApiModel("Tasty Meal")
+public class Meal
+{
+    @Column(length = 100, nullable = false)
+    @ApiModelProperty(value = "Name", position = 2)
+    private String name;
+
+    @Column(precision = 10, scale = 2)
+    @ApiModelProperty(value = "Price", position = 1)
+    private BigDecimal price;
+
+    ...
+}
+</code></pre>
+
+        <h3>
+            <a name="maven-apiary-documentation" class="anchor" href="#maven-apiary-documentation">
+                <span class="octicon octicon-link"></span>
+            </a>
+            Apiary Documentation
+        </h3>
+
+        <p>Add <span class="tomorrow-red">&lt;apiary/&gt;</span> element to plugin configuration.</p>
+
+<pre><code class="xml">&lt;apiary&gt;
+    &lt;!-- Application Name (default: 'Demo App') --&gt;
+    &lt;appName/&gt;
+    &lt;!-- Application Description (default: ''; can use Markdown) --&gt;
+    &lt;appDescription/&gt;
+    &lt;!-- API Base URL (default: 'https://www.example.com/api') --&gt;
+    &lt;apiBaseURL/&gt;
+&lt;/apiary&gt;</code></pre>
+
+        <h4>
+            <a name="apiary-results" class="anchor" href="#apiary-results">
+                <span class="octicon octicon-link"></span>
+            </a>
+            Generated Documentation
+        </h4>
+
+        <div class="image-container">
+            <a href="http://docs.demoaap.apiary.io" title="Example of generated documenation">
+                <img src="images/demo-application.png">
+            </a>
+        </div>
 
         <h3>
             <a name="maven-plugin" class="anchor" href="#maven-plugin">
@@ -61,7 +154,7 @@
             Maven Plugin
         </h3>
 
-<pre><code>&lt;plugin&gt;
+<pre><code class="xml">&lt;plugin&gt;
     &lt;groupId&gt;com.github.bednar&lt;/groupId&gt;
     &lt;artefactId&gt;aap&lt;/artefactId&gt;
     &lt;version&gt;0.1-SNAPSHOT&lt;/version&gt;
@@ -121,6 +214,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 </div>
 <!--[if !IE]>
 <script>fixScale(document);</script><![endif]-->
+
+<script src="highlightjs/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
 
 </body>
 </html>

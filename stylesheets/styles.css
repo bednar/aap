@@ -637,7 +637,7 @@ code {
 }
 
 pre {
-  padding: 8px 15px;
+  padding: 10px 10px;
   background: #191919;
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
@@ -831,6 +831,14 @@ section #title .credits.right {
 .license
 {
     font-size: 12px;
+}
+
+.image-container
+{
+    padding          : 10px;
+    border           : 1px solid #121212;
+    background-color : #191919;
+    margin-bottom    : 20px;
 }
 
 @media print, screen and (max-width: 720px) {
