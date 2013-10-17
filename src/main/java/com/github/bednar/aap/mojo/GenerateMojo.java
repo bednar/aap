@@ -61,6 +61,6 @@ public class GenerateMojo extends AbstractMojo
 
         Apiary
                 .create(basedir)
-                .generate(appName, apiBaseURL, null);
+                .generate(appName, apiBaseURL, appDescription);
     }
 }
