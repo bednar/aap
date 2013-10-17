@@ -108,9 +108,9 @@ public final class Apiary
      *
      * @param appName     name of app [required]
      * @param baseURL     base API url [required]
-     * @param description description of app
+     * @param description file with description of app
      */
-    public void generate(final @Nonnull String appName, final @Nonnull String baseURL, final @Nullable String description)
+    public void generate(final @Nonnull String appName, final @Nonnull String baseURL, final @Nullable File description)
     {
         Preconditions.checkNotNull(appName);
         Preconditions.checkNotNull(baseURL);
@@ -141,7 +141,7 @@ public final class Apiary
                 "templates",    evaluatedTemplates,
                 "appName",      appName,
                 "baseURL",      baseURL,
-                "description",  description);
+                "description",  readFile(description));
 
         createFile(Apiary.class, evaluateTemplate);
     }
@@ -212,6 +212,23 @@ public final class Apiary
         String fileName = evaluate(fileNameTemplate, "class", klass);
 
         return Paths.get(outputDirectory.getAbsolutePath(), fileName);
+    }
+
+    @Nonnull
+    private String readFile(final @Nullable File file)
+    {
+        if (file == null || !file.exists())
+        {
+            return "";
+        }
+        try
+        {
+            return com.google.common.io.Files.toString(file, StandardCharsets.UTF_8);
+        }
+        catch (IOException e)
+        {
+            throw new ApiaryException(e);
+        }
     }
 
     @Nonnull
