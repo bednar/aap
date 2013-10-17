@@ -10,8 +10,8 @@ HOST: ${baseURL}
 ---
 ${description}
 ---
-</#if>
 
+</#if>
 <#list templates as template>
 ${template}
 </#list>

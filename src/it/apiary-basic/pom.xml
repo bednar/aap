@@ -29,11 +29,8 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <apiary>
-                        <appName>Demo Application</appName>
-                        <appDescription>This is a Demo App!</appDescription>
-                        <apiBaseURL>http://demoaap.apiary.io</apiBaseURL>
-                    </apiary>
+                    <appName>Demo Application</appName>
+                    <apiBaseURL>http://demoaap.apiary.io</apiBaseURL>
                 </configuration>
             </plugin>
         </plugins>
