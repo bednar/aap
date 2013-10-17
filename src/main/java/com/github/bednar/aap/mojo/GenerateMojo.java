@@ -19,10 +19,10 @@ import org.apache.maven.plugins.annotations.Parameter;
 public class GenerateMojo extends AbstractMojo
 {
     /**
-     * Project base dir
+     * Documentation output
      */
-    @Parameter(defaultValue = "${project.basedir}", readonly = true)
-    private File basedir;
+    @Parameter(defaultValue = "${project.build.directory}/generated/apiary")
+    private File apiaryOutput;
 
     /**
      * Name of Application
@@ -60,7 +60,7 @@ public class GenerateMojo extends AbstractMojo
         }
 
         Apiary
-                .create(basedir)
+                .create(apiaryOutput)
                 .generate(appName, apiBaseURL, appDescription);
     }
 }

@@ -59,6 +59,20 @@ public final class Apiary
     @Nonnull
     public static Apiary create(final @Nonnull File outputDirectory)
     {
+        Preconditions.checkNotNull(outputDirectory);
+
+        if (!outputDirectory.exists())
+        {
+            try
+            {
+                Files.createDirectories(Paths.get(outputDirectory.getAbsolutePath()));
+            }
+            catch (IOException e)
+            {
+                throw new ApiaryException(e);
+            }
+        }
+
         return new Apiary(outputDirectory);
     }
 
@@ -261,7 +275,7 @@ public final class Apiary
                 }).toList();
     }
 
-    private class ApiaryException extends RuntimeException
+    private static class ApiaryException extends RuntimeException
     {
         private ApiaryException(final Throwable cause)
         {

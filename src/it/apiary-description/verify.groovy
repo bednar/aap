@@ -12,7 +12,7 @@ This is a Demo App!
 ---
 
 """
-apiaryMd = new File(basedir, "Apiary.md")
+apiaryMd = new File(basedir, "target/generated/apiary/Apiary.md")
 
 assert apiaryMd.exists()
 assert apiaryMd.getText().equals(expected)
