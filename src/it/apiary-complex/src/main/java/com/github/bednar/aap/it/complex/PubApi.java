@@ -1,4 +1,4 @@
-package com.github.bednar.aap.example;
+package com.github.bednar.aap.it.complex;
 
 import javax.annotation.Nonnull;
 import javax.persistence.Column;
