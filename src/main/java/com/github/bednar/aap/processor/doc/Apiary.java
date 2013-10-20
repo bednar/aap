@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.List;
 
 import com.github.bednar.aap.model.ModelBuilder;
@@ -77,6 +78,21 @@ public final class Apiary
     }
 
     /**
+     * @param apiClasses apis
+     *
+     * @return this
+     *
+     * @see #addApis(java.util.Collection)
+     */
+    @Nonnull
+    public Apiary addApis(final @Nonnull Class<?>... apiClasses)
+    {
+        Preconditions.checkNotNull(apiClasses);
+
+        return addApis(Lists.newArrayList(apiClasses));
+    }
+
+    /**
      * Add classes which are JAX-RS Resource documented by annotations.
      * <p/>
      * Example com.github.bednar.aap.example.PubApi in test sources.
@@ -89,13 +105,28 @@ public final class Apiary
      * @see javax.ws.rs.Path
      */
     @Nonnull
-    public Apiary addApis(final @Nonnull Class... apiClasses)
+    public Apiary addApis(final @Nonnull Collection<Class<?>> apiClasses)
     {
         Preconditions.checkNotNull(apiClasses);
 
-        this.apiClasses.addAll(Lists.newArrayList(apiClasses));
+        this.apiClasses.addAll(apiClasses);
 
         return this;
+    }
+
+    /**
+     * @param entityClasses entities
+     *
+     * @return this
+     *
+     * @see #addEntities(java.util.Collection)
+     */
+    @Nonnull
+    public Apiary addEntities(final @Nonnull Class<?>... entityClasses)
+    {
+        Preconditions.checkNotNull(entityClasses);
+
+        return addEntities(Lists.newArrayList(entityClasses));
     }
 
     /**
@@ -108,11 +139,11 @@ public final class Apiary
      * @return this
      */
     @Nonnull
-    public Apiary addEntities(final @Nonnull Class entityClasses)
+    public Apiary addEntities(final @Nonnull Collection<Class<?>> entityClasses)
     {
         Preconditions.checkNotNull(entityClasses);
 
-        this.entityClasses.addAll(Lists.newArrayList(entityClasses));
+        this.entityClasses.addAll(entityClasses);
 
         return this;
     }
@@ -255,6 +286,8 @@ public final class Apiary
                     @Override
                     public ApiModel apply(final @SuppressWarnings("NullableProblems") @Nonnull Class klass)
                     {
+                        Preconditions.checkNotNull(klass);
+
                         return ModelBuilder.getInstance().getApiModel(klass);
                     }
                 }).toList();
@@ -270,6 +303,8 @@ public final class Apiary
                     @Override
                     public EntityModel apply(final @SuppressWarnings("NullableProblems") @Nonnull Class klass)
                     {
+                        Preconditions.checkNotNull(klass);
+
                         return ModelBuilder.getInstance().getEntityModel(klass);
                     }
                 }).toList();
