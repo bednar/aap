@@ -1,13 +1,7 @@
-expected = """HOST: http://demoaap.apiary.io
+apiaryExpected = new File(basedir, "ApiaryExpected.md")
+assert apiaryExpected.exists()
 
---- Complex API IT. ---
+apiaryResult = new File(basedir, "target/generated/apiary/Apiary.md")
+assert apiaryResult.exists()
 
----
-This is a Complex App IT!
----
-
-"""
-apiaryMd = new File(basedir, "target/generated/apiary/Apiary.md")
-
-assert apiaryMd.exists()
-assert apiaryMd.getText().equals(expected)
+assert apiaryExpected.getText().equals(apiaryResult.getText())
