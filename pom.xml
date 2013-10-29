@@ -69,26 +69,6 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>deploy-to-github</id>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>deploy</phase>
-                        <configuration>
-                            <message>Maven artifacts for ${project.version}</message>
-                            <noJekyll>true</noJekyll>
-                            <merge>false</merge>
-                            <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
-                            <branch>refs/heads/mvn-repo</branch>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                            <includes>
-                                <include>**/*</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>create-site</id>
                         <goals>
                             <goal>site</goal>
@@ -233,14 +213,14 @@
 
     </reporting>
 
-    <distributionManagement>
+    <repositories>
 
         <repository>
-            <id>github</id>
-            <name>GitHub Repository</name>
-            <url>https://raw.github.com/bednar/${project.artifactId}/mvn-repo</url>
+            <id>snapshots-github</id>
+            <name>Snapshots GitHub</name>
+            <url>http://nexus-bednar.rhcloud.com/nexus/content/repositories/snapshots-github/</url>
         </repository>
 
-    </distributionManagement>
+    </repositories>
 
 </project>
