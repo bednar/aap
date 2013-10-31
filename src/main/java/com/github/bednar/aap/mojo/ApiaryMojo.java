@@ -28,8 +28,8 @@ import org.reflections.util.ConfigurationBuilder;
 /**
  * @author Jakub Bednář (15/10/2013 4:24 PM)
  */
-@Mojo(name = "generate")
-public class GenerateMojo extends AbstractMojo
+@Mojo(name = "apiary")
+public class ApiaryMojo extends AbstractMojo
 {
     @Parameter(defaultValue = "${project.compileClasspathElements}", required = true, readonly = true)
     private List<String> sourceCompiledPaths;

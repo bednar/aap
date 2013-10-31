@@ -24,7 +24,7 @@
                     <execution>
                         <phase>compile</phase>
                         <goals>
-                            <goal>generate</goal>
+                            <goal>apiary</goal>
                         </goals>
                     </execution>
                 </executions>
