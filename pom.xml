@@ -62,30 +62,6 @@
         <plugins>
 
             <plugin>
-                <groupId>com.github.github</groupId>
-                <artifactId>site-maven-plugin</artifactId>
-                <configuration>
-                    <message>Push to GitHub for ${project.version}</message>
-                    <repositoryName>aap</repositoryName>
-                    <repositoryOwner>bednar</repositoryOwner>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>create-site</id>
-                        <goals>
-                            <goal>site</goal>
-                        </goals>
-                        <phase>site</phase>
-                        <configuration>
-                            <message>Maven site for ${project.version}</message>
-                            <noJekyll>true</noJekyll>
-                            <merge>false</merge>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
                 <configuration>
@@ -224,5 +200,40 @@
         </repository>
 
     </repositories>
+
+    <profiles>
+
+        <profile>
+            <id>generate-site</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.github</groupId>
+                        <artifactId>site-maven-plugin</artifactId>
+                        <configuration>
+                            <message>Push to GitHub for ${project.version}</message>
+                            <repositoryName>aap</repositoryName>
+                            <repositoryOwner>bednar</repositoryOwner>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>create-site</id>
+                                <goals>
+                                    <goal>site</goal>
+                                </goals>
+                                <phase>site</phase>
+                                <configuration>
+                                    <message>Maven site for ${project.version}</message>
+                                    <noJekyll>true</noJekyll>
+                                    <merge>false</merge>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
 
 </project>
