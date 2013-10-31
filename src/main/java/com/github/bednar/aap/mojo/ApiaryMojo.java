@@ -26,6 +26,8 @@ import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
 /**
+ * Generate Apiary Blueprint.
+ *
  * @author Jakub Bednář (15/10/2013 4:24 PM)
  */
 @Mojo(name = "apiary")
