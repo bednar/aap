@@ -2,7 +2,7 @@
 <project>
     <custom>
         <fluidoSkin>
-            <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
+            <sourceLineNumbersEnabled>false</sourceLineNumbersEnabled>
             <gitHub>
                 <projectId>bednar/aap</projectId>
                 <ribbonOrientation>right</ribbonOrientation>

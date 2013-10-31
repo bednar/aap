@@ -35,6 +35,16 @@
         <url>git@github.com:bednar/aap.git</url>
     </scm>
 
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/bednar/aap/issues</url>
+    </issueManagement>
+
+    <ciManagement>
+        <system>Travis CI</system>
+        <url>https://travis-ci.org/bednar/aap</url>
+    </ciManagement>
+
     <developers>
         <developer>
             <id>bednar</id>
@@ -50,14 +60,6 @@
     <build>
 
         <plugins>
-
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo
-                    </altDeploymentRepository>
-                </configuration>
-            </plugin>
 
             <plugin>
                 <groupId>com.github.github</groupId>
