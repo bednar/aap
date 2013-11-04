@@ -21,3 +21,4 @@ patch.getDeltas().each {
 }
 
 assert patch.getDeltas().size() == 0
+assert apiaryExpected.getText().equals(apiaryResult.getText())

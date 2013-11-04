@@ -30,13 +30,13 @@ Update Meal in pub.
 ### Parameters
 - `meal [meal]` - Meal for update
 POST pub/updateMeal
-< 401
-< Content-Type: application/json
-Authorization violation.
-+++++
 < 200
 < Content-Type: application/json
 Success update.
++++++
+< 401
+< Content-Type: application/json
+Authorization violation.
 
 Find all meals.
 GET pub/allMeals

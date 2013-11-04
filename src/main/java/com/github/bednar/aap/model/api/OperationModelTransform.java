@@ -8,10 +8,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -157,7 +159,17 @@ public class OperationModelTransform implements Function<Method, OperationModel>
     @Nonnull
     private Map<String, String> processResponses(final @Nonnull Method method)
     {
-        Map<String, String> results = Maps.newHashMap();
+        Map<String, String> results = Maps.newTreeMap(new Comparator<String>()
+        {
+            @Override
+            public int compare(final String key1, final String key2)
+            {
+                return ComparisonChain
+                        .start()
+                        .compare(key1, key2)
+                        .result();
+            }
+        });
 
         ApiResponse response = method.getAnnotation(ApiResponse.class);
         if (response != null)
