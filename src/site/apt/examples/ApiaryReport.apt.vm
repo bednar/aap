@@ -1,0 +1,117 @@
+Example of generated Apiary Blueprint Report.
+
+* Java Sources
+
++------------------------------------------+
+@Path("pub")
+@Api(value = "Public Pub", description = "Long description of Public Pub!")
+@Consumes("application/json")
+@Produces("application/json")
+public interface PubApi
+{
+    @GET
+    @Path("mealByName")
+    @ApiOperation(
+        position = 1,
+        value = "Find meal by name.",
+        response = Meal.class)
+    @ApiResponse(
+        code = 400,
+        message = "Cannot find meal by name.")
+    Meal mealByName(final @Nonnull @ApiParam(name = "name", value = "Name of Meal", required = true) String name);
+
+    @GET
+    @Path("allMeals")
+    @ApiOperation(
+        position = 3,
+        value = "Find all meals.",
+        response = Meal.class,
+        responseContainer = "java.util.List")
+    @ApiResponse(
+        code = 200,
+        message = "[" +
+            "{\"name\": \"Hamburger\", \"price\": 1000}," +
+            "{\"name\": \"Chocolate\", \"price\": 500}" +
+        "]")
+    List<Meal> allMeals();
+
+    @POST
+    @Path("updateMeal")
+    @ApiOperation(
+        position = 2,
+        value = "Update Meal in pub.",
+        authorizations = "Owner of Pub")
+    @ApiResponses(value = {
+    @ApiResponse(
+        code = 200,
+        message = "Success update."),
+    @ApiResponse(
+        code = 401,
+        message = "Authorization violation.")
+    })
+    void updateMeal(final @Nonnull @ApiParam(name = "meal", value = "Meal for update", required = true) Meal meal);
+}
+
+@ApiModel("Tasty Meal")
+public class Meal
+{
+    @Column(length = 100, nullable = false)
+    @ApiModelProperty(value = "Name", position = 2)
+    private String name;
+
+    @Column(precision = 10, scale = 2)
+    @ApiModelProperty(value = "Price", position = 1)
+    private BigDecimal price;
+}
+
++------------------------------------------+
+
+* Apiary Blueprint - {{{http://docs.demoaap.apiary.io}Demo on Apiary.io}}
+
++------------------------------------------+
+HOST: http://demoaap.apiary.io
+
+--- Complex API IT. ---
+
+---
+This is a Complex App IT!
+---
+
+--
+Resource: Tasty Meal
+### Properties
+- `price[bigdecimal precision:10, scale:2]` - _Price_
+- `name[string length:100, required]` - _Name_
+--
+
+--
+Public Pub
+Long description of Public Pub!
+--
+
+Find meal by name.
+### Parameters
+- `name [string]` - Name of Meal
+GET pub/mealByName
+< 400
+< Content-Type: application/json
+Cannot find meal by name.
+
+Update Meal in pub.
+### Parameters
+- `meal [meal]` - Meal for update
+POST pub/updateMeal
+< 200
+< Content-Type: application/json
+Success update.
++++++
+< 401
+< Content-Type: application/json
+Authorization violation.
+
+Find all meals.
+GET pub/allMeals
+< 200
+< Content-Type: application/json
+[{"name": "Hamburger", "price": 1000},{"name": "Chocolate", "price": 500}]
++------------------------------------------+
