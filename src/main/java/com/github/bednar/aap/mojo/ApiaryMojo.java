@@ -38,24 +38,32 @@ public class ApiaryMojo extends AbstractMojo
 
     /**
      * Documentation output
+     *
+     * @since 0.1
      */
     @Parameter(defaultValue = "${project.build.directory}/generated/apiary")
     private File apiaryOutput;
 
     /**
      * Name of Application
+     *
+     * @since 0.1
      */
     @Parameter(defaultValue = "Demo Application")
     private String appName;
 
     /**
      * File with Description (support <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>) of Application
+     *
+     * @since 0.1
      */
     @Parameter(defaultValue = "${project.basedir}/description.md")
     private File appDescription;
 
     /**
      * API Base URL
+     *
+     * @since 0.1
      */
     @Parameter(defaultValue = "http://demoaap.apiary.io")
     private String apiBaseURL;
