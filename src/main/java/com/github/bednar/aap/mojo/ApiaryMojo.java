@@ -59,9 +59,6 @@ public class ApiaryMojo extends AbstractMojo
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException
     {
-        getLog().info(String.format("[apiary-cfg][appName:%s][apiBaseURL:%s][appDescription:%s]",
-                appName, apiBaseURL, appDescription));
-
         Reflections reflections = getReflections(sourceCompiledPaths);
 
         Collection<Class<?>> apis       = reflections.getTypesAnnotatedWith(Api.class);
