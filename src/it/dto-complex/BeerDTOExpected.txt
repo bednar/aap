@@ -1,0 +1,36 @@
+
+package com.github.bednar.aap.it.dto.complex;
+
+import java.math.BigDecimal;
+
+public class BeerDTO {
+
+    private String name;
+    private Integer degree;
+    private BigDecimal thousandth;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getDegree() {
+        return degree;
+    }
+
+    public void setDegree(Integer degree) {
+        this.degree = degree;
+    }
+
+    public BigDecimal getThousandth() {
+        return thousandth;
+    }
+
+    public void setThousandth(BigDecimal thousandth) {
+        this.thousandth = thousandth;
+    }
+
+}
