@@ -47,7 +47,7 @@ public final class Apiary extends AbstractProcessor
     private List<Class> apiClasses = Lists.newArrayList();
     private List<Class> entityClasses = Lists.newArrayList();
 
-    private Apiary(final @Nonnull File outputDirectory)
+    private Apiary(@Nonnull final File outputDirectory)
     {
         LOG.info("[output-directory][{}]", outputDirectory.getAbsolutePath());
 
@@ -60,7 +60,7 @@ public final class Apiary extends AbstractProcessor
      * @return new instance
      */
     @Nonnull
-    public static Apiary create(final @Nonnull File outputDirectory)
+    public static Apiary create(@Nonnull final File outputDirectory)
     {
         Preconditions.checkNotNull(outputDirectory);
 
@@ -75,7 +75,7 @@ public final class Apiary extends AbstractProcessor
      * @see #addApis(java.util.Collection)
      */
     @Nonnull
-    public Apiary addApis(final @Nonnull Class<?>... apiClasses)
+    public Apiary addApis(@Nonnull final Class<?>... apiClasses)
     {
         Preconditions.checkNotNull(apiClasses);
 
@@ -95,7 +95,7 @@ public final class Apiary extends AbstractProcessor
      * @see javax.ws.rs.Path
      */
     @Nonnull
-    public Apiary addApis(final @Nonnull Collection<Class<?>> apiClasses)
+    public Apiary addApis(@Nonnull final Collection<Class<?>> apiClasses)
     {
         Preconditions.checkNotNull(apiClasses);
 
@@ -112,7 +112,7 @@ public final class Apiary extends AbstractProcessor
      * @see #addEntities(java.util.Collection)
      */
     @Nonnull
-    public Apiary addEntities(final @Nonnull Class<?>... entityClasses)
+    public Apiary addEntities(@Nonnull final Class<?>... entityClasses)
     {
         Preconditions.checkNotNull(entityClasses);
 
@@ -129,7 +129,7 @@ public final class Apiary extends AbstractProcessor
      * @return this
      */
     @Nonnull
-    public Apiary addEntities(final @Nonnull Collection<Class<?>> entityClasses)
+    public Apiary addEntities(@Nonnull final Collection<Class<?>> entityClasses)
     {
         Preconditions.checkNotNull(entityClasses);
 
@@ -145,7 +145,7 @@ public final class Apiary extends AbstractProcessor
      * @param baseURL     base API url [required]
      * @param description file with description of app
      */
-    public void generate(final @Nonnull String appName, final @Nonnull String baseURL, final @Nullable File description)
+    public void generate(@Nonnull final String appName, @Nonnull final String baseURL, @Nullable final File description)
     {
         Preconditions.checkNotNull(appName);
         Preconditions.checkNotNull(baseURL);
@@ -200,7 +200,7 @@ public final class Apiary extends AbstractProcessor
     }
 
     @Nonnull
-    private String evaluate(final @Nonnull Template template, final @Nonnull Object... keyValues)
+    private String evaluate(@Nonnull final Template template, @Nonnull final Object... keyValues)
     {
         ImmutableMap.Builder<String, Object> map = ImmutableMap.builder();
 
@@ -225,7 +225,7 @@ public final class Apiary extends AbstractProcessor
         return output.toString();
     }
 
-    private void createFile(final @Nonnull Class type, final @Nonnull String evaluatedTemplate)
+    private void createFile(@Nonnull final Class type, @Nonnull final String evaluatedTemplate)
     {
         Path path = newFilePath(type);
 
@@ -242,7 +242,7 @@ public final class Apiary extends AbstractProcessor
     }
 
     @Nonnull
-    private Path newFilePath(final @Nonnull Class klass)
+    private Path newFilePath(@Nonnull final Class klass)
     {
         String fileName = evaluate(fileNameTemplate, "class", klass);
 
@@ -250,7 +250,7 @@ public final class Apiary extends AbstractProcessor
     }
 
     @Nonnull
-    private String readFile(final @Nullable File file)
+    private String readFile(@Nullable final File file)
     {
         if (file == null || !file.exists())
         {
