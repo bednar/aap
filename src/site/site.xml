@@ -28,6 +28,7 @@
         </menu>
         <menu name="Examples">
             <item name="Apiary Blueprint Report" href="./examples/ApiaryReport.html"/>
+            <item name="Generating Data transfer object (DTO)" href="./examples/GeneratingDTO.html"/>
         </menu>
         <menu ref="reports"/>
     </body>
