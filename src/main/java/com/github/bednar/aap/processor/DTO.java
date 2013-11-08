@@ -6,9 +6,12 @@ import java.util.Collection;
 import java.util.List;
 
 import com.github.bednar.aap.model.entity.EntityModel;
+import com.github.bednar.aap.model.entity.PropertyModel;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.sun.codemodel.JCodeModel;
+import com.sun.codemodel.JDefinedClass;
+import com.sun.codemodel.JMod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,7 +85,12 @@ public final class DTO extends AbstractProcessor
         JCodeModel codeModel = new JCodeModel();
         try
         {
-            codeModel._class(dtoClassName);
+            JDefinedClass definedClass = codeModel._class(dtoClassName);
+
+            for (PropertyModel propertyModel : model.getProperties())
+            {
+                generateProperty(propertyModel, definedClass);
+            }
 
             codeModel.build(outputDirectory);
         }
@@ -92,6 +100,11 @@ public final class DTO extends AbstractProcessor
         }
 
         LOG.info("[generate-class][done]");
+    }
+
+    private void generateProperty(@Nonnull final PropertyModel propertyModel, @Nonnull final JDefinedClass definedClass)
+    {
+        definedClass.field(JMod.PRIVATE, propertyModel.getType(), propertyModel.getName());
     }
 
     private static class DTOException extends RuntimeException
