@@ -154,7 +154,7 @@ public final class Apiary extends AbstractProcessor
 
         List<String> evaluatedTemplates = Lists.newArrayList();
 
-        for (EntityModel model : entityModels())
+        for (EntityModel model : entityModels(entityClasses))
         {
             String evaluateTemplate = evaluate(entityTemplate, "model", model);
 
@@ -279,23 +279,6 @@ public final class Apiary extends AbstractProcessor
                         Preconditions.checkNotNull(klass);
 
                         return ModelBuilder.getInstance().getApiModel(klass);
-                    }
-                }).toList();
-    }
-
-    @Nonnull
-    private List<EntityModel> entityModels()
-    {
-        return FluentIterable.from(entityClasses).transform(
-                new Function<Class, EntityModel>()
-                {
-                    @Nullable
-                    @Override
-                    public EntityModel apply(final @SuppressWarnings("NullableProblems") @Nonnull Class klass)
-                    {
-                        Preconditions.checkNotNull(klass);
-
-                        return ModelBuilder.getInstance().getEntityModel(klass);
                     }
                 }).toList();
     }
