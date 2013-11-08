@@ -11,7 +11,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
+import com.sun.codemodel.JExpr;
+import com.sun.codemodel.JFieldVar;
+import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import org.apache.commons.lang3.text.WordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -104,7 +108,24 @@ public final class DTO extends AbstractProcessor
 
     private void generateProperty(@Nonnull final PropertyModel propertyModel, @Nonnull final JDefinedClass definedClass)
     {
-        definedClass.field(JMod.PRIVATE, propertyModel.getType(), propertyModel.getName());
+        String fieldName = propertyModel.getName();
+
+        JFieldVar field = definedClass.field(JMod.PRIVATE, propertyModel.getType(), fieldName);
+
+        //Getter Method
+        String getterName = "get" + WordUtils.capitalize(fieldName);
+        JMethod getterMethod = definedClass.method(JMod.PUBLIC, propertyModel.getType(), getterName);
+        getterMethod
+                .body()
+                ._return(field);
+
+        //Setter Method
+        String setterName = "set" + WordUtils.capitalize(fieldName);
+        JMethod setterMethod = definedClass.method(JMod.PUBLIC, Void.TYPE, setterName);
+        setterMethod.param(propertyModel.getType(), fieldName);
+        setterMethod
+                .body()
+                .assign(JExpr._this().ref(fieldName), JExpr.ref(fieldName));
     }
 
     private static class DTOException extends RuntimeException
