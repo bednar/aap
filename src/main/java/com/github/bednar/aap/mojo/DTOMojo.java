@@ -1,13 +1,16 @@
 package com.github.bednar.aap.mojo;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 import com.github.bednar.aap.processor.DTO;
+import com.wordnik.swagger.annotations.ApiModel;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.reflections.Reflections;
 
 /**
  * Generate Data Transfer Object (DTO) from {@link com.wordnik.swagger.annotations.ApiModel}.
@@ -31,7 +34,13 @@ public class DTOMojo extends AbstractMojo
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException
     {
+        Reflections reflections = getReflections(sourceCompiledPaths);
+
+        Collection<Class<?>> entities = reflections.getTypesAnnotatedWith(ApiModel.class);
+
         DTO
-                .create(dtoOutput);
+                .create(dtoOutput)
+                .addEntities(entities)
+                .generate();
     }
 }
