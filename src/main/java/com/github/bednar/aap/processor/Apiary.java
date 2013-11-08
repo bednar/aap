@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Jakub Bednář (07/10/2013 7:47 PM)
  */
-public final class Apiary
+public final class Apiary extends AbstractProcessor
 {
     private static final Logger LOG = LoggerFactory.getLogger(Apiary.class);
 
@@ -52,6 +52,8 @@ public final class Apiary
         LOG.info("[output-directory][{}]", outputDirectory.getAbsolutePath());
 
         this.outputDirectory = outputDirectory;
+
+        createDirectory(outputDirectory);
     }
 
     /**
@@ -61,18 +63,6 @@ public final class Apiary
     public static Apiary create(final @Nonnull File outputDirectory)
     {
         Preconditions.checkNotNull(outputDirectory);
-
-        if (!outputDirectory.exists())
-        {
-            try
-            {
-                Files.createDirectories(Paths.get(outputDirectory.getAbsolutePath()));
-            }
-            catch (IOException e)
-            {
-                throw new ApiaryException(e);
-            }
-        }
 
         return new Apiary(outputDirectory);
     }

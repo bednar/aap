@@ -3,6 +3,7 @@ package com.github.bednar.aap.mojo;
 import java.io.File;
 import java.util.List;
 
+import com.github.bednar.aap.processor.DTO;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -30,5 +31,7 @@ public class DTOMojo extends AbstractMojo
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException
     {
+        DTO
+                .create(dtoOutput);
     }
 }

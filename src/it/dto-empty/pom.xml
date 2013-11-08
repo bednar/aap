@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.bednar.aap.it</groupId>
-    <artifactId>basic</artifactId>
+    <artifactId>dto-empty</artifactId>
     <version>testing</version>
 
     <parent>
@@ -24,7 +24,6 @@
                     <execution>
                         <phase>compile</phase>
                         <goals>
-                            <goal>apiary</goal>
                             <goal>dto</goal>
                         </goals>
                     </execution>
