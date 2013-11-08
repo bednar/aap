@@ -1,4 +1,4 @@
-package com.github.bednar.aap.processor.doc;
+package com.github.bednar.aap.processor;
 
 import java.io.File;
 import java.io.IOException;

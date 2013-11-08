@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.List;
 
-import com.github.bednar.aap.processor.doc.Apiary;
+import com.github.bednar.aap.processor.Apiary;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiModel;
 import org.apache.maven.plugin.MojoExecutionException;
