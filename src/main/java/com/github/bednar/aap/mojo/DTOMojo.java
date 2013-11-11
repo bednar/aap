@@ -23,6 +23,9 @@ public class DTOMojo extends AbstractMojo
     @Parameter(defaultValue = "${project.compileClasspathElements}", required = true, readonly = true)
     private List<String> sourceCompiledPaths;
 
+    @Parameter(defaultValue = "${project.testClasspathElements}", required = true, readonly = true)
+    private List<String> testSourceCompliledPaths;
+
     /**
      * DTO classes output directory.
      *
@@ -31,10 +34,27 @@ public class DTOMojo extends AbstractMojo
     @Parameter(defaultValue = "${project.build.directory}/generated/dto")
     private File dtoOutput;
 
+    /**
+     * If {@link Boolean#TRUE} than use Test-Classpath for search {@link com.wordnik.swagger.annotations.ApiModel}.
+     *
+     * @since 0.1
+     */
+    @Parameter(defaultValue = "false")
+    private Boolean addTestClasspath;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException
     {
-        Reflections reflections = getReflections(sourceCompiledPaths);
+        Reflections reflections;
+
+        if (addTestClasspath)
+        {
+            reflections = getReflections(sourceCompiledPaths, testSourceCompliledPaths);
+        }
+        else
+        {
+            reflections = getReflections(sourceCompiledPaths);
+        }
 
         Collection<Class<?>> entities = reflections.getTypesAnnotatedWith(ApiModel.class);
 

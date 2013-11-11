@@ -10,8 +10,10 @@ import java.nio.file.Paths;
 import java.util.List;
 
 import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Iterables;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
@@ -23,8 +25,11 @@ public abstract class AbstractMojo extends org.apache.maven.plugin.AbstractMojo
     private Reflections reflections;
 
     @Nonnull
-    public Reflections getReflections(@Nonnull final List<String> sourceCompiledPaths)
+    @SafeVarargs
+    public final Reflections getReflections(@Nonnull final List<String>... sourceCompiledPaths)
     {
+        Preconditions.checkNotNull(sourceCompiledPaths);
+
         if (reflections == null)
         {
             URLClassLoader urlClassLoader = buildClassPath(sourceCompiledPaths);
@@ -39,10 +44,11 @@ public abstract class AbstractMojo extends org.apache.maven.plugin.AbstractMojo
     }
 
     @Nonnull
-    private URLClassLoader buildClassPath(@Nonnull final List<String> sourceCompiledPaths)
+    @SafeVarargs
+    private final URLClassLoader buildClassPath(@Nonnull final List<String>... sourceCompiledPaths)
     {
         //Add exist compiled path
-        URL[] urls = FluentIterable.from(sourceCompiledPaths)
+        URL[] urls = FluentIterable.from(Iterables.concat(sourceCompiledPaths))
                 .filter(new Predicate<String>()
                 {
                     @Override
