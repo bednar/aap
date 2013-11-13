@@ -3,6 +3,7 @@ package com.github.bednar.aap.model.api;
 import java.util.List;
 
 import com.github.bednar.aap.AbstractApiTest;
+import com.github.bednar.aap.example.Meal;
 import com.github.bednar.aap.example.PubApi;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class OperationModelTest extends AbstractApiTest
         Assert.assertEquals("Find meal by name.", model.getShortDescription());
         Assert.assertEquals("", model.getAuthorizations());
 
-        Assert.assertEquals(PubApi.Meal.class, model.getResponseEntity());
+        Assert.assertEquals(Meal.class, model.getResponseEntity());
         Assert.assertEquals(Void.class, model.getResponseWrapper());
 
         Assert.assertEquals(1, model.getResponses().size());
@@ -55,7 +56,7 @@ public class OperationModelTest extends AbstractApiTest
         Assert.assertEquals("Find all meals.", model.getShortDescription());
         Assert.assertEquals("", model.getAuthorizations());
 
-        Assert.assertEquals(PubApi.Meal.class, model.getResponseEntity());
+        Assert.assertEquals(Meal.class, model.getResponseEntity());
         Assert.assertEquals(List.class, model.getResponseWrapper());
 
         Assert.assertEquals(1, model.getResponses().size());

@@ -1,7 +1,7 @@
 package com.github.bednar.aap.model.entity;
 
 import com.github.bednar.aap.AbstractApiTest;
-import com.github.bednar.aap.example.PubApi;
+import com.github.bednar.aap.example.Meal;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class EntityModelTest extends AbstractApiTest
     @Test
     public void modelNotNull()
     {
-        EntityModel model = builder.getEntityModel(PubApi.Meal.class);
+        EntityModel model = builder.getEntityModel(Meal.class);
 
         Assert.assertNotNull(model);
     }
@@ -21,15 +21,15 @@ public class EntityModelTest extends AbstractApiTest
     @Test
     public void typeValue()
     {
-        EntityModel model = builder.getEntityModel(PubApi.Meal.class);
+        EntityModel model = builder.getEntityModel(Meal.class);
 
-        Assert.assertEquals(PubApi.Meal.class, model.getType());
+        Assert.assertEquals(Meal.class, model.getType());
     }
 
     @Test
     public void shortDescriptionValue()
     {
-        EntityModel model = builder.getEntityModel(PubApi.Meal.class);
+        EntityModel model = builder.getEntityModel(Meal.class);
 
         Assert.assertEquals("Tasty Meal", model.getShortDescription());
     }
@@ -37,7 +37,7 @@ public class EntityModelTest extends AbstractApiTest
     @Test
     public void propertiesSize()
     {
-        EntityModel model = builder.getEntityModel(PubApi.Meal.class);
+        EntityModel model = builder.getEntityModel(Meal.class);
 
         Assert.assertEquals(2, model.getProperties().size());
     }

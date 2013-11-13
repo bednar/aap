@@ -1,6 +1,7 @@
 package com.github.bednar.aap.model.api;
 
 import com.github.bednar.aap.AbstractApiTest;
+import com.github.bednar.aap.example.Meal;
 import com.github.bednar.aap.example.PubApi;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,6 +34,6 @@ public class ParameterModelTest extends AbstractApiTest
 
         Assert.assertTrue(model.getRequired());
 
-        Assert.assertEquals(PubApi.Meal.class, model.getType());
+        Assert.assertEquals(Meal.class, model.getType());
     }
 }

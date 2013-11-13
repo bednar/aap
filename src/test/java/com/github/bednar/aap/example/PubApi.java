@@ -1,18 +1,14 @@
 package com.github.bednar.aap.example;
 
 import javax.annotation.Nonnull;
-import javax.persistence.Column;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
@@ -71,15 +67,4 @@ public interface PubApi
     })
     void updateMeal(final @Nonnull @ApiParam(name="meal", value = "Meal for update", required = true) Meal meal);
 
-    @ApiModel("Tasty Meal")
-    public class Meal
-    {
-        @Column(length = 100, nullable = false)
-        @ApiModelProperty(value = "Name", position = 2)
-        private String name;
-
-        @Column(precision = 10, scale = 2)
-        @ApiModelProperty(value = "Price", position = 1)
-        private BigDecimal price;
-    }
 }

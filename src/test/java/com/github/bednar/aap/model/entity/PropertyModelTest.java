@@ -3,7 +3,7 @@ package com.github.bednar.aap.model.entity;
 import java.math.BigDecimal;
 
 import com.github.bednar.aap.AbstractApiTest;
-import com.github.bednar.aap.example.PubApi;
+import com.github.bednar.aap.example.Meal;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,7 +15,7 @@ public class PropertyModelTest extends AbstractApiTest
     @Test
     public void nameValue()
     {
-        PropertyModel model = builder.getEntityModel(PubApi.Meal.class).getProperties().get(1);
+        PropertyModel model = builder.getEntityModel(Meal.class).getProperties().get(1);
 
         Assert.assertEquals(2, model.getPosition().intValue());
 
@@ -36,7 +36,7 @@ public class PropertyModelTest extends AbstractApiTest
     @Test
     public void priceValue()
     {
-        PropertyModel model = builder.getEntityModel(PubApi.Meal.class).getProperties().get(0);
+        PropertyModel model = builder.getEntityModel(Meal.class).getProperties().get(0);
 
         Assert.assertEquals(1, model.getPosition().intValue());
 
