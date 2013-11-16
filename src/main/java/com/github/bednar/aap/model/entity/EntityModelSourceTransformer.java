@@ -48,15 +48,20 @@ public class EntityModelSourceTransformer implements Function<File, EntityModel>
             throw new EntityModelSourceTransformerException(e);
         }
 
+        if (typeDeclaration.getAnnotations() == null)
+        {
+            return null;
+        }
+
         AnnotationExpr apiModelAnnotation = Iterables.
-                find(typeDeclaration.getAnnotations(), new Predicate<AnnotationExpr>()
+                tryFind(typeDeclaration.getAnnotations(), new Predicate<AnnotationExpr>()
                 {
                     @Override
                     public boolean apply(@Nullable final AnnotationExpr annotation)
                     {
                         return annotation != null && annotation.getName().getName().equals(ApiModel.class.getSimpleName());
                     }
-                });
+                }).orNull();
 
         if (apiModelAnnotation == null)
         {

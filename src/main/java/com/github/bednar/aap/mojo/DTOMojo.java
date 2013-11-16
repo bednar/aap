@@ -30,8 +30,8 @@ public class DTOMojo extends AbstractMojo
     @Parameter(defaultValue = "${project.compileSourceRoots}", required = true, readonly = true)
     private List<String> sourcePaths;
 
-    @Parameter(defaultValue = "${project.testSourceRoots}", required = true, readonly = true)
-    private List<String> testSourcePaths;
+    @Parameter(defaultValue = "${project.build.testSourceDirectory}", required = true, readonly = true)
+    private String testSourcePath;
 
     /**
      * DTO classes output directory.
@@ -42,12 +42,12 @@ public class DTOMojo extends AbstractMojo
     private File dtoOutput;
 
     /**
-     * If {@link Boolean#TRUE} than use Test-Classpath for search {@link com.wordnik.swagger.annotations.ApiModel}.
+     * If {@link Boolean#TRUE} than use test sources path for search {@link com.wordnik.swagger.annotations.ApiModel}.
      *
      * @since 0.1
      */
     @Parameter(defaultValue = "false")
-    private Boolean addTestClasspath;
+    private Boolean addTestSources;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException
@@ -59,12 +59,9 @@ public class DTOMojo extends AbstractMojo
             sourceFiles.addAll(getFiles(sourcePath));
         }
 
-        if (addTestClasspath)
+        if (addTestSources)
         {
-            for (String testSourcePath : testSourcePaths)
-            {
-                sourceFiles.addAll(getFiles(testSourcePath));
-            }
+            sourceFiles.addAll(getFiles(testSourcePath));
         }
 
         List<EntityModel> entityModels = FluentIterable
@@ -75,6 +72,8 @@ public class DTOMojo extends AbstractMojo
                     @Override
                     public EntityModel apply(@Nullable final File input)
                     {
+                        getLog().info("Generate EntityModel from : " + input);
+
                         return new EntityModelSourceTransformer().apply(input);
                     }
                 })
