@@ -1,6 +1,7 @@
 package com.github.bednar.aap.model.entity;
 
 import javax.annotation.Nonnull;
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -14,7 +15,7 @@ public final class PropertyModel
 
     private String name             = "";
     private String shortDescription = "";
-    private Class type              = Void.class;
+    private TypeModel type          = new TypeModel(Void.class);
 
     private Boolean required = false;
 
@@ -67,13 +68,13 @@ public final class PropertyModel
     }
 
     @Nonnull
-    public Class getType()
+    public TypeModel getType()
     {
         return type;
     }
 
     @Nonnull
-    public PropertyModel setType(final @Nonnull Class type)
+    public PropertyModel setType(final @Nonnull TypeModel type)
     {
         this.type = type;
 
@@ -139,23 +140,24 @@ public final class PropertyModel
     @Nonnull
     public List<String> getRestrictions()
     {
-        List<String> restrictions = Lists.newArrayList();
+        List<String> numbers = Lists.newArrayList(Integer.class.getCanonicalName(), BigDecimal.class.getCanonicalName());
 
-        if (Number.class.isAssignableFrom(type))
+        List<String> results = Lists.newArrayList();
+        if (numbers.contains(type.getCanonicalName()))
         {
-            restrictions.add("precision:" + precision);
-            restrictions.add("scale:" + scale);
+            results.add("precision:" + precision);
+            results.add("scale:" + scale);
         }
         else
         {
-            restrictions.add("length:" + maxLength);
+            results.add("length:" + maxLength);
         }
 
         if (required)
         {
-            restrictions.add("required");
+            results.add("required");
         }
 
-        return restrictions;
+        return results;
     }
 }

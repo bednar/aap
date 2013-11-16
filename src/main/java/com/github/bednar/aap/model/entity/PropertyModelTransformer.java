@@ -32,7 +32,7 @@ public class PropertyModelTransformer implements Function<Field, PropertyModel>
                 .setPosition(position)
                 .setName(name)
                 .setShortDescription(shortDescription)
-                .setType(type)
+                .setType(new TypeModel(type))
                 .setRequired(required)
                 .setMaxLength(maxLength)
                 .setPrecision(precision)

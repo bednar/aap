@@ -21,7 +21,8 @@ public class PropertyModelTest extends AbstractApiTest
 
         Assert.assertEquals("Name", model.getShortDescription());
         Assert.assertEquals("name", model.getName());
-        Assert.assertEquals(String.class, model.getType());
+        Assert.assertEquals(String.class.getSimpleName(), model.getType().getSimpleName());
+        Assert.assertEquals(String.class.getCanonicalName(), model.getType().getCanonicalName());
 
         Assert.assertTrue(model.getRequired());
         Assert.assertEquals(100, model.getMaxLength().intValue());
@@ -42,7 +43,8 @@ public class PropertyModelTest extends AbstractApiTest
 
         Assert.assertEquals("Price", model.getShortDescription());
         Assert.assertEquals("price", model.getName());
-        Assert.assertEquals(BigDecimal.class, model.getType());
+        Assert.assertEquals(BigDecimal.class.getSimpleName(), model.getType().getSimpleName());
+        Assert.assertEquals(BigDecimal.class.getCanonicalName(), model.getType().getCanonicalName());
 
         Assert.assertFalse(model.getRequired());
         Assert.assertEquals(255, model.getMaxLength().intValue());
