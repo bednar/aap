@@ -9,6 +9,7 @@ import com.github.bednar.aap.model.entity.EntityModel;
 import com.github.bednar.aap.model.entity.PropertyModel;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JExpr;
@@ -93,7 +94,7 @@ public final class DTO extends AbstractProcessor
 
             for (PropertyModel propertyModel : model.getProperties())
             {
-                generateProperty(propertyModel, definedClass);
+                generateProperty(propertyModel, definedClass, codeModel);
             }
 
             codeModel.build(outputDirectory);
@@ -106,15 +107,18 @@ public final class DTO extends AbstractProcessor
         LOG.info("[generate-class][done]");
     }
 
-    private void generateProperty(@Nonnull final PropertyModel propertyModel, @Nonnull final JDefinedClass definedClass)
+    private void generateProperty(@Nonnull final PropertyModel propertyModel,
+                                  @Nonnull final JDefinedClass definedClass,
+                                  @Nonnull final JCodeModel codeModel)
     {
-        String fieldName = propertyModel.getName();
+        String fieldName    = propertyModel.getName();
+        JClass type         = codeModel.directClass(propertyModel.getType().getCanonicalName());
 
-        JFieldVar field = definedClass.field(JMod.PRIVATE, propertyModel.getType(), fieldName);
+        JFieldVar field = definedClass.field(JMod.PRIVATE, type, fieldName);
 
         //Getter Method
         String getterName = "get" + WordUtils.capitalize(fieldName);
-        JMethod getterMethod = definedClass.method(JMod.PUBLIC, propertyModel.getType(), getterName);
+        JMethod getterMethod = definedClass.method(JMod.PUBLIC, type, getterName);
         getterMethod
                 .body()
                 ._return(field);
@@ -122,7 +126,7 @@ public final class DTO extends AbstractProcessor
         //Setter Method
         String setterName = "set" + WordUtils.capitalize(fieldName);
         JMethod setterMethod = definedClass.method(JMod.PUBLIC, Void.TYPE, setterName);
-        setterMethod.param(propertyModel.getType(), fieldName);
+        setterMethod.param(type, fieldName);
         setterMethod
                 .body()
                 .assign(JExpr._this().ref(fieldName), JExpr.ref(fieldName));
