@@ -144,6 +144,19 @@
             <artifactId>maven-plugin-annotations</artifactId>
         </dependency>
 
+
+        <!-- Build -->
+
+        <dependency>
+            <groupId>com.google.code.javaparser</groupId>
+            <artifactId>javaparser</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.codemodel</groupId>
+            <artifactId>codemodel</artifactId>
+        </dependency>
+
         <!-- Utils -->
 
         <dependency>
@@ -174,11 +187,6 @@
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.sun.codemodel</groupId>
-            <artifactId>codemodel</artifactId>
         </dependency>
 
         <!-- Tests -->
