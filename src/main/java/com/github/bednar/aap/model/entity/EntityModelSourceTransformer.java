@@ -14,6 +14,7 @@ import com.google.common.collect.Iterables;
 import com.wordnik.swagger.annotations.ApiModel;
 import japa.parser.JavaParser;
 import japa.parser.ast.CompilationUnit;
+import japa.parser.ast.ImportDeclaration;
 import japa.parser.ast.PackageDeclaration;
 import japa.parser.ast.body.TypeDeclaration;
 import japa.parser.ast.expr.AnnotationExpr;
@@ -31,38 +32,41 @@ public class EntityModelSourceTransformer implements Function<File, EntityModel>
         Preconditions.checkArgument(source != null);
         Preconditions.checkArgument(source.canRead());
 
-        TypeDeclaration typeDeclaration;
-        PackageDeclaration packageDeclaration;
+        PackageDeclaration      packageDeclaration;
+        List<ImportDeclaration> importsDeclaration;
+        TypeDeclaration         typeDeclaration;
         try
         {
             CompilationUnit parse = JavaParser.parse(source);
 
-            typeDeclaration = parse.getTypes().get(0);
-            packageDeclaration = parse.getPackage();
+            packageDeclaration  = parse.getPackage();
+            importsDeclaration  = parse.getImports();
+            typeDeclaration     = parse.getTypes().get(0);
         }
         catch (Exception e)
         {
             throw new EntityModelSourceTransformerException(e);
         }
 
-        AnnotationExpr apiModelAnnotation = Iterables.find(typeDeclaration.getAnnotations(), new Predicate<AnnotationExpr>()
-        {
-            @Override
-            public boolean apply(@Nullable final AnnotationExpr annotation)
-            {
-                return annotation != null && annotation.getName().getName().equals(ApiModel.class.getSimpleName());
-            }
-        });
+        AnnotationExpr apiModelAnnotation = Iterables.
+                find(typeDeclaration.getAnnotations(), new Predicate<AnnotationExpr>()
+                {
+                    @Override
+                    public boolean apply(@Nullable final AnnotationExpr annotation)
+                    {
+                        return annotation != null && annotation.getName().getName().equals(ApiModel.class.getSimpleName());
+                    }
+                });
 
         if (apiModelAnnotation == null)
         {
             return null;
         }
 
-        String shortDescription = new AnnotationExprTransformer("value")
+        String shortDescription = new AnnotationExprTransformer("value", "")
                 .apply(apiModelAnnotation);
 
-        List<PropertyModel> propertyModels = new PropertyModelsSourceTransformer()
+        List<PropertyModel> propertyModels = new PropertyModelsSourceTransformer(importsDeclaration)
                 .apply(typeDeclaration);
 
         return new EntityModel()

@@ -144,7 +144,6 @@
             <artifactId>maven-plugin-annotations</artifactId>
         </dependency>
 
-
         <!-- Build -->
 
         <dependency>

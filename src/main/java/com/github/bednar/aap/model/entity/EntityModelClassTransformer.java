@@ -60,15 +60,20 @@ public class EntityModelClassTransformer implements Function<Class, EntityModel>
                         })
                 .transform(new PropertyModelClassTransformer())
                 .toSortedList(
-                        new Comparator<PropertyModel>()
-                        {
-                            @Override
-                            public int compare(final PropertyModel model1, final PropertyModel model2)
-                            {
-                                return ComparisonChain.start()
-                                        .compare(model1.getPosition(), model2.getPosition())
-                                        .result();
-                            }
-                        });
+                        propertyComparator());
+    }
+
+    static Comparator<PropertyModel> propertyComparator()
+    {
+        return new Comparator<PropertyModel>()
+        {
+            @Override
+            public int compare(final PropertyModel model1, final PropertyModel model2)
+            {
+                return ComparisonChain.start()
+                        .compare(model1.getPosition(), model2.getPosition())
+                        .result();
+            }
+        };
     }
 }

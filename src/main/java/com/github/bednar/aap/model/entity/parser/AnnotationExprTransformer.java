@@ -20,11 +20,13 @@ public class AnnotationExprTransformer implements Function<AnnotationExpr, Strin
 {
     private String key = "value";
 
+    private String defaultValue = null;
+
     public AnnotationExprTransformer()
     {
     }
 
-    public AnnotationExprTransformer(@Nonnull final String key)
+    public AnnotationExprTransformer(@Nonnull final String key, @Nullable final String defaultValue)
     {
         super();
 
@@ -32,7 +34,8 @@ public class AnnotationExprTransformer implements Function<AnnotationExpr, Strin
         Preconditions.checkArgument(key != null);
         Preconditions.checkArgument(!key.isEmpty());
 
-        this.key = key;
+        this.key            = key;
+        this.defaultValue   = defaultValue;
     }
 
     @Override
@@ -41,14 +44,14 @@ public class AnnotationExprTransformer implements Function<AnnotationExpr, Strin
     {
         if (annotation == null)
         {
-            return null;
+            return defaultValue;
         }
 
         AnnotationValueVisitor visitor = new AnnotationValueVisitor();
 
         annotation.accept(visitor, null);
 
-        return visitor.getValue();
+        return visitor.getValue() != null ? visitor.getValue() : defaultValue;
     }
 
     private class AnnotationValueVisitor extends VoidVisitorAdapter
@@ -58,14 +61,20 @@ public class AnnotationExprTransformer implements Function<AnnotationExpr, Strin
         @Override
         public void visit(final NormalAnnotationExpr n, final Object arg)
         {
-            this.value = Iterables.find(n.getPairs(), new Predicate<MemberValuePair>()
+            MemberValuePair memberValuePair = Iterables
+                    .tryFind(n.getPairs(), new Predicate<MemberValuePair>()
+                    {
+                        @Override
+                        public boolean apply(@Nullable final MemberValuePair input)
+                        {
+                            return input != null && input.getName().endsWith(key);
+                        }
+                    }).orNull();
+
+            if (memberValuePair != null)
             {
-                @Override
-                public boolean apply(@Nullable final MemberValuePair input)
-                {
-                    return input != null && input.getName().endsWith(key);
-                }
-            }).getValue().toString();
+                this.value = memberValuePair.getValue().toString();
+            }
         }
 
         @Override
