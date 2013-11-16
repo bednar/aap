@@ -46,7 +46,7 @@ public abstract class AbstractProcessor
                     {
                         Preconditions.checkNotNull(klass);
 
-                        return ModelBuilder.getInstance().getEntityModel(klass);
+                        return ModelBuilder.getInstance().getEntityModelClass(klass);
                     }
                 }).toList();
     }

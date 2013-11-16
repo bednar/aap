@@ -6,7 +6,7 @@ import java.util.Map;
 import com.github.bednar.aap.model.api.ApiModel;
 import com.github.bednar.aap.model.api.ApiModelTransform;
 import com.github.bednar.aap.model.entity.EntityModel;
-import com.github.bednar.aap.model.entity.EntityModelTransformer;
+import com.github.bednar.aap.model.entity.EntityModelClassTransformer;
 import com.google.common.collect.Maps;
 
 /**
@@ -42,7 +42,7 @@ public final class ModelBuilder
     }
 
     @Nonnull
-    public EntityModel getEntityModel(final @Nonnull Class klass)
+    public EntityModel getEntityModelClass(final @Nonnull Class klass)
     {
         EntityModel model = entityCache.get(klass);
         if (model == null)
@@ -73,7 +73,7 @@ public final class ModelBuilder
         EntityModel model = entityCache.get(klass);
         if (model == null)
         {
-            model = new EntityModelTransformer().apply(klass);
+            model = new EntityModelClassTransformer().apply(klass);
 
             entityCache.put(klass, model);
         }

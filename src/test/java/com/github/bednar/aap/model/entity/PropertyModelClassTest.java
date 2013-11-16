@@ -13,7 +13,7 @@ public class PropertyModelClassTest extends AbstractPropertyModelTest
     {
         super.before();
 
-        nameModel = builder.getEntityModel(Meal.class).getProperties().get(1);
-        priceModel = builder.getEntityModel(Meal.class).getProperties().get(0);
+        nameModel = builder.getEntityModelClass(Meal.class).getProperties().get(1);
+        priceModel = builder.getEntityModelClass(Meal.class).getProperties().get(0);
     }
 }

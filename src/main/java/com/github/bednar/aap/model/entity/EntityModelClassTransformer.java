@@ -17,7 +17,7 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 /**
 * @author Jakub Bednář (06/10/2013 2:56 PM)
 */
-public class EntityModelTransformer implements Function<Class, EntityModel>
+public class EntityModelClassTransformer implements Function<Class, EntityModel>
 {
     @Nonnull
     @Override
@@ -58,7 +58,7 @@ public class EntityModelTransformer implements Function<Class, EntityModel>
                                 return field != null && field.getAnnotation(ApiModelProperty.class) != null;
                             }
                         })
-                .transform(new PropertyModelTransformer())
+                .transform(new PropertyModelClassTransformer())
                 .toSortedList(
                         new Comparator<PropertyModel>()
                         {

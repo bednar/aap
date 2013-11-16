@@ -13,6 +13,6 @@ public class EntityModelClassTest extends AbstractEntityModelTest
     {
         super.before();
 
-        model = builder.getEntityModel(Meal.class);
+        model = builder.getEntityModelClass(Meal.class);
     }
 }

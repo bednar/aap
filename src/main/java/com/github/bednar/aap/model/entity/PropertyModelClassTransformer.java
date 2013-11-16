@@ -10,7 +10,7 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 /**
  * @author Jakub Bednář (06/10/2013 6:45 PM)
  */
-public class PropertyModelTransformer implements Function<Field, PropertyModel>
+public class PropertyModelClassTransformer implements Function<Field, PropertyModel>
 {
     @Nonnull
     @Override
