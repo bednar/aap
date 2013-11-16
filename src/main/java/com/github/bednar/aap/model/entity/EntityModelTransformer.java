@@ -28,7 +28,7 @@ public class EntityModelTransformer implements Function<Class, EntityModel>
 
         EntityModel model = new EntityModel();
         model
-                .setType(klass)
+                .setType(new TypeModel(klass))
                 .setShortDescription(shorDescription)
                 .setProperties(properties);
 

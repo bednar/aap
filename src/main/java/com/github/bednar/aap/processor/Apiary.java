@@ -15,6 +15,7 @@ import java.util.List;
 import com.github.bednar.aap.model.ModelBuilder;
 import com.github.bednar.aap.model.api.ApiModel;
 import com.github.bednar.aap.model.entity.EntityModel;
+import com.github.bednar.aap.model.entity.TypeModel;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.FluentIterable;
@@ -226,6 +227,11 @@ public final class Apiary extends AbstractProcessor
     }
 
     private void createFile(@Nonnull final Class type, @Nonnull final String evaluatedTemplate)
+    {
+        createFile(type.getSimpleName(), evaluatedTemplate);
+    }
+
+    private void createFile(@Nonnull final TypeModel type, @Nonnull final String evaluatedTemplate)
     {
         createFile(type.getSimpleName(), evaluatedTemplate);
     }

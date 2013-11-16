@@ -23,7 +23,8 @@ public class EntityModelTest extends AbstractApiTest
     {
         EntityModel model = builder.getEntityModel(Meal.class);
 
-        Assert.assertEquals(Meal.class, model.getType());
+        Assert.assertEquals(Meal.class.getCanonicalName(), model.getType().getCanonicalName());
+        Assert.assertEquals(Meal.class.getSimpleName(), model.getType().getSimpleName());
     }
 
     @Test

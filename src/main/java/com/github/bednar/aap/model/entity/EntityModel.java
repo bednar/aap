@@ -10,20 +10,20 @@ import com.google.common.collect.Lists;
  */
 public final class EntityModel
 {
-    private Class type = Void.class;
+    private TypeModel type = new TypeModel(Void.class.getCanonicalName());
 
     private String shortDescription = "";
 
     private List<PropertyModel> properties = Lists.newArrayList();
 
     @Nonnull
-    public Class getType()
+    public TypeModel getType()
     {
         return type;
     }
 
     @Nonnull
-    public EntityModel setType(final @Nonnull Class type)
+    public EntityModel setType(final @Nonnull TypeModel type)
     {
         this.type = type;
 
