@@ -1,2 +1,2 @@
-<#-- @ftlvariable name="class" type="java.lang.Class" -->
-${class.simpleName}.md
+<#-- @ftlvariable name="simpleName" type="java.lang.String" -->
+${simpleName}.md

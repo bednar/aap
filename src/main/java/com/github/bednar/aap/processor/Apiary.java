@@ -227,6 +227,11 @@ public final class Apiary extends AbstractProcessor
 
     private void createFile(@Nonnull final Class type, @Nonnull final String evaluatedTemplate)
     {
+        createFile(type.getSimpleName(), evaluatedTemplate);
+    }
+
+    private void createFile(@Nonnull final String type, @Nonnull final String evaluatedTemplate)
+    {
         Path path = newFilePath(type);
 
         try
@@ -242,9 +247,9 @@ public final class Apiary extends AbstractProcessor
     }
 
     @Nonnull
-    private Path newFilePath(@Nonnull final Class klass)
+    private Path newFilePath(@Nonnull final String simpleName)
     {
-        String fileName = evaluate(fileNameTemplate, "class", klass);
+        String fileName = evaluate(fileNameTemplate, "simpleName", simpleName);
 
         return Paths.get(outputDirectory.getAbsolutePath(), fileName);
     }
