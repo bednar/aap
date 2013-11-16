@@ -29,7 +29,7 @@ public final class DTO extends AbstractProcessor
 
     private final File outputDirectory;
 
-    private List<Class> entityClasses = Lists.newArrayList();
+    private List<EntityModel> entityModels = Lists.newArrayList();
 
     public DTO(@Nonnull final File outputDirectory)
     {
@@ -50,20 +50,20 @@ public final class DTO extends AbstractProcessor
     }
 
     /**
-     * Add classes which are domain object classes (documented by annotations) of JAX-RS resource .
+     * Add models which are generated from domain object classes (documented by annotations) of JAX-RS resource .
      * <p/>
      * Example: com.github.bednar.aap.example.PubApi.Meal in test sources.
      *
-     * @param entityClasses entities
+     * @param entityModels entities
      *
      * @return this
      */
     @Nonnull
-    public DTO addEntities(@Nonnull final Collection<Class<?>> entityClasses)
+    public DTO addEntityModels(@Nonnull final Collection<EntityModel> entityModels)
     {
-        Preconditions.checkNotNull(entityClasses);
+        Preconditions.checkNotNull(entityModels);
 
-        this.entityClasses.addAll(entityClasses);
+        this.entityModels.addAll(entityModels);
 
         return this;
     }
@@ -73,7 +73,7 @@ public final class DTO extends AbstractProcessor
      */
     public void generate()
     {
-        for (EntityModel model : entityModels(entityClasses))
+        for (EntityModel model : entityModels)
         {
             generateDTO(model);
         }

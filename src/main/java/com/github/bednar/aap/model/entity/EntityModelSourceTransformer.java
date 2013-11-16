@@ -8,7 +8,6 @@ import java.util.List;
 import com.github.bednar.aap.model.entity.parser.AnnotationExprTransformer;
 import com.github.bednar.aap.model.entity.parser.PackageDeclarationTransformer;
 import com.google.common.base.Function;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.wordnik.swagger.annotations.ApiModel;
@@ -26,11 +25,12 @@ public class EntityModelSourceTransformer implements Function<File, EntityModel>
 {
     @Nullable
     @Override
-    public EntityModel apply(@SuppressWarnings("NullableProblems") @Nonnull final File source)
+    public EntityModel apply(@SuppressWarnings("NullableProblems") @Nullable final File source)
     {
-        //noinspection ConstantConditions
-        Preconditions.checkArgument(source != null);
-        Preconditions.checkArgument(source.canRead());
+        if (source == null)
+        {
+            return null;
+        }
 
         PackageDeclaration      packageDeclaration;
         List<ImportDeclaration> importsDeclaration;
