@@ -7,6 +7,8 @@ install: ''
 
 script: 'mvn clean install deploy --settings src/main/config/travis-maven-settings.xml -U'
 
+after_success: 'mvn test jacoco:report coveralls:jacoco'
+
 env:
   global:
   - secure: opN/8snBBwRBvYGe8YU9tuF9FPVPiW5VAclZXpLbU81WzBEYf+o5hz7A9+IYLOmjoi5+WypzRUReS+H2T8N68In7WPHcMolimpUnDR81fsWbFOoRxfcZmesTDSX062oQdqJ2Wi/+Y/URM8FZktYYDiWTM91cDZalGIsLpvGvesg=
