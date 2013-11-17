@@ -1,4 +1,4 @@
-Api Annotation Processor [![Build Status](https://api.travis-ci.org/bednar/aap.png?branch=master)](https://travis-ci.org/bednar/aap)
+Api Annotation Processor [![Build Status](https://api.travis-ci.org/bednar/aap.png?branch=master)](https://travis-ci.org/bednar/aap) [![Coverage Status](https://coveralls.io/repos/bednar/aap/badge.png)](https://coveralls.io/r/bednar/aap)
 ===
 
 ## License
