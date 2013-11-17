@@ -17,7 +17,7 @@
     </parent>
 
     <name>Api Annotation Processor - Maven Plugin</name>
-    <description>Documentation, JavaScript library and JAX-RS library by Maven.</description>
+    <description>Build Documentation, Data Transfer Object, JavaScript library and JAX-RS library by Maven.</description>
 
     <url>https://bednar.github.io/aap/</url>
 
