@@ -10,6 +10,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.reflections.Reflections;
 
 /**
@@ -17,7 +18,7 @@ import org.reflections.Reflections;
  *
  * @author Jakub Bednář (15/10/2013 4:24 PM)
  */
-@Mojo(name = "apiary")
+@Mojo(name = "apiary", requiresDependencyResolution = ResolutionScope.COMPILE)
 public class ApiaryMojo extends AbstractMojo
 {
     /**
