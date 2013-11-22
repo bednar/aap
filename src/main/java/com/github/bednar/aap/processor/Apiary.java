@@ -146,7 +146,9 @@ public final class Apiary extends AbstractProcessor
      * @param baseURL     base API url [required]
      * @param description file with description of app
      */
-    public void generate(@Nonnull final String appName, @Nonnull final String baseURL, @Nullable final File description)
+    public void generate(@Nonnull final String appName,
+                         @Nonnull final String baseURL,
+                         @Nullable final File description)
     {
         Preconditions.checkNotNull(appName);
         Preconditions.checkNotNull(baseURL);
@@ -179,7 +181,7 @@ public final class Apiary extends AbstractProcessor
                 "baseURL",      baseURL,
                 "description",  readFile(description));
 
-        createFile(Apiary.class, evaluateTemplate);
+        createFileWithName("Apiary.md", evaluateTemplate);
     }
 
     private void initFreeMarker()
@@ -240,11 +242,23 @@ public final class Apiary extends AbstractProcessor
     {
         Path path = newFilePath(type);
 
+        createFile(path, evaluatedTemplate);
+    }
+
+    private void createFileWithName(@Nonnull final String fileName, @Nonnull final String evaluatedTemplate)
+    {
+        Path path = newFilePathWithName(fileName);
+
+        createFile(path, evaluatedTemplate);
+    }
+
+    private void createFile(@Nonnull final Path filePath, @Nonnull final String evaluatedTemplate)
+    {
         try
         {
-            Files.deleteIfExists(path);
-            Files.createFile(path);
-            Files.write(path, evaluatedTemplate.getBytes(StandardCharsets.UTF_8));
+            Files.deleteIfExists(filePath);
+            Files.createFile(filePath);
+            Files.write(filePath, evaluatedTemplate.getBytes(StandardCharsets.UTF_8));
         }
         catch (IOException e)
         {
@@ -257,6 +271,12 @@ public final class Apiary extends AbstractProcessor
     {
         String fileName = evaluate(fileNameTemplate, "simpleName", simpleName);
 
+        return newFilePathWithName(fileName);
+    }
+
+    @Nonnull
+    private Path newFilePathWithName(@Nonnull final String fileName)
+    {
         return Paths.get(outputDirectory.getAbsolutePath(), fileName);
     }
 
