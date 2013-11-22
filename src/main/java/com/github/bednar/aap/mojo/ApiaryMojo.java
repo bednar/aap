@@ -57,7 +57,7 @@ public class ApiaryMojo extends AbstractMojo
     private String apiBaseURL;
 
     /**
-     * Apiary.io <a href="http://apiblueprint.org>Blueprint</a> file name
+     * Apiary.io <a href="http://apiblueprint.org">Blueprint</a> file name
      *
      * @since 0.1
      */
