@@ -3,8 +3,8 @@ expected = """HOST: http://demoaap.apiary.io
 --- Demo Application ---
 
 --
-Security API
-API for authentication and security interaction.
+Library API
+Testing api in library.
 --
 
 
