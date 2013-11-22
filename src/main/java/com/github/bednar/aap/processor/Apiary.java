@@ -140,18 +140,33 @@ public final class Apiary extends AbstractProcessor
     }
 
     /**
-     * Generate Apiary Blueprints documentation.
+     * Blueprint name: "Apiary.md".
      *
-     * @param appName     name of app [required]
-     * @param baseURL     base API url [required]
-     * @param description file with description of app
+     * @see #generate(String, String, java.io.File, String)
      */
     public void generate(@Nonnull final String appName,
                          @Nonnull final String baseURL,
                          @Nullable final File description)
     {
+        generate(appName, baseURL, description, "Apiary.md");
+    }
+
+    /**
+     * Generate Apiary Blueprints documentation.
+     *
+     * @param appName       name of app [required]
+     * @param baseURL       base API url [required]
+     * @param description   file with description of app
+     * @param blueprintName Name of Apiary.io Blueprint file
+     */
+    public void generate(@Nonnull final String appName,
+                         @Nonnull final String baseURL,
+                         @Nullable final File description,
+                         @Nonnull final String blueprintName)
+    {
         Preconditions.checkNotNull(appName);
         Preconditions.checkNotNull(baseURL);
+        Preconditions.checkNotNull(blueprintName);
 
         initFreeMarker();
 
@@ -181,7 +196,7 @@ public final class Apiary extends AbstractProcessor
                 "baseURL",      baseURL,
                 "description",  readFile(description));
 
-        createFileWithName("Apiary.md", evaluateTemplate);
+        createFileWithName(blueprintName, evaluateTemplate);
     }
 
     private void initFreeMarker()

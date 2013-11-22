@@ -56,6 +56,14 @@ public class ApiaryMojo extends AbstractMojo
     @Parameter(defaultValue = "http://demoaap.apiary.io")
     private String apiBaseURL;
 
+    /**
+     * Apiary.io <a href="http://apiblueprint.org>Blueprint</a> file name
+     *
+     * @since 0.1
+     */
+    @Parameter(defaultValue = "Apiary.md")
+    private String blueprintName;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException
     {
@@ -68,6 +76,6 @@ public class ApiaryMojo extends AbstractMojo
                 .create(apiaryOutput)
                 .addApis(apis)
                 .addEntities(entities)
-                .generate(appName, apiBaseURL, appDescription);
+                .generate(appName, apiBaseURL, appDescription, blueprintName);
     }
 }

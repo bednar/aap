@@ -123,13 +123,22 @@ public class ApiaryTest extends AbstractApiTest
                 .addEntities(Meal.class)
                 .generate("Demo Application", "http://www.example.com", null);
 
-        apiary
-                .addApis(PubApi.class)
-                .addEntities(Meal.class)
-                .generate("Demo Application", "http://www.example.com", null);
-
         List<String> lines = Files.readAllLines(Paths.get(outputDirectory.getAbsolutePath(), "Apiary.md"), UTF_8);
 
         Assert.assertFalse(lines.isEmpty());
+    }
+
+    @Test
+    public void customBlueprintNAme()
+    {
+        apiary
+                .addApis(PubApi.class)
+                .addEntities(Meal.class)
+                .generate("Demo Application", "http://www.example.com", null, "apiary.apib");
+
+        File blueprint = new File(outputDirectory.getAbsolutePath() + File.separator + "apiary.apib");
+
+        Assert.assertTrue(blueprint.exists());
+        Assert.assertTrue(blueprint.canRead());
     }
 }
