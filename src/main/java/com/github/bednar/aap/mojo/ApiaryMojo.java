@@ -2,7 +2,6 @@ package com.github.bednar.aap.mojo;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.List;
 
 import com.github.bednar.aap.processor.Apiary;
 import com.wordnik.swagger.annotations.Api;
@@ -21,9 +20,6 @@ import org.reflections.Reflections;
 @Mojo(name = "apiary")
 public class ApiaryMojo extends AbstractMojo
 {
-    @Parameter(defaultValue = "${project.compileClasspathElements}", required = true, readonly = true)
-    private List<String> sourceCompiledPaths;
-
     /**
      * Documentation output
      *
@@ -67,7 +63,7 @@ public class ApiaryMojo extends AbstractMojo
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException
     {
-        Reflections reflections = getReflections(sourceCompiledPaths);
+        Reflections reflections = getReflections();
 
         Collection<Class<?>> apis       = reflections.getTypesAnnotatedWith(Api.class);
         Collection<Class<?>> entities   = reflections.getTypesAnnotatedWith(ApiModel.class);

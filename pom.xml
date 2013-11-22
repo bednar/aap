@@ -90,6 +90,9 @@
                     <postBuildHookScript>verify</postBuildHookScript>
                     <projectsDirectory>src/it</projectsDirectory>
                     <settingsFile>src/it/settings.xml</settingsFile>
+                    <pomIncludes>
+                        <pomInclude>*/pom.xml</pomInclude>
+                    </pomIncludes>
                 </configuration>
                 <executions>
                     <execution>
