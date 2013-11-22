@@ -5,6 +5,12 @@ Api Annotation Processor
 ## Homepage
 [http://bednar.github.io/aap/](http://bednar.github.io/aap/)
 
+## Build
+
+### Update Plugin Site
+
+    mvn clean site -P generate-site
+
 ## License
 
     Copyright (c) 2013, Jakub Bednář
