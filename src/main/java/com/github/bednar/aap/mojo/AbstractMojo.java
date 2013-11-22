@@ -88,10 +88,7 @@ public abstract class AbstractMojo extends org.apache.maven.plugin.AbstractMojo
     {
         for (Artifact dependencyArtifact : dependencyArtifacts)
         {
-            //add dependency
-            addArtifactToClassPath(dependencyArtifact);
-
-            //add transitive dependency
+            //search transitive dependency
             ArtifactResolutionRequest request = new ArtifactResolutionRequest()
                     .setArtifact(dependencyArtifact)
                     .setResolveTransitively(true)
@@ -99,6 +96,7 @@ public abstract class AbstractMojo extends org.apache.maven.plugin.AbstractMojo
 
             ArtifactResolutionResult resolve = repositorySystem.resolve(request);
 
+            //add artifact and dependency
             for (Artifact transitive : resolve.getArtifacts())
             {
                 addArtifactToClassPath(transitive);
