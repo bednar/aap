@@ -22,6 +22,7 @@ Find meal by name.
 ### Parameters
 - `name [string]` - Name of Meal
 GET pub/mealByName
+> Accept: application/json
 < 400
 < Content-Type: application/json
 Cannot find meal by name.
@@ -30,6 +31,7 @@ Update Meal in pub.
 ### Parameters
 - `meal [meal]` - Meal for update
 POST pub/updateMeal
+> Accept: application/json
 < 200
 < Content-Type: application/json
 Success update.
@@ -40,6 +42,7 @@ Authorization violation.
 
 Find all meals.
 GET pub/allMeals
+> Accept: application/json
 < 200
 < Content-Type: application/json
 [{"name": "Hamburger", "price": 1000},{"name": "Chocolate", "price": 500}]

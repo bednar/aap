@@ -92,7 +92,7 @@
                     <settingsFile>src/it/settings.xml</settingsFile>
                     <pomIncludes>
                         <pomInclude>*/pom.xml</pomInclude>
-                        <!--<pomInclude>apiary-with-library/pom.xml</pomInclude>-->
+                        <!--<pomInclude>apiary-complex/pom.xml</pomInclude>-->
                     </pomIncludes>
                 </configuration>
                 <executions>

@@ -19,6 +19,7 @@ Print Parameters
 Print HTTP Method
 -->
 ${operation.httpMethod} ${operation.path}
+> Accept: ${model.consumes?join(" ")}
 <#--
 Print HTTP Responeses
 -->
