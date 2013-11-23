@@ -26,6 +26,8 @@ public class ApiModelTransform implements Function<Class, ApiModel>
     @Override
     public ApiModel apply(final @Nonnull @SuppressWarnings("NullableProblems") Class klass)
     {
+        Integer position = processPosition(klass);
+
         String path = processPath(klass);
 
         String[] consumes = processConsumes(klass);
@@ -39,6 +41,7 @@ public class ApiModelTransform implements Function<Class, ApiModel>
         ApiModel model = new ApiModel();
 
         model
+                .setPosition(position)
                 .setType(klass)
                 .setPath(path)
                 .setConsumes(consumes)
@@ -72,6 +75,13 @@ public class ApiModelTransform implements Function<Class, ApiModel>
         Produces produces = klass.getAnnotation(Produces.class);
 
         return produces != null ? produces.value() : new String[]{};
+    }
+
+    private int processPosition(final @Nonnull Class<?> klass)
+    {
+        Api api = klass.getAnnotation(Api.class);
+
+        return api != null ? api.position() : 0;
     }
 
     @Nonnull

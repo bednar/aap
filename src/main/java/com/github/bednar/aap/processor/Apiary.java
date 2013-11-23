@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 import com.github.bednar.aap.model.ModelBuilder;
@@ -18,6 +19,7 @@ import com.github.bednar.aap.model.entity.EntityModel;
 import com.github.bednar.aap.model.entity.TypeModel;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -315,18 +317,30 @@ public final class Apiary extends AbstractProcessor
     @Nonnull
     private List<ApiModel> apiModels()
     {
-        return FluentIterable.from(apiClasses).transform(
-                new Function<Class, ApiModel>()
-                {
-                    @Nullable
-                    @Override
-                    public ApiModel apply(final @SuppressWarnings("NullableProblems") @Nonnull Class klass)
-                    {
-                        Preconditions.checkNotNull(klass);
+        return FluentIterable.from(apiClasses)
+                .transform(
+                        new Function<Class, ApiModel>()
+                        {
+                            @Nullable
+                            @Override
+                            public ApiModel apply(final @SuppressWarnings("NullableProblems") @Nonnull Class klass)
+                            {
+                                Preconditions.checkNotNull(klass);
 
-                        return ModelBuilder.getInstance().getApiModel(klass);
-                    }
-                }).toList();
+                                return ModelBuilder.getInstance().getApiModel(klass);
+                            }
+                        })
+                .toSortedList(
+                        new Comparator<ApiModel>()
+                        {
+                            @Override
+                            public int compare(final ApiModel model1, final ApiModel model2)
+                            {
+                                return ComparisonChain.start()
+                                        .compare(model1.getPosition(), model2.getPosition())
+                                        .result();
+                            }
+                        });
     }
 
     private static class ApiaryException extends RuntimeException

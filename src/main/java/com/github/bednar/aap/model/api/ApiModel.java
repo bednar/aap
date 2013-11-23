@@ -10,6 +10,8 @@ import com.google.common.collect.Lists;
  */
 public final class ApiModel
 {
+    private Integer position = 0;
+
     private Class type = Void.class;
 
     private String path = "";
@@ -21,6 +23,20 @@ public final class ApiModel
     private String description       = "";
 
     private List<OperationModel> operations = Lists.newArrayList();
+
+    @Nonnull
+    public Integer getPosition()
+    {
+        return position;
+    }
+
+    @Nonnull
+    public ApiModel setPosition(final @Nonnull Integer position)
+    {
+        this.position = position;
+
+        return this;
+    }
 
     @Nonnull
     public Class getType()

@@ -25,6 +25,14 @@ public class ApiModelTest extends AbstractApiTest
     }
 
     @Test
+    public void positionValue()
+    {
+        ApiModel model = builder.getApiModel(PubApi.class);
+
+        Assert.assertEquals((Object) 15, model.getPosition());
+    }
+
+    @Test
     public void typeValue()
     {
         ApiModel model = builder.getApiModel(PubApi.class);

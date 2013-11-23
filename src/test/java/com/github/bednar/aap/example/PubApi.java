@@ -20,7 +20,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
  * @author Jakub Bednář (05/10/2013 3:05 PM)
  */
 @Path("pub")
-@Api(value = "Public Pub", description = "Long description of Public Pub!")
+@Api(value = "Public Pub", description = "Long description of Public Pub!", position = 15)
 @Consumes("application/json")
 @Produces("application/json")
 public interface PubApi
