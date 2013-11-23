@@ -1,6 +1,7 @@
 package com.github.bednar.aap.mojo;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,10 +36,15 @@ public abstract class AbstractMojo extends org.apache.maven.plugin.AbstractMojo
         {
             buildClassPath();
 
-            reflections = new Reflections(
-                    new ConfigurationBuilder()
-                            .setUrls(classLoader().getURLs())
-            );
+            ConfigurationBuilder configuration = new ConfigurationBuilder();
+
+            ClassRealm classRealm = classLoader();
+            if (classRealm != null)
+            {
+                configuration.setUrls(classRealm.getURLs());
+            }
+
+            reflections = new Reflections(configuration);
         }
 
         return reflections;
@@ -57,7 +63,15 @@ public abstract class AbstractMojo extends org.apache.maven.plugin.AbstractMojo
 
                 if (Files.exists(path))
                 {
-                    classLoader().addURL(path.toUri().toURL());
+                    ClassRealm classRealm = classLoader();
+                    if (classRealm != null)
+                    {
+                        classRealm.addURL(path.toUri().toURL());
+                    }
+                    else
+                    {
+                        getLog().error("ClassRealm is null!");
+                    }
                 }
             }
             catch (MalformedURLException e)
@@ -67,10 +81,19 @@ public abstract class AbstractMojo extends org.apache.maven.plugin.AbstractMojo
         }
     }
 
-    @Nonnull
+    @Nullable
     private ClassRealm classLoader()
     {
-        return (ClassRealm) this.getClass().getClassLoader();
+        ClassLoader classLoader = this.getClass().getClassLoader();
+
+        if (ClassRealm.class.isAssignableFrom(classLoader.getClass()))
+        {
+            return (ClassRealm) classLoader;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     private class AbstractMojoException extends RuntimeException

@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import com.google.common.collect.Lists;
 import org.apache.maven.plugin.Mojo;
 import org.apache.maven.plugin.MojoExecution;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
@@ -23,16 +24,9 @@ public class ApiaryMojoTest extends AbstractMojoTestCase
         super.setUp();
 
         String pom =
-                "<project>" +
-                "<build>" +
-                "<plugins>" +
-                "<plugin>" +
-                "<artifactId>aap</artifactId>" +
-                "<configuration/>" +
-                "</plugin>" +
-                "</plugins>" +
-                "</build>" +
-                "</project>";
+                "<project><build><plugins><plugin>" +
+                "<artifactId>aap</artifactId><configuration/>" +
+                "</plugin></plugins></build></project>";
 
         tempFile = Files.createTempFile("pom", ".xml");
 
@@ -79,6 +73,19 @@ public class ApiaryMojoTest extends AbstractMojoTestCase
         MojoExecution apiary = newMojoExecution("apiary");
 
         Assert.assertEquals("Apiary.md", defaultValue("blueprintName", apiary));
+    }
+
+    public void testExecuteMojo() throws Exception
+    {
+        Mojo apiary = lookupMojo("apiary", tempFile.toFile());
+
+        setVariableValueToObject(apiary, "classpathElements", Lists.<String>newArrayList());
+        setVariableValueToObject(apiary, "apiaryOutput", Files.createTempDirectory("apiary-mojo").toFile());
+        setVariableValueToObject(apiary, "appName", "Testing Mojo");
+        setVariableValueToObject(apiary, "apiBaseURL", "https://www.example.com");
+        setVariableValueToObject(apiary, "blueprintName", "mojo-blueprint.md");
+
+        apiary.execute();
     }
 
     @Nullable
