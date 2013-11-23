@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -69,6 +70,7 @@ public interface PubApi
                     code = 401,
                     message = "Authorization violation.")
     })
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     void updateMeal(final @Nonnull @ApiParam(name = "meal", value = "Meal for update", required = true) Meal meal);
 
     @ApiModel("Tasty Meal")

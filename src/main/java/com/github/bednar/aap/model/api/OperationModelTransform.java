@@ -2,10 +2,12 @@ package com.github.bednar.aap.model.api;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Comparator;
@@ -28,9 +30,16 @@ public class OperationModelTransform implements Function<Method, OperationModel>
 {
     private final String parentPath;
 
-    public OperationModelTransform(final @Nonnull String parentPath)
+    private final String[] consumes;
+    private final String[] produces;
+
+    public OperationModelTransform(@Nonnull final String parentPath,
+                                   @Nonnull final String[] consumes,
+                                   @Nonnull final String[] produces)
     {
         this.parentPath = parentPath;
+        this.consumes = consumes;
+        this.produces = produces;
     }
 
     @Nullable
@@ -41,6 +50,9 @@ public class OperationModelTransform implements Function<Method, OperationModel>
 
         String path          = processPath(parentPath, method);
         String httpMethod    = processHttpMethod(method);
+
+        String[] consumes = processConsumes(method);
+        String[] produces = processProduces(method);
 
         String shortDescription  = processShortDescription(method);
         String authorizations    = processAuthorizations(method);
@@ -56,6 +68,8 @@ public class OperationModelTransform implements Function<Method, OperationModel>
         model
                 .setPosition(position)
                 .setPath(path)
+                .setConsumes(consumes)
+                .setProduces(produces)
                 .setHttpMethod(httpMethod)
                 .setShortDescription(shortDescription)
                 .setAuthorizations(authorizations)
@@ -119,6 +133,22 @@ public class OperationModelTransform implements Function<Method, OperationModel>
         }
 
         return "";
+    }
+
+    @Nonnull
+    private String[] processConsumes(@Nonnull final Method method)
+    {
+        Consumes consumes = method.getAnnotation(Consumes.class);
+
+        return consumes != null ? consumes.value() : this.consumes;
+    }
+
+    @Nonnull
+    private String[] processProduces(@Nonnull final Method method)
+    {
+        Produces produces = method.getAnnotation(Produces.class);
+
+        return produces != null ? produces.value() : this.produces;
     }
 
     @Nonnull

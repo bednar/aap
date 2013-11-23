@@ -19,13 +19,13 @@ Print Parameters
 Print HTTP Method
 -->
 ${operation.httpMethod} ${operation.path}
-> Accept: ${model.consumes?join(" ")}
+> Accept: ${operation.consumes?join(" ")}
 <#--
 Print HTTP Responeses
 -->
 <#list operation.responses?keys as responseCode>
 < ${responseCode}
-< Content-Type: ${model.produces?join(", ")}
+< Content-Type: ${operation.produces?join(", ")}
 ${operation.responses[responseCode]}
 <#if responseCode_has_next>+++++</#if>
 </#list>

@@ -31,6 +31,12 @@ public class OperationModelTest extends AbstractApiTest
         Assert.assertEquals("GET", model.getHttpMethod());
         Assert.assertEquals("pub/mealByName", model.getPath());
 
+        Assert.assertEquals(1, model.getProduces().length);
+        Assert.assertEquals("application/json", model.getProduces()[0]);
+
+        Assert.assertEquals(1, model.getConsumes().length);
+        Assert.assertEquals("application/json", model.getConsumes()[0]);
+
         Assert.assertEquals("Find meal by name.", model.getShortDescription());
         Assert.assertEquals("", model.getAuthorizations());
 
@@ -53,6 +59,12 @@ public class OperationModelTest extends AbstractApiTest
         Assert.assertEquals("GET", model.getHttpMethod());
         Assert.assertEquals("pub/allMeals", model.getPath());
 
+        Assert.assertEquals(1, model.getProduces().length);
+        Assert.assertEquals("application/json", model.getProduces()[0]);
+
+        Assert.assertEquals(1, model.getConsumes().length);
+        Assert.assertEquals("application/json", model.getConsumes()[0]);
+
         Assert.assertEquals("Find all meals.", model.getShortDescription());
         Assert.assertEquals("", model.getAuthorizations());
 
@@ -73,6 +85,12 @@ public class OperationModelTest extends AbstractApiTest
 
         Assert.assertEquals("POST", model.getHttpMethod());
         Assert.assertEquals("pub/updateMeal", model.getPath());
+
+        Assert.assertEquals(1, model.getProduces().length);
+        Assert.assertEquals("application/json", model.getProduces()[0]);
+
+        Assert.assertEquals(1, model.getConsumes().length);
+        Assert.assertEquals("application/x-www-form-urlencoded", model.getConsumes()[0]);
 
         Assert.assertEquals("Update Meal in pub.", model.getShortDescription());
         Assert.assertEquals("Owner of Pub", model.getAuthorizations());

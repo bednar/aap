@@ -31,7 +31,7 @@ Update Meal in pub.
 ### Parameters
 - `meal [meal]` - Meal for update
 POST pub/updateMeal
-> Accept: application/json
+> Accept: application/x-www-form-urlencoded
 < 200
 < Content-Type: application/json
 Success update.

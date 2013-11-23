@@ -36,7 +36,7 @@ public class ApiModelTransform implements Function<Class, ApiModel>
         String shortDescription  = processShortDescription(klass);
         String description       = processDescription(klass);
 
-        List<OperationModel> operations = processOperations(klass, path);
+        List<OperationModel> operations = processOperations(klass, path, consumes, produces);
 
         ApiModel model = new ApiModel();
 
@@ -101,7 +101,10 @@ public class ApiModelTransform implements Function<Class, ApiModel>
     }
 
     @Nonnull
-    private List<OperationModel> processOperations(final @Nonnull Class<?> klass, final @Nonnull String parentPath)
+    private List<OperationModel> processOperations(@Nonnull final Class<?> klass,
+                                                   @Nonnull final String parentPath,
+                                                   @Nonnull final String[] consumes,
+                                                   @Nonnull final String[] produces)
     {
         List<Method> methods = Lists.newArrayList(klass.getDeclaredMethods());
 
@@ -116,7 +119,7 @@ public class ApiModelTransform implements Function<Class, ApiModel>
                                 return method != null && method.getAnnotation(ApiOperation.class) != null;
                             }
                         })
-                .transform(new OperationModelTransform(parentPath))
+                .transform(new OperationModelTransform(parentPath, consumes, produces))
                 .toSortedList(
                         new Comparator<OperationModel>()
                         {

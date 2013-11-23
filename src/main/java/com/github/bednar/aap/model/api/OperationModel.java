@@ -20,6 +20,9 @@ public final class OperationModel
     private String shortDescription = "";
     private String authorizations   = "";
 
+    private String[] consumes = new String[]{};
+    private String[] produces = new String[]{};
+
     private Class responseEntity            = Void.class;
     private Class responseWrapper           = Void.class;
     private Map<String, String> responses   = Maps.newHashMap();
@@ -92,6 +95,34 @@ public final class OperationModel
     public OperationModel setAuthorizations(final @Nonnull String authorizations)
     {
         this.authorizations = authorizations;
+
+        return this;
+    }
+
+    @Nonnull
+    public String[] getConsumes()
+    {
+        return consumes;
+    }
+
+    @Nonnull
+    public OperationModel setConsumes(final @Nonnull String[] consumes)
+    {
+        this.consumes = consumes;
+
+        return this;
+    }
+
+    @Nonnull
+    public String[] getProduces()
+    {
+        return produces;
+    }
+
+    @Nonnull
+    public OperationModel setProduces(final @Nonnull String[] produces)
+    {
+        this.produces = produces;
 
         return this;
     }
