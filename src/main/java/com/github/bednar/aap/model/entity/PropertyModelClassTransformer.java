@@ -2,6 +2,7 @@ package com.github.bednar.aap.model.entity;
 
 import javax.annotation.Nonnull;
 import javax.persistence.Column;
+import javax.persistence.Transient;
 import java.lang.reflect.Field;
 
 import com.google.common.base.Function;
@@ -23,16 +24,18 @@ public class PropertyModelClassTransformer implements Function<Field, PropertyMo
         String shortDescription = processName(field);
         Class type              = processType(field);
 
-        Boolean required  = processRequired(field);
-        Integer maxLength = processMaxLength(field);
-        Integer precision = processPrecision(field);
-        Integer scale     = processScale(field);
+        Boolean isTransient     = processTransient(field);
+        Boolean required        = processRequired(field);
+        Integer maxLength       = processMaxLength(field);
+        Integer precision       = processPrecision(field);
+        Integer scale           = processScale(field);
 
         model
                 .setPosition(position)
                 .setName(name)
                 .setShortDescription(shortDescription)
                 .setType(new TypeModel(type))
+                .setIsTransient(isTransient)
                 .setRequired(required)
                 .setMaxLength(maxLength)
                 .setPrecision(precision)
@@ -60,6 +63,12 @@ public class PropertyModelClassTransformer implements Function<Field, PropertyMo
     private Class processType(final @Nonnull Field field)
     {
         return field.getType();
+    }
+
+    @Nonnull
+    private Boolean processTransient(final @Nonnull Field field)
+    {
+        return field.getAnnotation(Transient.class) != null;
     }
 
     @Nonnull

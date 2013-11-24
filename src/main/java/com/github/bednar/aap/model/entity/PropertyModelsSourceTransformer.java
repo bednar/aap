@@ -3,6 +3,7 @@ package com.github.bednar.aap.model.entity;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.persistence.Column;
+import javax.persistence.Transient;
 import java.util.List;
 
 import com.github.bednar.aap.model.entity.parser.AnnotationExprTransformer;
@@ -15,6 +16,8 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 import japa.parser.ast.ImportDeclaration;
 import japa.parser.ast.body.FieldDeclaration;
 import japa.parser.ast.body.TypeDeclaration;
+import japa.parser.ast.expr.AnnotationExpr;
+import japa.parser.ast.expr.MarkerAnnotationExpr;
 import japa.parser.ast.expr.NormalAnnotationExpr;
 import japa.parser.ast.visitor.VoidVisitorAdapter;
 
@@ -50,28 +53,27 @@ public class PropertyModelsSourceTransformer implements Function<TypeDeclaration
 
     @Nonnull
     private PropertyModel createModel(@Nonnull final FieldDeclaration field,
-                                      @Nonnull final NormalAnnotationExpr apiAnnotation)
+                                      @Nonnull final GetAnnotationVisitor apiAnnotation,
+                                      @Nonnull final GetAnnotationVisitor columnAnnotation,
+                                      @Nonnull final GetAnnotationVisitor transientAnnotation)
     {
-        GetAnnotationVisitor columnVisitor = new GetAnnotationVisitor(Column.class);
-        field.accept(columnVisitor, null);
-
         String positionValue = new AnnotationExprTransformer("position", "0")
-                .apply(apiAnnotation);
+                .apply(apiAnnotation.getAnnotation());
 
         String shortDescription = new AnnotationExprTransformer("value", "")
-                .apply(apiAnnotation);
+                .apply(apiAnnotation.getAnnotation());
 
         String requiredValue = new AnnotationExprTransformer("nullable", "true")
-                .apply(columnVisitor.getAnnotation());
+                .apply(columnAnnotation.getAnnotation());
 
         String maxLengthValue = new AnnotationExprTransformer("length", "255")
-                .apply(columnVisitor.getAnnotation());
+                .apply(columnAnnotation.getAnnotation());
 
         String precisionValue = new AnnotationExprTransformer("precision", "0")
-                .apply(columnVisitor.getAnnotation());
+                .apply(columnAnnotation.getAnnotation());
 
         String scaleValue = new AnnotationExprTransformer("scale", "0")
-                .apply(columnVisitor.getAnnotation());
+                .apply(columnAnnotation.getAnnotation());
 
         //noinspection ConstantConditions
         return new PropertyModel()
@@ -79,6 +81,7 @@ public class PropertyModelsSourceTransformer implements Function<TypeDeclaration
                 .setShortDescription(shortDescription)
                 .setPosition(Integer.valueOf(positionValue))
                 .setType(createType(field.getType().toString()))
+                .setIsTransient(transientAnnotation.getAnnotation() != null)
                 .setRequired(!Boolean.valueOf(requiredValue))
                 .setMaxLength(Integer.valueOf(maxLengthValue))
                 .setPrecision(Integer.valueOf(precisionValue))
@@ -90,15 +93,20 @@ public class PropertyModelsSourceTransformer implements Function<TypeDeclaration
         List<PropertyModel> models = Lists.newArrayList();
 
         @Override
-        public void visit(final FieldDeclaration n, final Object arg)
+        public void visit(final FieldDeclaration field, final Object arg)
         {
-            GetAnnotationVisitor visitor = new GetAnnotationVisitor(ApiModelProperty.class);
+            GetAnnotationVisitor apiVisitor = new GetAnnotationVisitor(ApiModelProperty.class);
+            field.accept(apiVisitor, null);
 
-            n.accept(visitor, null);
-
-            if (visitor.getAnnotation() != null)
+            if (apiVisitor.getAnnotation() != null)
             {
-               models.add(createModel(n, visitor.getAnnotation()));
+                GetAnnotationVisitor columnVisitor = new GetAnnotationVisitor(Column.class);
+                field.accept(columnVisitor, null);
+
+                GetAnnotationVisitor transientVisitor = new GetAnnotationVisitor(Transient.class);
+                field.accept(transientVisitor, null);
+
+                models.add(createModel(field, apiVisitor, columnVisitor, transientVisitor));
             }
         }
 
@@ -142,7 +150,7 @@ public class PropertyModelsSourceTransformer implements Function<TypeDeclaration
 
     private class GetAnnotationVisitor extends VoidVisitorAdapter
     {
-        private NormalAnnotationExpr annotation = null;
+        private AnnotationExpr annotation = null;
 
         private final Class annotationType;
 
@@ -160,8 +168,17 @@ public class PropertyModelsSourceTransformer implements Function<TypeDeclaration
             }
         }
 
+        @Override
+        public void visit(final MarkerAnnotationExpr n, final Object arg)
+        {
+            if (n.getName().toString().equals(annotationType.getSimpleName()))
+            {
+                annotation = n;
+            }
+        }
+
         @Nullable
-        private NormalAnnotationExpr getAnnotation()
+        private AnnotationExpr getAnnotation()
         {
             return annotation;
         }

@@ -13,6 +13,7 @@ public abstract class AbstractPropertyModelTest extends AbstractApiTest
 {
     protected PropertyModel nameModel;
     protected PropertyModel priceModel;
+    protected PropertyModel computedModel;
 
     @Test
     public void nameValue()
@@ -24,6 +25,7 @@ public abstract class AbstractPropertyModelTest extends AbstractApiTest
         Assert.assertEquals(String.class.getSimpleName(), nameModel.getType().getSimpleName());
         Assert.assertEquals(String.class.getCanonicalName(), nameModel.getType().getCanonicalName());
 
+        Assert.assertFalse(nameModel.getIsTransient());
         Assert.assertTrue(nameModel.getRequired());
         Assert.assertEquals(100, nameModel.getMaxLength().intValue());
 
@@ -44,6 +46,7 @@ public abstract class AbstractPropertyModelTest extends AbstractApiTest
         Assert.assertEquals(BigDecimal.class.getSimpleName(), priceModel.getType().getSimpleName());
         Assert.assertEquals(BigDecimal.class.getCanonicalName(), priceModel.getType().getCanonicalName());
 
+        Assert.assertFalse(priceModel.getIsTransient());
         Assert.assertFalse(priceModel.getRequired());
         Assert.assertEquals(255, priceModel.getMaxLength().intValue());
 
@@ -52,5 +55,14 @@ public abstract class AbstractPropertyModelTest extends AbstractApiTest
 
         Assert.assertEquals("precision:10", priceModel.getRestrictions().get(0));
         Assert.assertEquals("scale:2", priceModel.getRestrictions().get(1));
+    }
+
+    @Test
+    public void computedValue()
+    {
+        Assert.assertTrue(computedModel.getIsTransient());
+
+        Assert.assertEquals(1, computedModel.getRestrictions().size());
+        Assert.assertEquals("transient", computedModel.getRestrictions().get(0));
     }
 }

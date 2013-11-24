@@ -94,7 +94,8 @@ public class ApiaryTest extends AbstractApiTest
         Assert.assertEquals("### Properties", lines.get(2));
         Assert.assertEquals("- `price[bigdecimal precision:10, scale:2]` - _Price_", lines.get(3));
         Assert.assertEquals("- `name[string length:100, required]` - _Name_", lines.get(4));
-        Assert.assertEquals("--", lines.get(5));
+        Assert.assertEquals("- `computedField[string transient]` - _Computed field_", lines.get(5));
+        Assert.assertEquals("--", lines.get(6));
     }
 
     @Test

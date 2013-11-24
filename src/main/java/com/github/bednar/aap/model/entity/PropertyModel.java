@@ -17,7 +17,8 @@ public final class PropertyModel
     private String shortDescription = "";
     private TypeModel type          = new TypeModel(Void.class);
 
-    private Boolean required = false;
+    private Boolean isTransient = false;
+    private Boolean required    = false;
 
     //For String
     private Integer maxLength = 0;
@@ -77,6 +78,20 @@ public final class PropertyModel
     public PropertyModel setType(final @Nonnull TypeModel type)
     {
         this.type = type;
+
+        return this;
+    }
+
+    @Nonnull
+    public Boolean getIsTransient()
+    {
+        return isTransient;
+    }
+
+    @Nonnull
+    public PropertyModel setIsTransient(final @Nonnull Boolean isTransient)
+    {
+        this.isTransient = isTransient;
 
         return this;
     }
@@ -148,7 +163,7 @@ public final class PropertyModel
             results.add("precision:" + precision);
             results.add("scale:" + scale);
         }
-        else
+        else if (!isTransient)
         {
             results.add("length:" + maxLength);
         }
@@ -156,6 +171,11 @@ public final class PropertyModel
         if (required)
         {
             results.add("required");
+        }
+
+        if (isTransient)
+        {
+            results.add("transient");
         }
 
         return results;

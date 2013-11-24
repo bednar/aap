@@ -18,7 +18,8 @@ public class PropertyModelSourceTest extends AbstractPropertyModelTest
                 .apply(new File("./src/test/java/com/github/bednar/aap/example/Meal.java"));
 
         //noinspection ConstantConditions
-        nameModel = entityModel.getProperties().get(1);
-        priceModel = entityModel.getProperties().get(0);
+        nameModel       = entityModel.getProperties().get(1);
+        priceModel      = entityModel.getProperties().get(0);
+        computedModel   = entityModel.getProperties().get(2);
     }
 }

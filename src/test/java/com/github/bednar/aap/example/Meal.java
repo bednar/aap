@@ -1,6 +1,7 @@
 package com.github.bednar.aap.example;
 
 import javax.persistence.Column;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 
 import com.wordnik.swagger.annotations.ApiModel;
@@ -19,4 +20,8 @@ public class Meal
     @Column(precision = 10, scale = 2)
     @ApiModelProperty(value = "Price", position = 1)
     private BigDecimal price;
+
+    @Transient
+    @ApiModelProperty(value = "Computed field", position = 3)
+    private String computedField;
 }

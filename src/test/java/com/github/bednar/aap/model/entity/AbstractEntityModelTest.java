@@ -34,6 +34,6 @@ public abstract class AbstractEntityModelTest extends AbstractApiTest
     @Test
     public void propertiesSize()
     {
-        Assert.assertEquals(2, model.getProperties().size());
+        Assert.assertEquals(3, model.getProperties().size());
     }
 }
