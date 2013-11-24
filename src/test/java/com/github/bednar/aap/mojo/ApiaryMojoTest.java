@@ -1,41 +1,20 @@
 package com.github.bednar.aap.mojo;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 import com.google.common.collect.Lists;
 import org.apache.maven.plugin.Mojo;
 import org.apache.maven.plugin.MojoExecution;
-import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import org.junit.Assert;
 
 /**
  * @author Jakub Bednář (23/11/2013 13:29)
  */
-public class ApiaryMojoTest extends AbstractMojoTestCase
+public class ApiaryMojoTest extends AbstractMojoTest
 {
-    private Path tempFile;
-
-    @Override
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-
-        String pom =
-                "<project><build><plugins><plugin>" +
-                "<artifactId>aap</artifactId><configuration/>" +
-                "</plugin></plugins></build></project>";
-
-        tempFile = Files.createTempFile("pom", ".xml");
-
-        Files.write(tempFile, pom.getBytes());
-    }
-
     public void testNotNullMojo() throws Exception
     {
-        Mojo apiary = lookupMojo("apiary", tempFile.toFile());
+        Mojo apiary = lookupMojo("apiary", pomFile);
 
         Assert.assertNotNull(apiary);
     }
@@ -77,7 +56,7 @@ public class ApiaryMojoTest extends AbstractMojoTestCase
 
     public void testExecuteMojo() throws Exception
     {
-        Mojo apiary = lookupMojo("apiary", tempFile.toFile());
+        Mojo apiary = lookupMojo("apiary", pomFile);
 
         setVariableValueToObject(apiary, "classpathElements", Lists.<String>newArrayList());
         setVariableValueToObject(apiary, "apiaryOutput", Files.createTempDirectory("apiary-mojo").toFile());
@@ -86,11 +65,5 @@ public class ApiaryMojoTest extends AbstractMojoTestCase
         setVariableValueToObject(apiary, "blueprintName", "mojo-blueprint.md");
 
         apiary.execute();
-    }
-
-    @Nullable
-    private String defaultValue(@Nonnull final String parameterKey, @Nonnull final MojoExecution apiary)
-    {
-        return apiary.getMojoDescriptor().getParameterMap().get(parameterKey).getDefaultValue();
     }
 }

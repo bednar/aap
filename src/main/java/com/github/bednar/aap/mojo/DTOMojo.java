@@ -54,7 +54,7 @@ public class DTOMojo extends AbstractMojo
     {
         List<File> sourceFiles = Lists.newArrayList();
 
-        for (String sourcePath :sourcePaths)
+        for (String sourcePath : sourcePaths)
         {
             sourceFiles.addAll(getFiles(sourcePath));
         }
