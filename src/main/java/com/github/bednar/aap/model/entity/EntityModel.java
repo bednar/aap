@@ -12,7 +12,8 @@ public final class EntityModel
 {
     private TypeModel type = new TypeModel(Void.class.getCanonicalName());
 
-    private String shortDescription = "";
+    private String shortDescription     = "";
+    private String description          = "";
 
     private List<PropertyModel> properties = Lists.newArrayList();
 
@@ -23,7 +24,7 @@ public final class EntityModel
     }
 
     @Nonnull
-    public EntityModel setType(final @Nonnull TypeModel type)
+    public EntityModel setType(@Nonnull final TypeModel type)
     {
         this.type = type;
 
@@ -37,9 +38,23 @@ public final class EntityModel
     }
 
     @Nonnull
-    public EntityModel setShortDescription(final @Nonnull String shortDescription)
+    public EntityModel setShortDescription(@Nonnull final String shortDescription)
     {
         this.shortDescription = shortDescription;
+
+        return this;
+    }
+
+    @Nonnull
+    public String getDescription()
+    {
+        return description;
+    }
+
+    @Nonnull
+    public EntityModel setDescription(@Nonnull final String description)
+    {
+        this.description = description;
 
         return this;
     }
@@ -51,7 +66,7 @@ public final class EntityModel
     }
 
     @Nonnull
-    public EntityModel setProperties(final @Nonnull List<PropertyModel> properties)
+    public EntityModel setProperties(@Nonnull final List<PropertyModel> properties)
     {
         this.properties = properties;
 

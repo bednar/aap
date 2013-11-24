@@ -10,7 +10,7 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 /**
 * @author Jakub Bednář (13/11/2013 18:55)
 */
-@ApiModel("Tasty Meal")
+@ApiModel(value = "Tasty Meal", description = "Delicious czech meal")
 public class Meal
 {
     @Column(length = 100, nullable = false)

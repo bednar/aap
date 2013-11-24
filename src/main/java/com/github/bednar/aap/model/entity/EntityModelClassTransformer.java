@@ -24,12 +24,14 @@ public class EntityModelClassTransformer implements Function<Class, EntityModel>
     public EntityModel apply(final @Nonnull @SuppressWarnings("NullableProblems") Class klass)
     {
         String shorDescription          = processShortDescription(klass);
+        String description              = processDescription(klass);
         List<PropertyModel> properties  = processProperties(klass);
 
         EntityModel model = new EntityModel();
         model
                 .setType(new TypeModel(klass))
                 .setShortDescription(shorDescription)
+                .setDescription(description)
                 .setProperties(properties);
 
         return model;
@@ -41,6 +43,14 @@ public class EntityModelClassTransformer implements Function<Class, EntityModel>
         ApiModel model = klass.getAnnotation(ApiModel.class);
 
         return model != null ? model.value() : "";
+    }
+
+    @Nonnull
+    private String processDescription(final @Nonnull Class<?> klass)
+    {
+        ApiModel model = klass.getAnnotation(ApiModel.class);
+
+        return model != null ? model.description() : "";
     }
 
     @Nonnull

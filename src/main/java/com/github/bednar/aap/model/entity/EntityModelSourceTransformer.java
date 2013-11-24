@@ -71,12 +71,17 @@ public class EntityModelSourceTransformer implements Function<File, EntityModel>
         String shortDescription = new AnnotationExprTransformer("value", "")
                 .apply(apiModelAnnotation);
 
+        String description = new AnnotationExprTransformer("description", "")
+                .apply(apiModelAnnotation);
+
         List<PropertyModel> propertyModels = new PropertyModelsSourceTransformer(importsDeclaration)
                 .apply(typeDeclaration);
 
+        //noinspection ConstantConditions
         return new EntityModel()
                 .setType(typeModel(packageDeclaration, typeDeclaration))
-                .setShortDescription(shortDescription != null ? shortDescription : "")
+                .setShortDescription(shortDescription)
+                .setDescription(description)
                 .setProperties(propertyModels);
     }
 
