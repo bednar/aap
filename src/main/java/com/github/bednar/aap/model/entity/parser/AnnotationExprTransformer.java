@@ -22,14 +22,8 @@ public class AnnotationExprTransformer implements Function<AnnotationExpr, Strin
 
     private String defaultValue = null;
 
-    public AnnotationExprTransformer()
-    {
-    }
-
     public AnnotationExprTransformer(@Nonnull final String key, @Nullable final String defaultValue)
     {
-        super();
-
         //noinspection ConstantConditions
         Preconditions.checkArgument(key != null);
         Preconditions.checkArgument(!key.isEmpty());
