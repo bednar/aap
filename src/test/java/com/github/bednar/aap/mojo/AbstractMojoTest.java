@@ -12,7 +12,7 @@ import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 /**
  * @author Jakub Bednář (24/11/2013 11:34)
  */
-public class AbstractMojoTest extends AbstractMojoTestCase
+public abstract class AbstractMojoTest extends AbstractMojoTestCase
 {
     protected File pomFile;
 
