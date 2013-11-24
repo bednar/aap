@@ -10,36 +10,49 @@ import org.junit.Test;
  */
 public abstract class AbstractEntityModelTest extends AbstractApiTest
 {
-    protected EntityModel model;
+    protected EntityModel mealModel;
+    protected EntityModel drinkModel;
 
     @Test
     public void modelNotNull()
     {
-        Assert.assertNotNull(model);
+        Assert.assertNotNull(mealModel);
     }
 
     @Test
     public void typeValue()
     {
-        Assert.assertEquals(Meal.class.getCanonicalName(), model.getType().getCanonicalName());
-        Assert.assertEquals(Meal.class.getSimpleName(), model.getType().getSimpleName());
+        Assert.assertEquals(Meal.class.getCanonicalName(), mealModel.getType().getCanonicalName());
+        Assert.assertEquals(Meal.class.getSimpleName(), mealModel.getType().getSimpleName());
     }
 
     @Test
     public void shortDescriptionValue()
     {
-        Assert.assertEquals("Tasty Meal", model.getShortDescription());
+        Assert.assertEquals("Tasty Meal", mealModel.getShortDescription());
+    }
+
+    @Test
+    public void shortDescriptionValueSimpleAnnotation()
+    {
+        Assert.assertEquals("Beer", drinkModel.getShortDescription());
     }
 
     @Test
     public void descriptionValue()
     {
-        Assert.assertEquals("Delicious czech meal", model.getDescription());
+        Assert.assertEquals("Delicious czech meal", mealModel.getDescription());
+    }
+
+    @Test
+    public void descriptionValueSimpleAnnotation()
+    {
+        Assert.assertEquals("", drinkModel.getDescription());
     }
 
     @Test
     public void propertiesSize()
     {
-        Assert.assertEquals(3, model.getProperties().size());
+        Assert.assertEquals(3, mealModel.getProperties().size());
     }
 }

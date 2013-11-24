@@ -14,7 +14,10 @@ public class EntityModelSourceTest extends AbstractEntityModelTest
     {
         super.before();
 
-        model = new EntityModelSourceTransformer()
+        mealModel = new EntityModelSourceTransformer()
                 .apply(new File("./src/test/java/com/github/bednar/aap/example/Meal.java"));
+
+        drinkModel = new EntityModelSourceTransformer()
+                .apply(new File("./src/test/java/com/github/bednar/aap/example/Drink.java"));
     }
 }

@@ -1,5 +1,6 @@
 package com.github.bednar.aap.model.entity;
 
+import com.github.bednar.aap.example.Drink;
 import com.github.bednar.aap.example.Meal;
 import org.junit.Before;
 
@@ -13,6 +14,7 @@ public class EntityModelClassTest extends AbstractEntityModelTest
     {
         super.before();
 
-        model = builder.getEntityModelClass(Meal.class);
+        mealModel   = builder.getEntityModelClass(Meal.class);
+        drinkModel  = builder.getEntityModelClass(Drink.class);
     }
 }
