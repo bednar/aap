@@ -24,4 +24,6 @@ public class Meal
     @Transient
     @ApiModelProperty(value = "Computed field", position = 3)
     private String computedField;
+
+    private Integer notApiField;
 }
