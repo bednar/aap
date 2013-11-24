@@ -73,7 +73,7 @@ public interface PubApi
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     void updateMeal(final @Nonnull @ApiParam(name = "meal", value = "Meal for update", required = true) Meal meal);
 
-    @ApiModel("Tasty Meal")
+    @ApiModel(value="Tasty Meal", description = "Truly tasty meal")
     public class Meal
     {
         @Column(length = 100, nullable = false)

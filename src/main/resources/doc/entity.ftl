@@ -1,6 +1,7 @@
 <#-- @ftlvariable name="model" type="com.github.bednar.aap.model.entity.EntityModel" -->
 --
 Resource: ${model.shortDescription}
+${model.description}
 ### Properties
 <#list model.properties as property>
     <#assign name = property.name>

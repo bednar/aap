@@ -8,6 +8,7 @@ This is a Complex App IT!
 
 --
 Resource: Tasty Meal
+Truly tasty meal
 ### Properties
 - `price[bigdecimal precision:10, scale:2]` - _Price_
 - `name[string length:100, required]` - _Name_
