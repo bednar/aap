@@ -26,8 +26,7 @@ import com.google.common.collect.Lists;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.maven.plugin.logging.Log;
 
 /**
  * Create Apiary Documentation.
@@ -38,8 +37,6 @@ import org.slf4j.LoggerFactory;
  */
 public final class Apiary extends AbstractProcessor
 {
-    private static final Logger LOG = LoggerFactory.getLogger(Apiary.class);
-
     private final File outputDirectory;
 
     private Template fileNameTemplate;
@@ -50,9 +47,11 @@ public final class Apiary extends AbstractProcessor
     private List<Class> apiClasses = Lists.newArrayList();
     private List<Class> entityClasses = Lists.newArrayList();
 
-    private Apiary(@Nonnull final File outputDirectory)
+    private Apiary(@Nonnull final File outputDirectory, @Nonnull final Log log)
     {
-        LOG.info("[output-directory][{}]", outputDirectory.getAbsolutePath());
+        super(log);
+
+        log.info("[output-directory][" + outputDirectory.getAbsolutePath() + "]");
 
         this.outputDirectory = outputDirectory;
 
@@ -63,11 +62,12 @@ public final class Apiary extends AbstractProcessor
      * @return new instance
      */
     @Nonnull
-    public static Apiary create(@Nonnull final File outputDirectory)
+    public static Apiary create(@Nonnull final File outputDirectory, @Nonnull final Log log)
     {
         Preconditions.checkNotNull(outputDirectory);
+        Preconditions.checkNotNull(log);
 
-        return new Apiary(outputDirectory);
+        return new Apiary(outputDirectory, log);
     }
 
     /**

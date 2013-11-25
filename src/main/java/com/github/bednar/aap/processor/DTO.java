@@ -2,6 +2,7 @@ package com.github.bednar.aap.processor;
 
 import javax.annotation.Nonnull;
 import java.io.File;
+import java.io.PrintStream;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,22 +18,21 @@ import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
 import org.apache.commons.lang3.text.WordUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.maven.plugin.logging.Log;
 
 /**
  * @author Jakub Bednář (08/11/2013 09:04)
  */
 public final class DTO extends AbstractProcessor
 {
-    private static final Logger LOG = LoggerFactory.getLogger(DTO.class);
-
     private final File outputDirectory;
 
     private List<EntityModel> entityModels = Lists.newArrayList();
 
-    public DTO(@Nonnull final File outputDirectory)
+    private DTO(@Nonnull final File outputDirectory, @Nonnull final Log log)
     {
+        super(log);
+
         this.outputDirectory = outputDirectory;
 
         createDirectory(outputDirectory);
@@ -42,11 +42,12 @@ public final class DTO extends AbstractProcessor
      * @return new instance
      */
     @Nonnull
-    public static DTO create(@Nonnull final File outputDirectory)
+    public static DTO create(@Nonnull final File outputDirectory, @Nonnull final Log log)
     {
         Preconditions.checkNotNull(outputDirectory);
+        Preconditions.checkNotNull(log);
 
-        return new DTO(outputDirectory);
+        return new DTO(outputDirectory, log);
     }
 
     /**
@@ -85,7 +86,7 @@ public final class DTO extends AbstractProcessor
 
         String dtoClassName = model.getType().getCanonicalName() + "DTO";
 
-        LOG.info("[generate-class][{}]", dtoClassName);
+        log.info("[generate-class][" + dtoClassName + "]");
 
         JCodeModel codeModel = new JCodeModel();
         try
@@ -97,14 +98,17 @@ public final class DTO extends AbstractProcessor
                 generateProperty(propertyModel, definedClass, codeModel);
             }
 
-            codeModel.build(outputDirectory);
+            LogPrintStream logStream = new LogPrintStream();
+            codeModel.build(outputDirectory, new PrintStream(logStream));
+
+            log.info("[generate-message][" + logStream.message + "]");
         }
         catch (Exception e)
         {
             throw new DTOException(e);
         }
 
-        LOG.info("[generate-class][done]");
+        log.info("[generate-class][done]");
     }
 
     private void generateProperty(@Nonnull final PropertyModel propertyModel,

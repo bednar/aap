@@ -10,6 +10,7 @@ import java.util.List;
 import com.github.bednar.aap.AbstractApiTest;
 import com.github.bednar.aap.example.Meal;
 import com.github.bednar.aap.example.PubApi;
+import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class ApiaryTest extends AbstractApiTest
     {
         outputDirectory = com.google.common.io.Files.createTempDir();
 
-        apiary = Apiary.create(outputDirectory);
+        apiary = Apiary.create(outputDirectory, new SystemStreamLog());
     }
 
     @Test

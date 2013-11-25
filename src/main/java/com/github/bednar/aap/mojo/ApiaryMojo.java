@@ -70,7 +70,7 @@ public class ApiaryMojo extends AbstractMojo
         Collection<Class<?>> entities   = reflections.getTypesAnnotatedWith(ApiModel.class);
 
         Apiary
-                .create(apiaryOutput)
+                .create(apiaryOutput, getLog())
                 .addApis(apis)
                 .addEntities(entities)
                 .generate(appName, apiBaseURL, appDescription, blueprintName);

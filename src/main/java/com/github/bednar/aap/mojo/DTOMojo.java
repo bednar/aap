@@ -72,7 +72,7 @@ public class DTOMojo extends AbstractMojo
                     @Override
                     public EntityModel apply(@Nullable final File input)
                     {
-                        getLog().info("Generate EntityModel from : " + input);
+                        getLog().info("[lookup-EntityModel][" + input + "]");
 
                         return new EntityModelSourceTransformer().apply(input);
                     }
@@ -88,7 +88,7 @@ public class DTOMojo extends AbstractMojo
                 .toList();
 
         DTO
-                .create(dtoOutput)
+                .create(dtoOutput, getLog())
                 .addEntityModels(entityModels)
                 .generate();
     }

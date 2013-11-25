@@ -2,6 +2,7 @@ package com.github.bednar.aap.processor;
 
 import java.io.File;
 
+import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class DTOTest
     {
         File outputDirectory = com.google.common.io.Files.createTempDir();
 
-        dto = DTO.create(outputDirectory);
+        dto = DTO.create(outputDirectory, new SystemStreamLog());
     }
 
     @Test
