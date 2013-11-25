@@ -10,6 +10,7 @@ import com.github.bednar.aap.model.entity.EntityModel;
 import com.github.bednar.aap.model.entity.PropertyModel;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.sun.codemodel.ClassType;
 import com.sun.codemodel.JClass;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
@@ -91,7 +92,7 @@ public final class DTO extends AbstractProcessor
         JCodeModel codeModel = new JCodeModel();
         try
         {
-            JDefinedClass definedClass = codeModel._class(dtoClassName);
+            JDefinedClass definedClass = codeModel._class(JMod.FINAL + JMod.PUBLIC, dtoClassName, ClassType.CLASS);
 
             for (PropertyModel propertyModel : model.getProperties())
             {

@@ -3,7 +3,7 @@ package com.github.bednar.aap.it.dto.complex;
 
 import java.math.BigDecimal;
 
-public class BeerDTO {
+public final class BeerDTO {
 
     private String name;
     private Integer degree;
