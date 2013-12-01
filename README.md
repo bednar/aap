@@ -1,6 +1,6 @@
 Api Annotation Processor
 ===
-[![Build Status](https://api.travis-ci.org/bednar/aap.png?branch=master)](https://travis-ci.org/bednar/aap) [![Coverage Status](https://coveralls.io/repos/bednar/aap/badge.png)](https://coveralls.io/r/bednar/aap)
+[![Build Status](https://api.travis-ci.org/bednar/aap.png?branch=master)](https://travis-ci.org/bednar/aap) [![Coverage Status](https://coveralls.io/repos/bednar/aap/badge.png)](https://coveralls.io/r/bednar/aap) [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/bednar/aap/trend.png)](https://bitdeli.com/bednar "Bitdeli Dashboard")
 
 ## Homepage
 [http://bednar.github.io/aap/](http://bednar.github.io/aap/)
