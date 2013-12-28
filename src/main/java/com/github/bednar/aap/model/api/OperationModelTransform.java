@@ -10,14 +10,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
@@ -59,7 +58,7 @@ public class OperationModelTransform implements Function<Method, OperationModel>
 
         Class responseEntity            = processResponseEntity(method);
         Class responseWrapper           = processResponseWrapper(method);
-        Map<String, String> responses   = processResponses(method);
+        List<ResponseModel> responses   = processResponses(method);
 
         List<ParameterModel> parameters = processParameters(method);
 
@@ -187,24 +186,14 @@ public class OperationModelTransform implements Function<Method, OperationModel>
     }
 
     @Nonnull
-    private Map<String, String> processResponses(final @Nonnull Method method)
+    private List<ResponseModel> processResponses(final @Nonnull Method method)
     {
-        Map<String, String> results = Maps.newTreeMap(new Comparator<String>()
-        {
-            @Override
-            public int compare(final String key1, final String key2)
-            {
-                return ComparisonChain
-                        .start()
-                        .compare(key1, key2)
-                        .result();
-            }
-        });
+        List<ResponseModel> results = Lists.newArrayList();
 
         ApiResponse response = method.getAnnotation(ApiResponse.class);
         if (response != null)
         {
-            results.put(String.valueOf(response.code()), response.message());
+            results.add(new ResponseModelTransform().apply(response));
         }
 
         ApiResponses responses = method.getAnnotation(ApiResponses.class);
@@ -212,9 +201,21 @@ public class OperationModelTransform implements Function<Method, OperationModel>
         {
             for (ApiResponse resp : responses.value())
             {
-                results.put(String.valueOf(resp.code()), resp.message());
+                results.add(new ResponseModelTransform().apply(resp));
             }
         }
+
+        Collections.sort(results, new Comparator<ResponseModel>()
+        {
+            @Override
+            public int compare(final ResponseModel r1, final ResponseModel r2)
+            {
+                return ComparisonChain
+                        .start()
+                        .compare(r1.getStatusCode(), r2.getStatusCode())
+                        .result();
+            }
+        });
 
         return results;
     }

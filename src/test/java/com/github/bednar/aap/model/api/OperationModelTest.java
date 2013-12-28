@@ -44,7 +44,8 @@ public class OperationModelTest extends AbstractApiTest
         Assert.assertEquals(Void.class, model.getResponseWrapper());
 
         Assert.assertEquals(1, model.getResponses().size());
-        Assert.assertEquals("Cannot find meal by name.", model.getResponses().get("400"));
+        Assert.assertEquals((Object) 400, model.getResponses().get(0).getStatusCode());
+        Assert.assertEquals("Cannot find meal by name.", model.getResponses().get(0).getShortDescription());
 
         Assert.assertEquals(1, model.getParameters().size());
     }
@@ -99,8 +100,10 @@ public class OperationModelTest extends AbstractApiTest
         Assert.assertEquals(Void.class, model.getResponseWrapper());
 
         Assert.assertEquals(2, model.getResponses().size());
-        Assert.assertEquals("Success update.", model.getResponses().get("200"));
-        Assert.assertEquals("Authorization violation.", model.getResponses().get("401"));
+        Assert.assertEquals((Object) 200, model.getResponses().get(0).getStatusCode());
+        Assert.assertEquals("Success update.", model.getResponses().get(0).getShortDescription());
+        Assert.assertEquals((Object) 401, model.getResponses().get(1).getStatusCode());
+        Assert.assertEquals("Authorization violation.", model.getResponses().get(1).getShortDescription());
 
         Assert.assertEquals(1, model.getParameters().size());
     }

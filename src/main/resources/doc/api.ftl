@@ -23,10 +23,10 @@ ${operation.httpMethod} ${operation.path}
 <#--
 Print HTTP Responeses
 -->
-<#list operation.responses?keys as responseCode>
-< ${responseCode}
+<#list operation.responses as response>
+< ${response.statusCode}
 < Content-Type: ${operation.produces?join(", ")}
-${operation.responses[responseCode]}
-<#if responseCode_has_next>+++++</#if>
+${response.shortDescription}
+<#if response_has_next>+++++</#if>
 </#list>
 </#list>

@@ -2,10 +2,8 @@ package com.github.bednar.aap.model.api;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * @author Jakub Bednář (06/10/2013 11:10 AM)
@@ -25,7 +23,7 @@ public final class OperationModel
 
     private Class responseEntity            = Void.class;
     private Class responseWrapper           = Void.class;
-    private Map<String, String> responses   = Maps.newHashMap();
+    private List<ResponseModel> responses   = Lists.newArrayList();
 
     private List<ParameterModel> parameters = Lists.newArrayList();
 
@@ -156,13 +154,13 @@ public final class OperationModel
     }
 
     @Nonnull
-    public Map<String, String> getResponses()
+    public List<ResponseModel> getResponses()
     {
         return responses;
     }
 
     @Nonnull
-    public OperationModel setResponses(final @Nonnull Map<String, String> responses)
+    public OperationModel setResponses(final @Nonnull List<ResponseModel> responses)
     {
         this.responses = responses;
 
