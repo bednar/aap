@@ -21,21 +21,21 @@ public final class ModelBuilder
     {
     }
 
-    private final static ModelBuilder intance = new ModelBuilder();
+    private final static ModelBuilder instance = new ModelBuilder();
 
     @Nonnull
     public static ModelBuilder getInstance()
     {
-        return intance;
+        return instance;
     }
 
     @Nonnull
-    public ApiModel getApiModel(final @Nonnull Class klass)
+    public ApiModel getApiModel(final @Nonnull Class type)
     {
-        ApiModel model = apiCache.get(klass);
+        ApiModel model = apiCache.get(type);
         if (model == null)
         {
-            return buildApiModel(klass);
+            return buildApiModel(type);
         }
 
         return model;
